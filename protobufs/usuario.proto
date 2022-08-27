@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+message Persona{
+    int32 id = 1;
+    string nombre = 2;
+    string apellido = 3;
+    int32 dni = 4;
+    string mail = 5;
+}
+
+message Cuenta{
+    string usuario = 1;
+    string hashedPassword = 2;
+}
+
+message CrearUsuarioRequest{
+    Persona persona = 1;
+    Cuenta cuenta = 2;
+}
+
+message UsuarioResponse{
+    int32 id = 1;
+}
+
+message IniciarSesionRequest{
+    Cuenta cuenta = 1;
+}
+
+message GetUsuarioRequest{
+    int32 id = 1;
+}
+
+message GetPersonaResponse{
+    Persona persona = 1;
+}
+
+service Usuario{
+    rpc NuevoUsuario (CrearUsuarioRequest) returns (UsuarioResponse);
+    rpc UsuarioSesion(IniciarSesionRequest) returns (UsuarioResponse);
+    rpc GetUsuario(GetUsuarioRequest) returns (GetPersonaResponse);
+}
+
+
