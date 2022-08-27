@@ -14,8 +14,18 @@ nuevoUsuario = {"id": 3,
                 "mail" : 'asds@gmail.com'}
 nuevaCuenta = {"hashedPassword":'abc123', "usuario": "bebitofiumfium"}
 
-
-
 request = usuario_pb2.CrearUsuarioRequest(persona=nuevoUsuario, cuenta=nuevaCuenta)
 
 print(client.NuevoUsuario(request))
+
+
+cuenta = {'usuario':'blanco33', 'hashedPassword':'abc'}
+
+request = usuario_pb2.IniciarSesionRequest(cuenta = cuenta)
+
+print(client.UsuarioSesion(request))
+
+
+
+
+
