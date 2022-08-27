@@ -22,12 +22,22 @@ class UsuarioStub(object):
         self.UsuarioSesion = channel.unary_unary(
                 '/Usuario/UsuarioSesion',
                 request_serializer=usuario__pb2.IniciarSesionRequest.SerializeToString,
-                response_deserializer=usuario__pb2.UsuarioResponse.FromString,
+                response_deserializer=usuario__pb2.UserSesionResponse.FromString,
                 )
         self.GetUsuario = channel.unary_unary(
                 '/Usuario/GetUsuario',
                 request_serializer=usuario__pb2.GetUsuarioRequest.SerializeToString,
                 response_deserializer=usuario__pb2.GetPersonaResponse.FromString,
+                )
+        self.GetEstadoSesion = channel.unary_unary(
+                '/Usuario/GetEstadoSesion',
+                request_serializer=usuario__pb2.getSessionStatus.SerializeToString,
+                response_deserializer=usuario__pb2.UserSesionResponse.FromString,
+                )
+        self.CloseSession = channel.unary_unary(
+                '/Usuario/CloseSession',
+                request_serializer=usuario__pb2.closeSessionRequest.SerializeToString,
+                response_deserializer=usuario__pb2.getSessionStatus.FromString,
                 )
 
 
@@ -52,6 +62,18 @@ class UsuarioServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetEstadoSesion(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CloseSession(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_UsuarioServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -63,12 +85,22 @@ def add_UsuarioServicer_to_server(servicer, server):
             'UsuarioSesion': grpc.unary_unary_rpc_method_handler(
                     servicer.UsuarioSesion,
                     request_deserializer=usuario__pb2.IniciarSesionRequest.FromString,
-                    response_serializer=usuario__pb2.UsuarioResponse.SerializeToString,
+                    response_serializer=usuario__pb2.UserSesionResponse.SerializeToString,
             ),
             'GetUsuario': grpc.unary_unary_rpc_method_handler(
                     servicer.GetUsuario,
                     request_deserializer=usuario__pb2.GetUsuarioRequest.FromString,
                     response_serializer=usuario__pb2.GetPersonaResponse.SerializeToString,
+            ),
+            'GetEstadoSesion': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetEstadoSesion,
+                    request_deserializer=usuario__pb2.getSessionStatus.FromString,
+                    response_serializer=usuario__pb2.UserSesionResponse.SerializeToString,
+            ),
+            'CloseSession': grpc.unary_unary_rpc_method_handler(
+                    servicer.CloseSession,
+                    request_deserializer=usuario__pb2.closeSessionRequest.FromString,
+                    response_serializer=usuario__pb2.getSessionStatus.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -110,7 +142,7 @@ class Usuario(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Usuario/UsuarioSesion',
             usuario__pb2.IniciarSesionRequest.SerializeToString,
-            usuario__pb2.UsuarioResponse.FromString,
+            usuario__pb2.UserSesionResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -128,5 +160,39 @@ class Usuario(object):
         return grpc.experimental.unary_unary(request, target, '/Usuario/GetUsuario',
             usuario__pb2.GetUsuarioRequest.SerializeToString,
             usuario__pb2.GetPersonaResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetEstadoSesion(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Usuario/GetEstadoSesion',
+            usuario__pb2.getSessionStatus.SerializeToString,
+            usuario__pb2.UserSesionResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CloseSession(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Usuario/CloseSession',
+            usuario__pb2.closeSessionRequest.SerializeToString,
+            usuario__pb2.getSessionStatus.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

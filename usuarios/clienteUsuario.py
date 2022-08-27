@@ -26,6 +26,16 @@ request = usuario_pb2.IniciarSesionRequest(cuenta = cuenta)
 print(client.UsuarioSesion(request))
 
 
+request = usuario_pb2.GetUsuarioRequest(id = 6)
+
+print(client.GetUsuario(request))
+
+request = usuario_pb2.getSessionStatus(id_sesion = 1, id_persona = 1)
+print(client.GetEstadoSesion(request))
+
+request = usuario_pb2.getSessionStatus(id_sesion = 2, id_persona = 3)
+print(client.GetEstadoSesion(request))
+
 
 
 
