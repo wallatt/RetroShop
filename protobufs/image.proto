@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+
+message UploadImageRequest{
+    oneof data{
+        ImageInfo info = 1;
+        bytes chunk_data = 2;
+    }
+}
+
+message ImageInfo{
+    string id = 1;
+    string image_type = 2;
+}
+
+message UploadImageResponse{
+    int32 id = 1;
+    // uint32 image_size = 2;
+}
+
+message RequestUpload {
+    bytes data = 1;
+}
+
+message Empty{}
+
+message DownloadProductImageRequest {
+    int64 product_id = 1;
+}
+message DataChunk {
+    bytes data = 1;
+    int32 user_id = 2;
+    int32 item_id = 3;
+    string tipo_img = 4;
+}
+
+message UploadProductResponse {
+    enum ResultStatus {
+        SUCCESS = 0;
+        FAILED = 1;
+    }
+    ResultStatus result_status = 1;
+}
+
+
+service ImageService{
+    rpc UploadImage(stream RequestUpload) returns (Empty){};
+    rpc DownloadProductImage(DownloadProductImageRequest) returns(stream DataChunk){};
+    rpc UploadProductImage(stream DataChunk) returns(UploadProductResponse){};
+}
+
