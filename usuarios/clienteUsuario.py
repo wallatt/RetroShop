@@ -4,8 +4,41 @@ import usuario_pb2_grpc
 
 from usuario_pb2 import Persona, Cuenta
 
-channel = grpc.insecure_channel("localhost:50051")
-client = usuario_pb2_grpc.UsuarioStub(channel)
+
+class UsuarioClient():
+    
+    def __init__(self):
+        self.host = 'localhost'
+        self.port = '50051'
+
+        self.channel = grpc.insecure_channel('{}:{}'.format(self.host, self.port))
+        self.client = usuario_pb2_grpc.UsuarioStub(self.channel)
+
+    def crearUsuario(self, persona, cuenta):
+        request = usuario_pb2.CrearUsuarioRequest(persona = persona, cuenta = cuenta)
+        return self.client.NuevoUsuario(request)
+
+    def iniciarSesion(self, usuario, password):
+        hashedPassword = password + '123' #implementar hash de contraseña
+        cuenta = Cuenta(usuario = usuario, hashedPassword=hashedPassword)
+        request = usuario_pb2.IniciarSesionRequest(cuenta = cuenta)
+        return self.client.UsuarioSesion(request)
+
+    def getUsuario(self, id_persona):
+        request = usuario_pb2.GetUsuarioRequest(id = id_persona)
+        return self.client.GetUsuario(request)
+
+    def getSessionStatus(self, id_sesion, id_persona):
+        request = usuario_pb2.getSessionStatus(id_sesion = id_sesion, id_persona = id_persona)
+        return self.client.GetEstadoSesion(request)
+
+    def CloseSession(self, id_sesion, id_persona):
+        request = usuario_pb2.closeSessionRequest(id_sesion = id_sesion, id_persona = id_persona)
+        return self.client.CloseSession(request)
+
+
+cliente = UsuarioClient()
+
 
 nuevoUsuario = {"id": 3, 
                 "nombre":'roman',
@@ -14,27 +47,19 @@ nuevoUsuario = {"id": 3,
                 "mail" : 'asds@gmail.com'}
 nuevaCuenta = {"hashedPassword":'abc123', "usuario": "bebitofiumfium"}
 
-request = usuario_pb2.CrearUsuarioRequest(persona=nuevoUsuario, cuenta=nuevaCuenta)
+print(cliente.crearUsuario(nuevoUsuario, nuevaCuenta))
 
-print(client.NuevoUsuario(request))
-
-
-cuenta = {'usuario':'blanco33', 'hashedPassword':'abc'}
-
-request = usuario_pb2.IniciarSesionRequest(cuenta = cuenta)
-
-print(client.UsuarioSesion(request))
+print(cliente.iniciarSesion('blanco33', 'abc'))
 
 
-request = usuario_pb2.GetUsuarioRequest(id = 6)
 
-print(client.GetUsuario(request))
 
-request = usuario_pb2.getSessionStatus(id_sesion = 1, id_persona = 1)
-print(client.GetEstadoSesion(request))
 
-request = usuario_pb2.getSessionStatus(id_sesion = 2, id_persona = 3)
-print(client.GetEstadoSesion(request))
+
+
+
+
+
 
 
 

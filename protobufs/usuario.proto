@@ -34,10 +34,32 @@ message GetPersonaResponse{
     Persona persona = 1;
 }
 
+message UserSesion{
+    int32 id_sesion = 1;
+    int32 id_persona = 2;
+    bool isActiveSesion = 3;
+}
+
+message UserSesionResponse{
+    UserSesion userSesion = 1;
+}
+
+message getSessionStatus{
+    int32 id_sesion = 1;
+    int32 id_persona = 2;
+}
+
+message closeSessionRequest{
+    int32 id_sesion = 1;
+    int32 id_persona = 2;
+}
+
 service Usuario{
     rpc NuevoUsuario (CrearUsuarioRequest) returns (UsuarioResponse);
-    rpc UsuarioSesion(IniciarSesionRequest) returns (UsuarioResponse);
+    rpc UsuarioSesion(IniciarSesionRequest) returns (UserSesionResponse);
     rpc GetUsuario(GetUsuarioRequest) returns (GetPersonaResponse);
+    rpc GetEstadoSesion(getSessionStatus) returns (UserSesionResponse);
+    rpc CloseSession(closeSessionRequest) returns (getSessionStatus);
 }
 
 
