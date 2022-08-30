@@ -6,8 +6,8 @@ from  usuario_pb2 import (
     UsuarioResponse,
     GetPersonaResponse,
     UserSesion, UserSesionResponse
-    
 )
+# from dao import DAO as BDPersonas
 
 
 BDPersonas = [
