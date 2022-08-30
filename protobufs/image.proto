@@ -44,7 +44,6 @@ message UploadProductResponse {
 
 
 service ImageService{
-    rpc UploadImage(stream RequestUpload) returns (Empty){};
     rpc DownloadProductImage(DownloadProductImageRequest) returns(stream DataChunk){};
     rpc UploadProductImage(stream DataChunk) returns(UploadProductResponse){};
 }

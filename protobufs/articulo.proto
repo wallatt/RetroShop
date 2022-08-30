@@ -26,7 +26,7 @@ message Item{
     string nombre = 2;
     string descripcion = 3;
     double precio = 4;
-    int cantidad = 5;
+    int32 cantidad = 5;
     google.protobuf.Timestamp fecha_fabricacion = 6;
     ItemCategory category = 7;
 }
@@ -73,16 +73,45 @@ message ItemsCompraVentaResponse{
     repeated ItemSale items= 1;
 }
 
+message DownloadProductImageRequest {
+    int32 product_id = 1;
+}
 
-service Item{
+message metadata{
+    int32 user_id = 1;
+    int32 item_id = 2;
+    string tipo_img = 3;
+    string nombre = 4;
+}
+message DataChunk {
+    oneof request{
+        bytes data = 1;
+        metadata configuration = 2;
+    }
+
+
+}
+
+message UploadProductResponse {
+    enum ResultStatus {
+        SUCCESS = 0;
+        FAILED = 1;
+    }
+    ResultStatus result_status = 1;
+}
+
+
+service ItemService{
     rpc NuevoItem(ItemSale) returns(ItemId);
     rpc EditarItem(ItemSale) returns(ItemId);
     rpc GetItem(ItemId) returns(ItemSale);
-    rpc GetItems(getItemsRequest) return(Items);
+    rpc GetItems(getItemsRequest) returns (Items);
     rpc GetItemsFiltered(getItemsFiltered) returns(Items);
     rpc ComprarItem(buyItemRequest) returns (Empty);
     rpc ItemsComprados(ItemsCompraVenta) returns (ItemsCompraVentaResponse);
     rpc ItemsEnVenta(ItemsCompraVenta) returns (ItemsCompraVentaResponse);
+    rpc DownloadProductImage(DownloadProductImageRequest) returns(stream DataChunk){};
+    rpc UploadProductImage(stream DataChunk) returns(UploadProductResponse){};
 }
 
 
