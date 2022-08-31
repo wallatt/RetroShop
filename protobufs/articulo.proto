@@ -34,21 +34,48 @@ message Item{
 message ItemSale{
     int32 seller_id = 1;
     Item item = 2;
+    repeated string imagen = 3;
 }
+
 
 message ItemId{
     int32 item_id = 1;
     int32 user_id = 2;
+}
 
+message metadata{
+    int32 user_id = 1;
+    int32 item_id = 2;
+    string tipo_img = 3;
+    string nombre = 4;
+}
+message DataChunk {
+    oneof request{
+        bytes data = 1;
+        metadata configuration = 2;
+    }
+}
+
+
+message Itemdata{
+    int32 user_id = 1;
+    int32 item_id = 2;
+    string tipo_img = 3;
+    string nombre = 4;
+    Item item = 5;
+}
+
+message NewItemSaleRequest {
+    oneof request{
+        bytes data = 1;
+        ItemData configuration = 2;
+    }
 }
 
 message Items{
     repeated ItemSale items = 1;
 }
 
-message getItemsRequest{
-    int32 user_id = 1;
-}
 
 message getItemsFiltered{
     int32 user_id = 1;
@@ -64,6 +91,9 @@ message buyItemRequest{
     int32 user_id = 1;
     int32 item_id = 2;
 }
+message getItemsRequest{
+    int32 user_id = 1;
+}
 
 message ItemsCompraVenta{
     int32 user_id = 1;
@@ -74,23 +104,9 @@ message ItemsCompraVentaResponse{
 }
 
 message DownloadProductImageRequest {
-    int32 product_id = 1;
+    string nombre_imagen = 1;
 }
 
-message metadata{
-    int32 user_id = 1;
-    int32 item_id = 2;
-    string tipo_img = 3;
-    string nombre = 4;
-}
-message DataChunk {
-    oneof request{
-        bytes data = 1;
-        metadata configuration = 2;
-    }
-
-
-}
 
 message UploadProductResponse {
     enum ResultStatus {
@@ -104,14 +120,18 @@ message UploadProductResponse {
 service ItemService{
     rpc NuevoItem(ItemSale) returns(ItemId);
     rpc EditarItem(ItemSale) returns(ItemId);
+
+        rpc NuevoItemSaleRequest(stream NewItemSaleRequest) returns(ItemId);
+        rpc UploadProductImage(stream DataChunk) returns(UploadProductResponse){};
+
     rpc GetItem(ItemId) returns(ItemSale);
     rpc GetItems(getItemsRequest) returns (Items);
-    rpc GetItemsFiltered(getItemsFiltered) returns(Items);
+        rpc GetItemsFiltered(getItemsFiltered) returns(Items);
     rpc ComprarItem(buyItemRequest) returns (Empty);
+
     rpc ItemsComprados(ItemsCompraVenta) returns (ItemsCompraVentaResponse);
     rpc ItemsEnVenta(ItemsCompraVenta) returns (ItemsCompraVentaResponse);
-    rpc DownloadProductImage(DownloadProductImageRequest) returns(stream DataChunk){};
-    rpc UploadProductImage(stream DataChunk) returns(UploadProductResponse){};
+        rpc DownloadProductImage(DownloadProductImageRequest) returns(stream DataChunk){};
 }
 
 

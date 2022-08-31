@@ -28,7 +28,7 @@ ENGINE = InnoDB;
 -- Table `items`.`seller`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `items`.`seller` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `vendedor_id` INT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
@@ -38,7 +38,7 @@ ENGINE = InnoDB;
 -- Table `items`.`itemsventa`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `items`.`itemsventa` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NULL,
   `descripcion` VARCHAR(150) NULL,
   `precio` DOUBLE NULL,
@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS `items`.`itemsventa` (
   `fecha_fabricacion` DATETIME NULL,
   `categoria_idcategoria` INT NOT NULL,
   `seller_id` INT NOT NULL,
+  `venta_activa` TINYINT NULL,
   PRIMARY KEY (`id`, `categoria_idcategoria`, `seller_id`),
   INDEX `fk_itemsventa_categoria_idx` (`categoria_idcategoria` ASC) ,
   INDEX `fk_itemsventa_seller1_idx` (`seller_id` ASC) ,
@@ -57,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `items`.`itemsventa` (
   CONSTRAINT `fk_itemsventa_seller1`
     FOREIGN KEY (`seller_id`)
     REFERENCES `items`.`seller` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -66,7 +67,7 @@ ENGINE = InnoDB;
 -- Table `items`.`buyer`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `items`.`buyer` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `id_comprador` INT NULL,
   `cantidad` INT NULL,
   `itemsventa_id` INT NOT NULL,
@@ -84,7 +85,7 @@ ENGINE = InnoDB;
 -- Table `items`.`fotos`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `items`.`fotos` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `ruta` VARCHAR(100) NULL,
   `itemsventa_id` INT NOT NULL,
   PRIMARY KEY (`id`, `itemsventa_id`),
@@ -100,3 +101,10 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+INSERT INTO `items`.`categoria` (`idcategoria`, `nombre`) VALUES ('1', 'TECNOLOGIA');
+INSERT INTO `items`.`categoria` (`idcategoria`, `nombre`) VALUES ('2', 'LIBROS');
+INSERT INTO `items`.`categoria` (`idcategoria`, `nombre`) VALUES ('3', 'VESTIMENTA');
+INSERT INTO `items`.`categoria` (`idcategoria`, `nombre`) VALUES ('4', 'VEHICULOS');
+INSERT INTO `items`.`categoria` (`idcategoria`, `nombre`) VALUES ('5', 'DEPORTES');
+INSERT INTO `items`.`categoria` (`idcategoria`, `nombre`) VALUES ('6', 'HOGAR');

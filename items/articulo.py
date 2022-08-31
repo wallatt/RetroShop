@@ -1,12 +1,16 @@
+import grpc
 import articulo_pb2
 import articulo_pb2_grpc
-from articulo_pb2 import Empty, DataChunk, DownloadProductImageRequest, UploadProductResponse
+from articulo_pb2 import Empty, DataChunk, DownloadProductImageRequest, UploadProductResponse, ItemId
 from concurrent import futures
-import grpc
 from pathlib import Path
+from articulodao import DAO
 
 
 class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
+
+    def __init__(self,):
+        self.BDItems = DAO()
 
     def DownloadProductImage(self, request, context):
         product_id = request.product_id
@@ -39,6 +43,42 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
                 f.write(chunk)
 
         return UploadProductResponse(result_status=UploadProductResponse.SUCCESS)
+
+    def NuevoItemSaleRequest(self, request_iterator, context):
+        s=[]
+        for DataChunk in request_iterator:
+            s.append(DataChunk.data)
+            if DataChunk.configuration:
+                config = DataChunk.configuration
+        
+        filename = self.nombreFoto(config)
+        #Verificar cantidad de fotos ya guardadas
+        parametros = self.getParametros(config, filename)
+        item_id = self.BDItems.insertarNuevoArticulo(*parametros)
+        #guardar
+        with open('bkpimg/'+filename,'wb') as f:
+            for chunk in s:
+                f.write(chunk)
+        return ItemId(item_id = item_id, user_id = parametros[0])
+
+    def nombreFoto(self, config):
+        cantPublicacionVendedor = self.BDItems.getCantPublicaciones(config.user_id)
+        return str(config.user_id)+'_'+str(cantPublicacionVendedor)+'_'+'1'+'.'+config.tipo_img
+
+    def getParametros(self,config, filename):
+        parametros = []
+        parametros.append(config.user_id)
+        parametros.append(config.item.nombre)
+        parametros.append(config.item.fecha_fabricacion)
+        parametros.append(config.item.category)
+        parametros.append(filename)
+        parametros.append(config.item.descripcion)
+        parametros.append(config.item.precio)
+        parametros.append(config.item.cantidad)
+        return parametros
+        
+        
+
 
 
 

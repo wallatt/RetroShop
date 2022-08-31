@@ -1,6 +1,6 @@
 from pydoc import cli
 import unittest
-from usuario_pb2 import empty, GetPersonaResponse
+from usuario_pb2 import empty, GetPersonaResponse, Cuenta
 from clienteUsuario import UsuarioClient
 
 class testClienteUsuario(unittest.TestCase):
@@ -52,5 +52,9 @@ class testClienteUsuario(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+
+
 
 
