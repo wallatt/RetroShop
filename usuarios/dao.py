@@ -60,8 +60,20 @@ class DAO():
             except Error as ex:
                 print("Error al intentar conectar conectar: {0}".format(ex))
 
+    def getUsuarioId(self, username):
+        if self.conexion.is_connected():
+            try:
+                cursor = self.conexion.cursor()
+                query = "SELECT id FROM usuario where username = %s"
+                user = (username,)
+                cursor.execute(query, user)
+                resultado = cursor.fetchone()
+                return resultado
+            except Error as ex:
+                print("Error al intentar conectar conectar: {0}".format(ex))
+
     
-    def ingresarUsuario(self,nombre, apellido, dni, mail, username, password ):
+    def ingresarUsuario(self, nombre, apellido, dni, mail, username, password ):
         if self.conexion.is_connected():
             if not self.getUsuarioDNI(dni) and not self.getUsuarioUser(username):
                 try:
@@ -156,7 +168,7 @@ class DAO():
 if __name__ == "__main__":
     dao = DAO()
 
-    # print(dao.ingresarUsuario('ferruccio', 'Lambo',333, 'fl@gmail.com','Myura', 'fgh123'))
+    print(dao.ingresarUsuario('Henry', 'Veyron',666, 'hv@gmail.com','Type35', '6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090'))
     # print(dao.listarUsuarios())
     # print(dao.getUsuario(2))
     # print(dao.getUsuarioDNI(232))
@@ -166,4 +178,5 @@ if __name__ == "__main__":
     # print(dao.isActiveSesion(2,8))
     # dao.cerrarSesion(2,8)
     # print(dao.isActiveSesion(2,8))
+    print(len('6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090'))
 

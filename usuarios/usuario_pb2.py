@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\rusuario.proto\"R\n\x07Persona\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0e\n\x06nombre\x18\x02 \x01(\t\x12\x10\n\x08\x61pellido\x18\x03 \x01(\t\x12\x0b\n\x03\x64ni\x18\x04 \x01(\x05\x12\x0c\n\x04mail\x18\x05 \x01(\t\"1\n\x06\x43uenta\x12\x0f\n\x07usuario\x18\x01 \x01(\t\x12\x16\n\x0ehashedPassword\x18\x02 \x01(\t\"I\n\x13\x43rearUsuarioRequest\x12\x19\n\x07persona\x18\x01 \x01(\x0b\x32\x08.Persona\x12\x17\n\x06\x63uenta\x18\x02 \x01(\x0b\x32\x07.Cuenta\"\x1d\n\x0fUsuarioResponse\x12\n\n\x02id\x18\x01 \x01(\x05\"/\n\x14IniciarSesionRequest\x12\x17\n\x06\x63uenta\x18\x01 \x01(\x0b\x32\x07.Cuenta\"\x1f\n\x11GetUsuarioRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"/\n\x12GetPersonaResponse\x12\x19\n\x07persona\x18\x01 \x01(\x0b\x32\x08.Persona\"K\n\nUserSesion\x12\x11\n\tid_sesion\x18\x01 \x01(\x05\x12\x12\n\nid_persona\x18\x02 \x01(\x05\x12\x16\n\x0eisActiveSesion\x18\x03 \x01(\x08\"5\n\x12UserSesionResponse\x12\x1f\n\nuserSesion\x18\x01 \x01(\x0b\x32\x0b.UserSesion\"9\n\x10getSessionStatus\x12\x11\n\tid_sesion\x18\x01 \x01(\x05\x12\x12\n\nid_persona\x18\x02 \x01(\x05\"<\n\x13\x63loseSessionRequest\x12\x11\n\tid_sesion\x18\x01 \x01(\x05\x12\x12\n\nid_persona\x18\x02 \x01(\x05\x32\xa9\x02\n\x07Usuario\x12\x36\n\x0cNuevoUsuario\x12\x14.CrearUsuarioRequest\x1a\x10.UsuarioResponse\x12;\n\rUsuarioSesion\x12\x15.IniciarSesionRequest\x1a\x13.UserSesionResponse\x12\x35\n\nGetUsuario\x12\x12.GetUsuarioRequest\x1a\x13.GetPersonaResponse\x12\x39\n\x0fGetEstadoSesion\x12\x11.getSessionStatus\x1a\x13.UserSesionResponse\x12\x37\n\x0c\x43loseSession\x12\x14.closeSessionRequest\x1a\x11.getSessionStatusb\x06proto3'
+  serialized_pb=b'\n\rusuario.proto\"R\n\x07Persona\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0e\n\x06nombre\x18\x02 \x01(\t\x12\x10\n\x08\x61pellido\x18\x03 \x01(\t\x12\x0b\n\x03\x64ni\x18\x04 \x01(\x05\x12\x0c\n\x04mail\x18\x05 \x01(\t\"1\n\x06\x43uenta\x12\x0f\n\x07usuario\x18\x01 \x01(\t\x12\x16\n\x0ehashedPassword\x18\x02 \x01(\t\"I\n\x13\x43rearUsuarioRequest\x12\x19\n\x07persona\x18\x01 \x01(\x0b\x32\x08.Persona\x12\x17\n\x06\x63uenta\x18\x02 \x01(\x0b\x32\x07.Cuenta\"\x1d\n\x0fUsuarioResponse\x12\n\n\x02id\x18\x01 \x01(\x05\"/\n\x14IniciarSesionRequest\x12\x17\n\x06\x63uenta\x18\x01 \x01(\x0b\x32\x07.Cuenta\"\x1f\n\x11GetUsuarioRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"H\n\x12GetPersonaResponse\x12\x19\n\x07persona\x18\x01 \x01(\x0b\x32\x08.Persona\x12\x17\n\x06\x63uenta\x18\x02 \x01(\x0b\x32\x07.Cuenta\"K\n\nUserSesion\x12\x11\n\tid_sesion\x18\x01 \x01(\x05\x12\x12\n\nid_persona\x18\x02 \x01(\x05\x12\x16\n\x0eisActiveSesion\x18\x03 \x01(\x08\"5\n\x12UserSesionResponse\x12\x1f\n\nuserSesion\x18\x01 \x01(\x0b\x32\x0b.UserSesion\"9\n\x10getSessionStatus\x12\x11\n\tid_sesion\x18\x01 \x01(\x05\x12\x12\n\nid_persona\x18\x02 \x01(\x05\"<\n\x13\x63loseSessionRequest\x12\x11\n\tid_sesion\x18\x01 \x01(\x05\x12\x12\n\nid_persona\x18\x02 \x01(\x05\"\x07\n\x05\x65mpty2\x9e\x02\n\x07Usuario\x12\x36\n\x0cNuevoUsuario\x12\x14.CrearUsuarioRequest\x1a\x10.UsuarioResponse\x12;\n\rUsuarioSesion\x12\x15.IniciarSesionRequest\x1a\x13.UserSesionResponse\x12\x35\n\nGetUsuario\x12\x12.GetUsuarioRequest\x1a\x13.GetPersonaResponse\x12\x39\n\x0fGetEstadoSesion\x12\x11.getSessionStatus\x1a\x13.UserSesionResponse\x12,\n\x0c\x43loseSession\x12\x14.closeSessionRequest\x1a\x06.emptyb\x06proto3'
 )
 
 
@@ -274,6 +274,13 @@ _GETPERSONARESPONSE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='cuenta', full_name='GetPersonaResponse.cuenta', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -287,7 +294,7 @@ _GETPERSONARESPONSE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=340,
-  serialized_end=387,
+  serialized_end=412,
 )
 
 
@@ -332,8 +339,8 @@ _USERSESION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=389,
-  serialized_end=464,
+  serialized_start=414,
+  serialized_end=489,
 )
 
 
@@ -364,8 +371,8 @@ _USERSESIONRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=466,
-  serialized_end=519,
+  serialized_start=491,
+  serialized_end=544,
 )
 
 
@@ -403,8 +410,8 @@ _GETSESSIONSTATUS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=521,
-  serialized_end=578,
+  serialized_start=546,
+  serialized_end=603,
 )
 
 
@@ -442,14 +449,40 @@ _CLOSESESSIONREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=580,
-  serialized_end=640,
+  serialized_start=605,
+  serialized_end=665,
+)
+
+
+_EMPTY = _descriptor.Descriptor(
+  name='empty',
+  full_name='empty',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=667,
+  serialized_end=674,
 )
 
 _CREARUSUARIOREQUEST.fields_by_name['persona'].message_type = _PERSONA
 _CREARUSUARIOREQUEST.fields_by_name['cuenta'].message_type = _CUENTA
 _INICIARSESIONREQUEST.fields_by_name['cuenta'].message_type = _CUENTA
 _GETPERSONARESPONSE.fields_by_name['persona'].message_type = _PERSONA
+_GETPERSONARESPONSE.fields_by_name['cuenta'].message_type = _CUENTA
 _USERSESIONRESPONSE.fields_by_name['userSesion'].message_type = _USERSESION
 DESCRIPTOR.message_types_by_name['Persona'] = _PERSONA
 DESCRIPTOR.message_types_by_name['Cuenta'] = _CUENTA
@@ -462,6 +495,7 @@ DESCRIPTOR.message_types_by_name['UserSesion'] = _USERSESION
 DESCRIPTOR.message_types_by_name['UserSesionResponse'] = _USERSESIONRESPONSE
 DESCRIPTOR.message_types_by_name['getSessionStatus'] = _GETSESSIONSTATUS
 DESCRIPTOR.message_types_by_name['closeSessionRequest'] = _CLOSESESSIONREQUEST
+DESCRIPTOR.message_types_by_name['empty'] = _EMPTY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Persona = _reflection.GeneratedProtocolMessageType('Persona', (_message.Message,), {
@@ -541,6 +575,13 @@ closeSessionRequest = _reflection.GeneratedProtocolMessageType('closeSessionRequ
   })
 _sym_db.RegisterMessage(closeSessionRequest)
 
+empty = _reflection.GeneratedProtocolMessageType('empty', (_message.Message,), {
+  'DESCRIPTOR' : _EMPTY,
+  '__module__' : 'usuario_pb2'
+  # @@protoc_insertion_point(class_scope:empty)
+  })
+_sym_db.RegisterMessage(empty)
+
 
 
 _USUARIO = _descriptor.ServiceDescriptor(
@@ -550,8 +591,8 @@ _USUARIO = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=643,
-  serialized_end=940,
+  serialized_start=677,
+  serialized_end=963,
   methods=[
   _descriptor.MethodDescriptor(
     name='NuevoUsuario',
@@ -599,7 +640,7 @@ _USUARIO = _descriptor.ServiceDescriptor(
     index=4,
     containing_service=None,
     input_type=_CLOSESESSIONREQUEST,
-    output_type=_GETSESSIONSTATUS,
+    output_type=_EMPTY,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

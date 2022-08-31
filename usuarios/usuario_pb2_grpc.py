@@ -37,7 +37,7 @@ class UsuarioStub(object):
         self.CloseSession = channel.unary_unary(
                 '/Usuario/CloseSession',
                 request_serializer=usuario__pb2.closeSessionRequest.SerializeToString,
-                response_deserializer=usuario__pb2.getSessionStatus.FromString,
+                response_deserializer=usuario__pb2.empty.FromString,
                 )
 
 
@@ -100,7 +100,7 @@ def add_UsuarioServicer_to_server(servicer, server):
             'CloseSession': grpc.unary_unary_rpc_method_handler(
                     servicer.CloseSession,
                     request_deserializer=usuario__pb2.closeSessionRequest.FromString,
-                    response_serializer=usuario__pb2.getSessionStatus.SerializeToString,
+                    response_serializer=usuario__pb2.empty.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -193,6 +193,6 @@ class Usuario(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/Usuario/CloseSession',
             usuario__pb2.closeSessionRequest.SerializeToString,
-            usuario__pb2.getSessionStatus.FromString,
+            usuario__pb2.empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

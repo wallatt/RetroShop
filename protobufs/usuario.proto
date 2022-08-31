@@ -32,6 +32,8 @@ message GetUsuarioRequest{
 
 message GetPersonaResponse{
     Persona persona = 1;
+    Cuenta cuenta = 2;
+
 }
 
 message UserSesion{
@@ -54,12 +56,14 @@ message closeSessionRequest{
     int32 id_persona = 2;
 }
 
+message empty{}
+
 service Usuario{
     rpc NuevoUsuario (CrearUsuarioRequest) returns (UsuarioResponse);
     rpc UsuarioSesion(IniciarSesionRequest) returns (UserSesionResponse);
     rpc GetUsuario(GetUsuarioRequest) returns (GetPersonaResponse);
     rpc GetEstadoSesion(getSessionStatus) returns (UserSesionResponse);
-    rpc CloseSession(closeSessionRequest) returns (getSessionStatus);
+    rpc CloseSession(closeSessionRequest) returns (empty);
 }
 
 

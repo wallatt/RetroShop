@@ -1,6 +1,7 @@
 import grpc
 import usuario_pb2
 import usuario_pb2_grpc
+import unittest
 
 from usuario_pb2 import Persona, Cuenta
 
@@ -14,8 +15,8 @@ class UsuarioClient():
         self.channel = grpc.insecure_channel('{}:{}'.format(self.host, self.port))
         self.client = usuario_pb2_grpc.UsuarioStub(self.channel)
 
-    def crearUsuario(self, persona, cuenta):
-        request = usuario_pb2.CrearUsuarioRequest(persona = persona, cuenta = cuenta)
+    def crearUsuario(self, persona, credencial):
+        request = usuario_pb2.CrearUsuarioRequest(persona = persona, cuenta = credencial)
         return self.client.NuevoUsuario(request)
 
     def iniciarSesion(self, usuario, password):
@@ -37,20 +38,12 @@ class UsuarioClient():
         return self.client.CloseSession(request)
 
 
-cliente = UsuarioClient()
 
 
-nuevoUsuario = {"id": 3, 
-                "nombre":'roman',
-                "apellido":'palacio',
-                "dni":888888,
-                "mail" : 'asds@gmail.com'}
-nuevaCuenta = {"hashedPassword":'abc123', "usuario": "bebitofiumfium"}
 
-print(cliente.crearUsuario(nuevoUsuario, nuevaCuenta))
 
-print(cliente.iniciarSesion('blanco33', 'abc'))
 
+        
 
 
 

@@ -36,6 +36,8 @@ CREATE TABLE IF NOT EXISTS `usuarios`.`sesion` (
   `idsesion` INT NOT NULL,
   `iniciosesion` DATETIME NULL,
   `usuario_id` INT NOT NULL,
+  `closedSesion` TINYINT NULL,
+
   PRIMARY KEY (`idsesion`, `usuario_id`),
   INDEX `fk_sesion_usuario_idx` (`usuario_id` ASC),
   CONSTRAINT `fk_sesion_usuario`
