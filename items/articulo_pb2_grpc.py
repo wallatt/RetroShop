@@ -24,6 +24,16 @@ class ItemServiceStub(object):
                 request_serializer=articulo__pb2.ItemSale.SerializeToString,
                 response_deserializer=articulo__pb2.ItemId.FromString,
                 )
+        self.NuevoItemSaleRequest = channel.stream_unary(
+                '/ItemService/NuevoItemSaleRequest',
+                request_serializer=articulo__pb2.NewItemSaleRequest.SerializeToString,
+                response_deserializer=articulo__pb2.ItemId.FromString,
+                )
+        self.UploadProductImage = channel.stream_unary(
+                '/ItemService/UploadProductImage',
+                request_serializer=articulo__pb2.DataChunk.SerializeToString,
+                response_deserializer=articulo__pb2.UploadProductResponse.FromString,
+                )
         self.GetItem = channel.unary_unary(
                 '/ItemService/GetItem',
                 request_serializer=articulo__pb2.ItemId.SerializeToString,
@@ -59,11 +69,6 @@ class ItemServiceStub(object):
                 request_serializer=articulo__pb2.DownloadProductImageRequest.SerializeToString,
                 response_deserializer=articulo__pb2.DataChunk.FromString,
                 )
-        self.UploadProductImage = channel.stream_unary(
-                '/ItemService/UploadProductImage',
-                request_serializer=articulo__pb2.DataChunk.SerializeToString,
-                response_deserializer=articulo__pb2.UploadProductResponse.FromString,
-                )
 
 
 class ItemServiceServicer(object):
@@ -76,6 +81,18 @@ class ItemServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def EditarItem(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def NuevoItemSaleRequest(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def UploadProductImage(self, request_iterator, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -123,12 +140,6 @@ class ItemServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def UploadProductImage(self, request_iterator, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
 
 def add_ItemServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -141,6 +152,16 @@ def add_ItemServiceServicer_to_server(servicer, server):
                     servicer.EditarItem,
                     request_deserializer=articulo__pb2.ItemSale.FromString,
                     response_serializer=articulo__pb2.ItemId.SerializeToString,
+            ),
+            'NuevoItemSaleRequest': grpc.stream_unary_rpc_method_handler(
+                    servicer.NuevoItemSaleRequest,
+                    request_deserializer=articulo__pb2.NewItemSaleRequest.FromString,
+                    response_serializer=articulo__pb2.ItemId.SerializeToString,
+            ),
+            'UploadProductImage': grpc.stream_unary_rpc_method_handler(
+                    servicer.UploadProductImage,
+                    request_deserializer=articulo__pb2.DataChunk.FromString,
+                    response_serializer=articulo__pb2.UploadProductResponse.SerializeToString,
             ),
             'GetItem': grpc.unary_unary_rpc_method_handler(
                     servicer.GetItem,
@@ -176,11 +197,6 @@ def add_ItemServiceServicer_to_server(servicer, server):
                     servicer.DownloadProductImage,
                     request_deserializer=articulo__pb2.DownloadProductImageRequest.FromString,
                     response_serializer=articulo__pb2.DataChunk.SerializeToString,
-            ),
-            'UploadProductImage': grpc.stream_unary_rpc_method_handler(
-                    servicer.UploadProductImage,
-                    request_deserializer=articulo__pb2.DataChunk.FromString,
-                    response_serializer=articulo__pb2.UploadProductResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -223,6 +239,40 @@ class ItemService(object):
         return grpc.experimental.unary_unary(request, target, '/ItemService/EditarItem',
             articulo__pb2.ItemSale.SerializeToString,
             articulo__pb2.ItemId.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def NuevoItemSaleRequest(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(request_iterator, target, '/ItemService/NuevoItemSaleRequest',
+            articulo__pb2.NewItemSaleRequest.SerializeToString,
+            articulo__pb2.ItemId.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def UploadProductImage(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(request_iterator, target, '/ItemService/UploadProductImage',
+            articulo__pb2.DataChunk.SerializeToString,
+            articulo__pb2.UploadProductResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -342,22 +392,5 @@ class ItemService(object):
         return grpc.experimental.unary_stream(request, target, '/ItemService/DownloadProductImage',
             articulo__pb2.DownloadProductImageRequest.SerializeToString,
             articulo__pb2.DataChunk.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def UploadProductImage(request_iterator,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.stream_unary(request_iterator, target, '/ItemService/UploadProductImage',
-            articulo__pb2.DataChunk.SerializeToString,
-            articulo__pb2.UploadProductResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

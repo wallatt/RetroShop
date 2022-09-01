@@ -68,7 +68,7 @@ message Itemdata{
 message NewItemSaleRequest {
     oneof request{
         bytes data = 1;
-        ItemData configuration = 2;
+        Itemdata configuration = 2;
     }
 }
 
@@ -104,7 +104,7 @@ message ItemsCompraVentaResponse{
 }
 
 message DownloadProductImageRequest {
-    string nombre_imagen = 1;
+    repeated string nombre_imagen = 1;
 }
 
 

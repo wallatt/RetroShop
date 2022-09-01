@@ -1,7 +1,7 @@
 import grpc
 import articulo_pb2
 import articulo_pb2_grpc
-from articulo_pb2 import Empty, DataChunk, DownloadProductImageRequest, UploadProductResponse, ItemId
+from articulo_pb2 import Empty, DataChunk, DownloadProductImageRequest, UploadProductResponse, ItemId, metadata
 from concurrent import futures
 from pathlib import Path
 from articulodao import DAO
@@ -13,12 +13,13 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
         self.BDItems = DAO()
 
     def DownloadProductImage(self, request, context):
-        product_id = request.product_id
-        # imagesPaths = BDItems.getPaths(product_id)
-        imagesPaths = 'hola.png'
+        """Recibe una lista de nombres de imagenes y devuelve las imagenes"""
+        imagesPaths = request.nombre_imagen.replace('[', '').replace(']', '').replace("'", '').replace(' ', '').split(',')
         chunk_size = 1024
         for path in imagesPaths:
             image_path = Path(__file__).resolve().parent.joinpath('img/'+path)
+            config_imagen = metadata(user_id = 1, item_id = 1, tipo_img ='png', nombre = path)
+            yield DataChunk(configuration = config_imagen)
 
             with image_path.open('rb') as f:
                 while True:

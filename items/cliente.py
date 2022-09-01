@@ -20,6 +20,39 @@ class ImageClient():
         with open(target_image_file, 'wb') as f:
             for chunk in data_chunks:
                 f.write(chunk.data)
+
+    def test_DownloadProductImages(self):
+        faker = Faker()
+        image_file = faker.file_name(category=None, extension='png')
+        target_image_file = 'bkpimg/'
+        imagen = str(['abc1.png', 'abc2.png', 'abc3.png'])
+        data_chunks = self.client.DownloadProductImage(DownloadProductImageRequest(nombre_imagen = imagen))
+        
+        # with open(target_image_file+'chunk.configuration.nombre.png', 'wb') as f:
+        image = []
+        primer = True
+        for chunk in data_chunks:
+            if chunk.configuration.nombre and primer:
+                nombre = chunk.configuration.nombre
+                primer = False
+                continue
+            s = chunk.configuration.nombre
+            if s:
+                print(nombre,s)
+                if not s == nombre:
+                    with open(target_image_file+nombre, 'wb') as f:
+                        for a in image:
+                            f.write(a)
+                        image =[]
+                    nombre = s
+            else:
+                image.append(chunk.data)
+        with open(target_image_file+nombre, 'wb') as f:
+                        for a in image:
+                            f.write(a)
+
+
+            # f.write(chunk.data)
     
     def uploadImage(self,image_path, nombre, tipo):
         chunk_size = 1024
@@ -56,11 +89,11 @@ class ImageClient():
 
 cliente = ImageClient()
 image_paths = {'img/abc1.png':'abc1'}
-cliente.uploadImage('img/abc1.png','abc1.png','png')
+# cliente.uploadImage('img/abc1.png','abc1.png','png')
 # cliente.uploadImage('img/abc1.png','png')
 
 
-cliente.test_DownloadProductImage()
+cliente.test_DownloadProductImages()
 
 
 
