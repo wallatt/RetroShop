@@ -2,6 +2,8 @@ import mysql.connector
 from mysql.connector import Error
 from datetime import datetime, timedelta
 
+import logging
+
 class DAO():
 
     def __init__(self):

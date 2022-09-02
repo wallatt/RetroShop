@@ -1,5 +1,12 @@
 syntax = "proto3";
 
+option java_multiple_files = true;
+option java_package = "io.grpc.RetroShop.usuario";
+option java_outer_classname = "usuarioProto";
+option objc_class_prefix = "USP";
+
+package usuario;
+
 message Persona{
     int32 id = 1;
     string nombre = 2;

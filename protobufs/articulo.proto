@@ -1,6 +1,15 @@
 syntax = "proto3";
 
+option java_multiple_files = true;
+option java_package = "io.grpc.RetroShop.articulo";
+option java_outer_classname = "articuloProto";
+option objc_class_prefix = "ARP";
+
+package articulo;
+
+
 import "google/protobuf/timestamp.proto";
+
 
 
 message Empty {}

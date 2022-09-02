@@ -15,27 +15,27 @@ class UsuarioStub(object):
             channel: A grpc.Channel.
         """
         self.NuevoUsuario = channel.unary_unary(
-                '/Usuario/NuevoUsuario',
+                '/usuario.Usuario/NuevoUsuario',
                 request_serializer=usuario__pb2.CrearUsuarioRequest.SerializeToString,
                 response_deserializer=usuario__pb2.UsuarioResponse.FromString,
                 )
         self.UsuarioSesion = channel.unary_unary(
-                '/Usuario/UsuarioSesion',
+                '/usuario.Usuario/UsuarioSesion',
                 request_serializer=usuario__pb2.IniciarSesionRequest.SerializeToString,
                 response_deserializer=usuario__pb2.UserSesionResponse.FromString,
                 )
         self.GetUsuario = channel.unary_unary(
-                '/Usuario/GetUsuario',
+                '/usuario.Usuario/GetUsuario',
                 request_serializer=usuario__pb2.GetUsuarioRequest.SerializeToString,
                 response_deserializer=usuario__pb2.GetPersonaResponse.FromString,
                 )
         self.GetEstadoSesion = channel.unary_unary(
-                '/Usuario/GetEstadoSesion',
+                '/usuario.Usuario/GetEstadoSesion',
                 request_serializer=usuario__pb2.getSessionStatus.SerializeToString,
                 response_deserializer=usuario__pb2.UserSesionResponse.FromString,
                 )
         self.CloseSession = channel.unary_unary(
-                '/Usuario/CloseSession',
+                '/usuario.Usuario/CloseSession',
                 request_serializer=usuario__pb2.closeSessionRequest.SerializeToString,
                 response_deserializer=usuario__pb2.empty.FromString,
                 )
@@ -104,7 +104,7 @@ def add_UsuarioServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'Usuario', rpc_method_handlers)
+            'usuario.Usuario', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -123,7 +123,7 @@ class Usuario(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Usuario/NuevoUsuario',
+        return grpc.experimental.unary_unary(request, target, '/usuario.Usuario/NuevoUsuario',
             usuario__pb2.CrearUsuarioRequest.SerializeToString,
             usuario__pb2.UsuarioResponse.FromString,
             options, channel_credentials,
@@ -140,7 +140,7 @@ class Usuario(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Usuario/UsuarioSesion',
+        return grpc.experimental.unary_unary(request, target, '/usuario.Usuario/UsuarioSesion',
             usuario__pb2.IniciarSesionRequest.SerializeToString,
             usuario__pb2.UserSesionResponse.FromString,
             options, channel_credentials,
@@ -157,7 +157,7 @@ class Usuario(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Usuario/GetUsuario',
+        return grpc.experimental.unary_unary(request, target, '/usuario.Usuario/GetUsuario',
             usuario__pb2.GetUsuarioRequest.SerializeToString,
             usuario__pb2.GetPersonaResponse.FromString,
             options, channel_credentials,
@@ -174,7 +174,7 @@ class Usuario(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Usuario/GetEstadoSesion',
+        return grpc.experimental.unary_unary(request, target, '/usuario.Usuario/GetEstadoSesion',
             usuario__pb2.getSessionStatus.SerializeToString,
             usuario__pb2.UserSesionResponse.FromString,
             options, channel_credentials,
@@ -191,7 +191,7 @@ class Usuario(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/Usuario/CloseSession',
+        return grpc.experimental.unary_unary(request, target, '/usuario.Usuario/CloseSession',
             usuario__pb2.closeSessionRequest.SerializeToString,
             usuario__pb2.empty.FromString,
             options, channel_credentials,

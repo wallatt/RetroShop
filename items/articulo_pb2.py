@@ -17,17 +17,17 @@ from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='articulo.proto',
-  package='',
+  package='articulo',
   syntax='proto3',
-  serialized_options=None,
+  serialized_options=b'\n\032io.grpc.RetroShop.articuloB\rarticuloProtoP\001\242\002\003ARP',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0e\x61rticulo.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x07\n\x05\x45mpty\"\xb6\x01\n\x04Item\x12\x0f\n\x07item_id\x18\x01 \x01(\x05\x12\x0e\n\x06nombre\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scripcion\x18\x03 \x01(\t\x12\x0e\n\x06precio\x18\x04 \x01(\x01\x12\x10\n\x08\x63\x61ntidad\x18\x05 \x01(\x05\x12\x35\n\x11\x66\x65\x63ha_fabricacion\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x1f\n\x08\x63\x61tegory\x18\x07 \x01(\x0e\x32\r.ItemCategory\"B\n\x08ItemSale\x12\x11\n\tseller_id\x18\x01 \x01(\x05\x12\x13\n\x04item\x18\x02 \x01(\x0b\x32\x05.Item\x12\x0e\n\x06imagen\x18\x03 \x03(\t\"*\n\x06ItemId\x12\x0f\n\x07item_id\x18\x01 \x01(\x05\x12\x0f\n\x07user_id\x18\x02 \x01(\x05\"N\n\x08metadata\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0f\n\x07item_id\x18\x02 \x01(\x05\x12\x10\n\x08tipo_img\x18\x03 \x01(\t\x12\x0e\n\x06nombre\x18\x04 \x01(\t\"J\n\tDataChunk\x12\x0e\n\x04\x64\x61ta\x18\x01 \x01(\x0cH\x00\x12\"\n\rconfiguration\x18\x02 \x01(\x0b\x32\t.metadataH\x00\x42\t\n\x07request\"c\n\x08Itemdata\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0f\n\x07item_id\x18\x02 \x01(\x05\x12\x10\n\x08tipo_img\x18\x03 \x01(\t\x12\x0e\n\x06nombre\x18\x04 \x01(\t\x12\x13\n\x04item\x18\x05 \x01(\x0b\x32\x05.Item\"S\n\x12NewItemSaleRequest\x12\x0e\n\x04\x64\x61ta\x18\x01 \x01(\x0cH\x00\x12\"\n\rconfiguration\x18\x02 \x01(\x0b\x32\t.ItemdataH\x00\x42\t\n\x07request\"!\n\x05Items\x12\x18\n\x05items\x18\x01 \x03(\x0b\x32\t.ItemSale\"\xdc\x01\n\x10getItemsFiltered\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x1f\n\x08\x63\x61tegory\x18\x02 \x01(\x0e\x32\r.ItemCategory\x12\x0e\n\x06nombre\x18\x03 \x01(\t\x12\x11\n\tpreciomin\x18\x04 \x01(\x01\x12\x11\n\tpreciomax\x18\x05 \x01(\x01\x12/\n\x0b\x66\x65\x63ha_desde\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12/\n\x0b\x66\x65\x63ha_hasta\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"2\n\x0e\x62uyItemRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0f\n\x07item_id\x18\x02 \x01(\x05\"\"\n\x0fgetItemsRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"#\n\x10ItemsCompraVenta\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"4\n\x18ItemsCompraVentaResponse\x12\x18\n\x05items\x18\x01 \x03(\x0b\x32\t.ItemSale\"4\n\x1b\x44ownloadProductImageRequest\x12\x15\n\rnombre_imagen\x18\x01 \x01(\t\"|\n\x15UploadProductResponse\x12:\n\rresult_status\x18\x01 \x01(\x0e\x32#.UploadProductResponse.ResultStatus\"\'\n\x0cResultStatus\x12\x0b\n\x07SUCCESS\x10\x00\x12\n\n\x06\x46\x41ILED\x10\x01*b\n\x0cItemCategory\x12\x0e\n\nTECNOLOGIA\x10\x00\x12\n\n\x06LIBROS\x10\x01\x12\x0e\n\nVESTIMENTA\x10\x02\x12\r\n\tVEHICULOS\x10\x03\x12\x0c\n\x08\x44\x45PORTES\x10\x04\x12\t\n\x05HOGAR\x10\x05\x32\xa6\x04\n\x0bItemService\x12\x1f\n\tNuevoItem\x12\t.ItemSale\x1a\x07.ItemId\x12 \n\nEditarItem\x12\t.ItemSale\x1a\x07.ItemId\x12\x36\n\x14NuevoItemSaleRequest\x12\x13.NewItemSaleRequest\x1a\x07.ItemId(\x01\x12<\n\x12UploadProductImage\x12\n.DataChunk\x1a\x16.UploadProductResponse\"\x00(\x01\x12\x1d\n\x07GetItem\x12\x07.ItemId\x1a\t.ItemSale\x12$\n\x08GetItems\x12\x10.getItemsRequest\x1a\x06.Items\x12-\n\x10GetItemsFiltered\x12\x11.getItemsFiltered\x1a\x06.Items\x12&\n\x0b\x43omprarItem\x12\x0f.buyItemRequest\x1a\x06.Empty\x12>\n\x0eItemsComprados\x12\x11.ItemsCompraVenta\x1a\x19.ItemsCompraVentaResponse\x12<\n\x0cItemsEnVenta\x12\x11.ItemsCompraVenta\x1a\x19.ItemsCompraVentaResponse\x12\x44\n\x14\x44ownloadProductImage\x12\x1c.DownloadProductImageRequest\x1a\n.DataChunk\"\x00\x30\x01\x62\x06proto3'
+  serialized_pb=b'\n\x0e\x61rticulo.proto\x12\x08\x61rticulo\x1a\x1fgoogle/protobuf/timestamp.proto\"\x07\n\x05\x45mpty\"\xbf\x01\n\x04Item\x12\x0f\n\x07item_id\x18\x01 \x01(\x05\x12\x0e\n\x06nombre\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scripcion\x18\x03 \x01(\t\x12\x0e\n\x06precio\x18\x04 \x01(\x01\x12\x10\n\x08\x63\x61ntidad\x18\x05 \x01(\x05\x12\x35\n\x11\x66\x65\x63ha_fabricacion\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12(\n\x08\x63\x61tegory\x18\x07 \x01(\x0e\x32\x16.articulo.ItemCategory\"K\n\x08ItemSale\x12\x11\n\tseller_id\x18\x01 \x01(\x05\x12\x1c\n\x04item\x18\x02 \x01(\x0b\x32\x0e.articulo.Item\x12\x0e\n\x06imagen\x18\x03 \x03(\t\"*\n\x06ItemId\x12\x0f\n\x07item_id\x18\x01 \x01(\x05\x12\x0f\n\x07user_id\x18\x02 \x01(\x05\"N\n\x08metadata\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0f\n\x07item_id\x18\x02 \x01(\x05\x12\x10\n\x08tipo_img\x18\x03 \x01(\t\x12\x0e\n\x06nombre\x18\x04 \x01(\t\"S\n\tDataChunk\x12\x0e\n\x04\x64\x61ta\x18\x01 \x01(\x0cH\x00\x12+\n\rconfiguration\x18\x02 \x01(\x0b\x32\x12.articulo.metadataH\x00\x42\t\n\x07request\"l\n\x08Itemdata\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0f\n\x07item_id\x18\x02 \x01(\x05\x12\x10\n\x08tipo_img\x18\x03 \x01(\t\x12\x0e\n\x06nombre\x18\x04 \x01(\t\x12\x1c\n\x04item\x18\x05 \x01(\x0b\x32\x0e.articulo.Item\"\\\n\x12NewItemSaleRequest\x12\x0e\n\x04\x64\x61ta\x18\x01 \x01(\x0cH\x00\x12+\n\rconfiguration\x18\x02 \x01(\x0b\x32\x12.articulo.ItemdataH\x00\x42\t\n\x07request\"*\n\x05Items\x12!\n\x05items\x18\x01 \x03(\x0b\x32\x12.articulo.ItemSale\"\xe5\x01\n\x10getItemsFiltered\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12(\n\x08\x63\x61tegory\x18\x02 \x01(\x0e\x32\x16.articulo.ItemCategory\x12\x0e\n\x06nombre\x18\x03 \x01(\t\x12\x11\n\tpreciomin\x18\x04 \x01(\x01\x12\x11\n\tpreciomax\x18\x05 \x01(\x01\x12/\n\x0b\x66\x65\x63ha_desde\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12/\n\x0b\x66\x65\x63ha_hasta\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"2\n\x0e\x62uyItemRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0f\n\x07item_id\x18\x02 \x01(\x05\"\"\n\x0fgetItemsRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"#\n\x10ItemsCompraVenta\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"=\n\x18ItemsCompraVentaResponse\x12!\n\x05items\x18\x01 \x03(\x0b\x32\x12.articulo.ItemSale\"4\n\x1b\x44ownloadProductImageRequest\x12\x15\n\rnombre_imagen\x18\x01 \x03(\t\"\x85\x01\n\x15UploadProductResponse\x12\x43\n\rresult_status\x18\x01 \x01(\x0e\x32,.articulo.UploadProductResponse.ResultStatus\"\'\n\x0cResultStatus\x12\x0b\n\x07SUCCESS\x10\x00\x12\n\n\x06\x46\x41ILED\x10\x01*b\n\x0cItemCategory\x12\x0e\n\nTECNOLOGIA\x10\x00\x12\n\n\x06LIBROS\x10\x01\x12\x0e\n\nVESTIMENTA\x10\x02\x12\r\n\tVEHICULOS\x10\x03\x12\x0c\n\x08\x44\x45PORTES\x10\x04\x12\t\n\x05HOGAR\x10\x05\x32\xec\x05\n\x0bItemService\x12\x31\n\tNuevoItem\x12\x12.articulo.ItemSale\x1a\x10.articulo.ItemId\x12\x32\n\nEditarItem\x12\x12.articulo.ItemSale\x1a\x10.articulo.ItemId\x12H\n\x14NuevoItemSaleRequest\x12\x1c.articulo.NewItemSaleRequest\x1a\x10.articulo.ItemId(\x01\x12N\n\x12UploadProductImage\x12\x13.articulo.DataChunk\x1a\x1f.articulo.UploadProductResponse\"\x00(\x01\x12/\n\x07GetItem\x12\x10.articulo.ItemId\x1a\x12.articulo.ItemSale\x12\x36\n\x08GetItems\x12\x19.articulo.getItemsRequest\x1a\x0f.articulo.Items\x12?\n\x10GetItemsFiltered\x12\x1a.articulo.getItemsFiltered\x1a\x0f.articulo.Items\x12\x38\n\x0b\x43omprarItem\x12\x18.articulo.buyItemRequest\x1a\x0f.articulo.Empty\x12P\n\x0eItemsComprados\x12\x1a.articulo.ItemsCompraVenta\x1a\".articulo.ItemsCompraVentaResponse\x12N\n\x0cItemsEnVenta\x12\x1a.articulo.ItemsCompraVenta\x1a\".articulo.ItemsCompraVentaResponse\x12V\n\x14\x44ownloadProductImage\x12%.articulo.DownloadProductImageRequest\x1a\x13.articulo.DataChunk\"\x00\x30\x01\x42\x33\n\x1aio.grpc.RetroShop.articuloB\rarticuloProtoP\x01\xa2\x02\x03\x41RPb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
 _ITEMCATEGORY = _descriptor.EnumDescriptor(
   name='ItemCategory',
-  full_name='ItemCategory',
+  full_name='articulo.ItemCategory',
   filename=None,
   file=DESCRIPTOR,
   create_key=_descriptor._internal_create_key,
@@ -65,8 +65,8 @@ _ITEMCATEGORY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1316,
-  serialized_end=1414,
+  serialized_start=1408,
+  serialized_end=1506,
 )
 _sym_db.RegisterEnumDescriptor(_ITEMCATEGORY)
 
@@ -81,7 +81,7 @@ HOGAR = 5
 
 _UPLOADPRODUCTRESPONSE_RESULTSTATUS = _descriptor.EnumDescriptor(
   name='ResultStatus',
-  full_name='UploadProductResponse.ResultStatus',
+  full_name='articulo.UploadProductResponse.ResultStatus',
   filename=None,
   file=DESCRIPTOR,
   create_key=_descriptor._internal_create_key,
@@ -99,15 +99,15 @@ _UPLOADPRODUCTRESPONSE_RESULTSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1275,
-  serialized_end=1314,
+  serialized_start=1367,
+  serialized_end=1406,
 )
 _sym_db.RegisterEnumDescriptor(_UPLOADPRODUCTRESPONSE_RESULTSTATUS)
 
 
 _EMPTY = _descriptor.Descriptor(
   name='Empty',
-  full_name='Empty',
+  full_name='articulo.Empty',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
@@ -125,63 +125,63 @@ _EMPTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=51,
-  serialized_end=58,
+  serialized_start=61,
+  serialized_end=68,
 )
 
 
 _ITEM = _descriptor.Descriptor(
   name='Item',
-  full_name='Item',
+  full_name='articulo.Item',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='item_id', full_name='Item.item_id', index=0,
+      name='item_id', full_name='articulo.Item.item_id', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='nombre', full_name='Item.nombre', index=1,
+      name='nombre', full_name='articulo.Item.nombre', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='descripcion', full_name='Item.descripcion', index=2,
+      name='descripcion', full_name='articulo.Item.descripcion', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='precio', full_name='Item.precio', index=3,
+      name='precio', full_name='articulo.Item.precio', index=3,
       number=4, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='cantidad', full_name='Item.cantidad', index=4,
+      name='cantidad', full_name='articulo.Item.cantidad', index=4,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='fecha_fabricacion', full_name='Item.fecha_fabricacion', index=5,
+      name='fecha_fabricacion', full_name='articulo.Item.fecha_fabricacion', index=5,
       number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='category', full_name='Item.category', index=6,
+      name='category', full_name='articulo.Item.category', index=6,
       number=7, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -199,35 +199,35 @@ _ITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=61,
-  serialized_end=243,
+  serialized_start=71,
+  serialized_end=262,
 )
 
 
 _ITEMSALE = _descriptor.Descriptor(
   name='ItemSale',
-  full_name='ItemSale',
+  full_name='articulo.ItemSale',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='seller_id', full_name='ItemSale.seller_id', index=0,
+      name='seller_id', full_name='articulo.ItemSale.seller_id', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='item', full_name='ItemSale.item', index=1,
+      name='item', full_name='articulo.ItemSale.item', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='imagen', full_name='ItemSale.imagen', index=2,
+      name='imagen', full_name='articulo.ItemSale.imagen', index=2,
       number=3, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -245,28 +245,28 @@ _ITEMSALE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=245,
-  serialized_end=311,
+  serialized_start=264,
+  serialized_end=339,
 )
 
 
 _ITEMID = _descriptor.Descriptor(
   name='ItemId',
-  full_name='ItemId',
+  full_name='articulo.ItemId',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='item_id', full_name='ItemId.item_id', index=0,
+      name='item_id', full_name='articulo.ItemId.item_id', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='user_id', full_name='ItemId.user_id', index=1,
+      name='user_id', full_name='articulo.ItemId.user_id', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -284,42 +284,42 @@ _ITEMID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=313,
-  serialized_end=355,
+  serialized_start=341,
+  serialized_end=383,
 )
 
 
 _METADATA = _descriptor.Descriptor(
   name='metadata',
-  full_name='metadata',
+  full_name='articulo.metadata',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='user_id', full_name='metadata.user_id', index=0,
+      name='user_id', full_name='articulo.metadata.user_id', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='item_id', full_name='metadata.item_id', index=1,
+      name='item_id', full_name='articulo.metadata.item_id', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='tipo_img', full_name='metadata.tipo_img', index=2,
+      name='tipo_img', full_name='articulo.metadata.tipo_img', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='nombre', full_name='metadata.nombre', index=3,
+      name='nombre', full_name='articulo.metadata.nombre', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -337,28 +337,28 @@ _METADATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=357,
-  serialized_end=435,
+  serialized_start=385,
+  serialized_end=463,
 )
 
 
 _DATACHUNK = _descriptor.Descriptor(
   name='DataChunk',
-  full_name='DataChunk',
+  full_name='articulo.DataChunk',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='data', full_name='DataChunk.data', index=0,
+      name='data', full_name='articulo.DataChunk.data', index=0,
       number=1, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=b"",
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='configuration', full_name='DataChunk.configuration', index=1,
+      name='configuration', full_name='articulo.DataChunk.configuration', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -376,54 +376,54 @@ _DATACHUNK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='request', full_name='DataChunk.request',
+      name='request', full_name='articulo.DataChunk.request',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=437,
-  serialized_end=511,
+  serialized_start=465,
+  serialized_end=548,
 )
 
 
 _ITEMDATA = _descriptor.Descriptor(
   name='Itemdata',
-  full_name='Itemdata',
+  full_name='articulo.Itemdata',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='user_id', full_name='Itemdata.user_id', index=0,
+      name='user_id', full_name='articulo.Itemdata.user_id', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='item_id', full_name='Itemdata.item_id', index=1,
+      name='item_id', full_name='articulo.Itemdata.item_id', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='tipo_img', full_name='Itemdata.tipo_img', index=2,
+      name='tipo_img', full_name='articulo.Itemdata.tipo_img', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='nombre', full_name='Itemdata.nombre', index=3,
+      name='nombre', full_name='articulo.Itemdata.nombre', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='item', full_name='Itemdata.item', index=4,
+      name='item', full_name='articulo.Itemdata.item', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -441,28 +441,28 @@ _ITEMDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=513,
-  serialized_end=612,
+  serialized_start=550,
+  serialized_end=658,
 )
 
 
 _NEWITEMSALEREQUEST = _descriptor.Descriptor(
   name='NewItemSaleRequest',
-  full_name='NewItemSaleRequest',
+  full_name='articulo.NewItemSaleRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='data', full_name='NewItemSaleRequest.data', index=0,
+      name='data', full_name='articulo.NewItemSaleRequest.data', index=0,
       number=1, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=b"",
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='configuration', full_name='NewItemSaleRequest.configuration', index=1,
+      name='configuration', full_name='articulo.NewItemSaleRequest.configuration', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -480,26 +480,26 @@ _NEWITEMSALEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='request', full_name='NewItemSaleRequest.request',
+      name='request', full_name='articulo.NewItemSaleRequest.request',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=614,
-  serialized_end=697,
+  serialized_start=660,
+  serialized_end=752,
 )
 
 
 _ITEMS = _descriptor.Descriptor(
   name='Items',
-  full_name='Items',
+  full_name='articulo.Items',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='items', full_name='Items.items', index=0,
+      name='items', full_name='articulo.Items.items', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -517,63 +517,63 @@ _ITEMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=699,
-  serialized_end=732,
+  serialized_start=754,
+  serialized_end=796,
 )
 
 
 _GETITEMSFILTERED = _descriptor.Descriptor(
   name='getItemsFiltered',
-  full_name='getItemsFiltered',
+  full_name='articulo.getItemsFiltered',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='user_id', full_name='getItemsFiltered.user_id', index=0,
+      name='user_id', full_name='articulo.getItemsFiltered.user_id', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='category', full_name='getItemsFiltered.category', index=1,
+      name='category', full_name='articulo.getItemsFiltered.category', index=1,
       number=2, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='nombre', full_name='getItemsFiltered.nombre', index=2,
+      name='nombre', full_name='articulo.getItemsFiltered.nombre', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='preciomin', full_name='getItemsFiltered.preciomin', index=3,
+      name='preciomin', full_name='articulo.getItemsFiltered.preciomin', index=3,
       number=4, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='preciomax', full_name='getItemsFiltered.preciomax', index=4,
+      name='preciomax', full_name='articulo.getItemsFiltered.preciomax', index=4,
       number=5, type=1, cpp_type=5, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='fecha_desde', full_name='getItemsFiltered.fecha_desde', index=5,
+      name='fecha_desde', full_name='articulo.getItemsFiltered.fecha_desde', index=5,
       number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='fecha_hasta', full_name='getItemsFiltered.fecha_hasta', index=6,
+      name='fecha_hasta', full_name='articulo.getItemsFiltered.fecha_hasta', index=6,
       number=7, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -591,28 +591,28 @@ _GETITEMSFILTERED = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=735,
-  serialized_end=955,
+  serialized_start=799,
+  serialized_end=1028,
 )
 
 
 _BUYITEMREQUEST = _descriptor.Descriptor(
   name='buyItemRequest',
-  full_name='buyItemRequest',
+  full_name='articulo.buyItemRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='user_id', full_name='buyItemRequest.user_id', index=0,
+      name='user_id', full_name='articulo.buyItemRequest.user_id', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='item_id', full_name='buyItemRequest.item_id', index=1,
+      name='item_id', full_name='articulo.buyItemRequest.item_id', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -630,21 +630,21 @@ _BUYITEMREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=957,
-  serialized_end=1007,
+  serialized_start=1030,
+  serialized_end=1080,
 )
 
 
 _GETITEMSREQUEST = _descriptor.Descriptor(
   name='getItemsRequest',
-  full_name='getItemsRequest',
+  full_name='articulo.getItemsRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='user_id', full_name='getItemsRequest.user_id', index=0,
+      name='user_id', full_name='articulo.getItemsRequest.user_id', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -662,21 +662,21 @@ _GETITEMSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1009,
-  serialized_end=1043,
+  serialized_start=1082,
+  serialized_end=1116,
 )
 
 
 _ITEMSCOMPRAVENTA = _descriptor.Descriptor(
   name='ItemsCompraVenta',
-  full_name='ItemsCompraVenta',
+  full_name='articulo.ItemsCompraVenta',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='user_id', full_name='ItemsCompraVenta.user_id', index=0,
+      name='user_id', full_name='articulo.ItemsCompraVenta.user_id', index=0,
       number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -694,21 +694,21 @@ _ITEMSCOMPRAVENTA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1045,
-  serialized_end=1080,
+  serialized_start=1118,
+  serialized_end=1153,
 )
 
 
 _ITEMSCOMPRAVENTARESPONSE = _descriptor.Descriptor(
   name='ItemsCompraVentaResponse',
-  full_name='ItemsCompraVentaResponse',
+  full_name='articulo.ItemsCompraVentaResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='items', full_name='ItemsCompraVentaResponse.items', index=0,
+      name='items', full_name='articulo.ItemsCompraVentaResponse.items', index=0,
       number=1, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -726,23 +726,23 @@ _ITEMSCOMPRAVENTARESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1082,
-  serialized_end=1134,
+  serialized_start=1155,
+  serialized_end=1216,
 )
 
 
 _DOWNLOADPRODUCTIMAGEREQUEST = _descriptor.Descriptor(
   name='DownloadProductImageRequest',
-  full_name='DownloadProductImageRequest',
+  full_name='articulo.DownloadProductImageRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='nombre_imagen', full_name='DownloadProductImageRequest.nombre_imagen', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      name='nombre_imagen', full_name='articulo.DownloadProductImageRequest.nombre_imagen', index=0,
+      number=1, type=9, cpp_type=9, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -758,21 +758,21 @@ _DOWNLOADPRODUCTIMAGEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1136,
-  serialized_end=1188,
+  serialized_start=1218,
+  serialized_end=1270,
 )
 
 
 _UPLOADPRODUCTRESPONSE = _descriptor.Descriptor(
   name='UploadProductResponse',
-  full_name='UploadProductResponse',
+  full_name='articulo.UploadProductResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='result_status', full_name='UploadProductResponse.result_status', index=0,
+      name='result_status', full_name='articulo.UploadProductResponse.result_status', index=0,
       number=1, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -791,8 +791,8 @@ _UPLOADPRODUCTRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1190,
-  serialized_end=1314,
+  serialized_start=1273,
+  serialized_end=1406,
 )
 
 _ITEM.fields_by_name['fecha_fabricacion'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
@@ -842,130 +842,131 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
   'DESCRIPTOR' : _EMPTY,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:Empty)
+  # @@protoc_insertion_point(class_scope:articulo.Empty)
   })
 _sym_db.RegisterMessage(Empty)
 
 Item = _reflection.GeneratedProtocolMessageType('Item', (_message.Message,), {
   'DESCRIPTOR' : _ITEM,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:Item)
+  # @@protoc_insertion_point(class_scope:articulo.Item)
   })
 _sym_db.RegisterMessage(Item)
 
 ItemSale = _reflection.GeneratedProtocolMessageType('ItemSale', (_message.Message,), {
   'DESCRIPTOR' : _ITEMSALE,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:ItemSale)
+  # @@protoc_insertion_point(class_scope:articulo.ItemSale)
   })
 _sym_db.RegisterMessage(ItemSale)
 
 ItemId = _reflection.GeneratedProtocolMessageType('ItemId', (_message.Message,), {
   'DESCRIPTOR' : _ITEMID,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:ItemId)
+  # @@protoc_insertion_point(class_scope:articulo.ItemId)
   })
 _sym_db.RegisterMessage(ItemId)
 
 metadata = _reflection.GeneratedProtocolMessageType('metadata', (_message.Message,), {
   'DESCRIPTOR' : _METADATA,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:metadata)
+  # @@protoc_insertion_point(class_scope:articulo.metadata)
   })
 _sym_db.RegisterMessage(metadata)
 
 DataChunk = _reflection.GeneratedProtocolMessageType('DataChunk', (_message.Message,), {
   'DESCRIPTOR' : _DATACHUNK,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:DataChunk)
+  # @@protoc_insertion_point(class_scope:articulo.DataChunk)
   })
 _sym_db.RegisterMessage(DataChunk)
 
 Itemdata = _reflection.GeneratedProtocolMessageType('Itemdata', (_message.Message,), {
   'DESCRIPTOR' : _ITEMDATA,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:Itemdata)
+  # @@protoc_insertion_point(class_scope:articulo.Itemdata)
   })
 _sym_db.RegisterMessage(Itemdata)
 
 NewItemSaleRequest = _reflection.GeneratedProtocolMessageType('NewItemSaleRequest', (_message.Message,), {
   'DESCRIPTOR' : _NEWITEMSALEREQUEST,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:NewItemSaleRequest)
+  # @@protoc_insertion_point(class_scope:articulo.NewItemSaleRequest)
   })
 _sym_db.RegisterMessage(NewItemSaleRequest)
 
 Items = _reflection.GeneratedProtocolMessageType('Items', (_message.Message,), {
   'DESCRIPTOR' : _ITEMS,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:Items)
+  # @@protoc_insertion_point(class_scope:articulo.Items)
   })
 _sym_db.RegisterMessage(Items)
 
 getItemsFiltered = _reflection.GeneratedProtocolMessageType('getItemsFiltered', (_message.Message,), {
   'DESCRIPTOR' : _GETITEMSFILTERED,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:getItemsFiltered)
+  # @@protoc_insertion_point(class_scope:articulo.getItemsFiltered)
   })
 _sym_db.RegisterMessage(getItemsFiltered)
 
 buyItemRequest = _reflection.GeneratedProtocolMessageType('buyItemRequest', (_message.Message,), {
   'DESCRIPTOR' : _BUYITEMREQUEST,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:buyItemRequest)
+  # @@protoc_insertion_point(class_scope:articulo.buyItemRequest)
   })
 _sym_db.RegisterMessage(buyItemRequest)
 
 getItemsRequest = _reflection.GeneratedProtocolMessageType('getItemsRequest', (_message.Message,), {
   'DESCRIPTOR' : _GETITEMSREQUEST,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:getItemsRequest)
+  # @@protoc_insertion_point(class_scope:articulo.getItemsRequest)
   })
 _sym_db.RegisterMessage(getItemsRequest)
 
 ItemsCompraVenta = _reflection.GeneratedProtocolMessageType('ItemsCompraVenta', (_message.Message,), {
   'DESCRIPTOR' : _ITEMSCOMPRAVENTA,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:ItemsCompraVenta)
+  # @@protoc_insertion_point(class_scope:articulo.ItemsCompraVenta)
   })
 _sym_db.RegisterMessage(ItemsCompraVenta)
 
 ItemsCompraVentaResponse = _reflection.GeneratedProtocolMessageType('ItemsCompraVentaResponse', (_message.Message,), {
   'DESCRIPTOR' : _ITEMSCOMPRAVENTARESPONSE,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:ItemsCompraVentaResponse)
+  # @@protoc_insertion_point(class_scope:articulo.ItemsCompraVentaResponse)
   })
 _sym_db.RegisterMessage(ItemsCompraVentaResponse)
 
 DownloadProductImageRequest = _reflection.GeneratedProtocolMessageType('DownloadProductImageRequest', (_message.Message,), {
   'DESCRIPTOR' : _DOWNLOADPRODUCTIMAGEREQUEST,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:DownloadProductImageRequest)
+  # @@protoc_insertion_point(class_scope:articulo.DownloadProductImageRequest)
   })
 _sym_db.RegisterMessage(DownloadProductImageRequest)
 
 UploadProductResponse = _reflection.GeneratedProtocolMessageType('UploadProductResponse', (_message.Message,), {
   'DESCRIPTOR' : _UPLOADPRODUCTRESPONSE,
   '__module__' : 'articulo_pb2'
-  # @@protoc_insertion_point(class_scope:UploadProductResponse)
+  # @@protoc_insertion_point(class_scope:articulo.UploadProductResponse)
   })
 _sym_db.RegisterMessage(UploadProductResponse)
 
 
+DESCRIPTOR._options = None
 
 _ITEMSERVICE = _descriptor.ServiceDescriptor(
   name='ItemService',
-  full_name='ItemService',
+  full_name='articulo.ItemService',
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=1417,
-  serialized_end=1967,
+  serialized_start=1509,
+  serialized_end=2257,
   methods=[
   _descriptor.MethodDescriptor(
     name='NuevoItem',
-    full_name='ItemService.NuevoItem',
+    full_name='articulo.ItemService.NuevoItem',
     index=0,
     containing_service=None,
     input_type=_ITEMSALE,
@@ -975,7 +976,7 @@ _ITEMSERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='EditarItem',
-    full_name='ItemService.EditarItem',
+    full_name='articulo.ItemService.EditarItem',
     index=1,
     containing_service=None,
     input_type=_ITEMSALE,
@@ -985,7 +986,7 @@ _ITEMSERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='NuevoItemSaleRequest',
-    full_name='ItemService.NuevoItemSaleRequest',
+    full_name='articulo.ItemService.NuevoItemSaleRequest',
     index=2,
     containing_service=None,
     input_type=_NEWITEMSALEREQUEST,
@@ -995,7 +996,7 @@ _ITEMSERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='UploadProductImage',
-    full_name='ItemService.UploadProductImage',
+    full_name='articulo.ItemService.UploadProductImage',
     index=3,
     containing_service=None,
     input_type=_DATACHUNK,
@@ -1005,7 +1006,7 @@ _ITEMSERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='GetItem',
-    full_name='ItemService.GetItem',
+    full_name='articulo.ItemService.GetItem',
     index=4,
     containing_service=None,
     input_type=_ITEMID,
@@ -1015,7 +1016,7 @@ _ITEMSERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='GetItems',
-    full_name='ItemService.GetItems',
+    full_name='articulo.ItemService.GetItems',
     index=5,
     containing_service=None,
     input_type=_GETITEMSREQUEST,
@@ -1025,7 +1026,7 @@ _ITEMSERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='GetItemsFiltered',
-    full_name='ItemService.GetItemsFiltered',
+    full_name='articulo.ItemService.GetItemsFiltered',
     index=6,
     containing_service=None,
     input_type=_GETITEMSFILTERED,
@@ -1035,7 +1036,7 @@ _ITEMSERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ComprarItem',
-    full_name='ItemService.ComprarItem',
+    full_name='articulo.ItemService.ComprarItem',
     index=7,
     containing_service=None,
     input_type=_BUYITEMREQUEST,
@@ -1045,7 +1046,7 @@ _ITEMSERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ItemsComprados',
-    full_name='ItemService.ItemsComprados',
+    full_name='articulo.ItemService.ItemsComprados',
     index=8,
     containing_service=None,
     input_type=_ITEMSCOMPRAVENTA,
@@ -1055,7 +1056,7 @@ _ITEMSERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ItemsEnVenta',
-    full_name='ItemService.ItemsEnVenta',
+    full_name='articulo.ItemService.ItemsEnVenta',
     index=9,
     containing_service=None,
     input_type=_ITEMSCOMPRAVENTA,
@@ -1065,7 +1066,7 @@ _ITEMSERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='DownloadProductImage',
-    full_name='ItemService.DownloadProductImage',
+    full_name='articulo.ItemService.DownloadProductImage',
     index=10,
     containing_service=None,
     input_type=_DOWNLOADPRODUCTIMAGEREQUEST,

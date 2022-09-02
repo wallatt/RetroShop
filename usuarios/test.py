@@ -51,7 +51,11 @@ class testClienteUsuario(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    # unittest.main()
+
+    cliente = UsuarioClient()
+    a = cliente.getUsuario(1)
+    print(a)
 
 
 

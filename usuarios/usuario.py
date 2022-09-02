@@ -10,6 +10,8 @@ from  usuario_pb2 import (
 )
 from dao import DAO
 
+import logging
+
 
 
 class ServicioUsuario(usuario_pb2_grpc.UsuarioServicer):
@@ -22,10 +24,10 @@ class ServicioUsuario(usuario_pb2_grpc.UsuarioServicer):
     def NuevoUsuario(self, request, context):
         persona = request.persona
         cuenta = request.cuenta
-        hashedPassword = self.hashear(cuenta.password)
+        hashedPassword = self.hashear(cuenta.hashedPassword)
         id_usuario = 0
         try:
-            id_usuario = self.BDUsuarios.ingresarUsuario(nombre = persona.nombre, apellido = persona.apellido, dni = persona.dni, mail = persona.mail, username = cuenta.usuario, password = hashedpassword)
+            id_usuario = self.BDUsuarios.ingresarUsuario(persona.nombre,persona.apellido,persona.dni, persona.mail, cuenta.usuario, hashedPassword)
         except:
             print("No se pudo registrar usuario")    
         return UsuarioResponse(id = id_usuario)
@@ -77,6 +79,9 @@ class ServicioUsuario(usuario_pb2_grpc.UsuarioServicer):
         user_id = request.id
         persona = Persona()
         cuenta = Cuenta()
+        # print('hola')
+        # persona = Persona(id =1, nombre = 'walter', apellido = 'lacoste', dni = 111 ,mail = 'yo@gmail.co')
+        # cuenta = Cuenta(usuario = 'wlacoste', hashedPassword = '')
         
         try:
             res = self.BDUsuarios.getUsuario(user_id)

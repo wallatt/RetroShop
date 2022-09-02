@@ -15,57 +15,57 @@ class ItemServiceStub(object):
             channel: A grpc.Channel.
         """
         self.NuevoItem = channel.unary_unary(
-                '/ItemService/NuevoItem',
+                '/articulo.ItemService/NuevoItem',
                 request_serializer=articulo__pb2.ItemSale.SerializeToString,
                 response_deserializer=articulo__pb2.ItemId.FromString,
                 )
         self.EditarItem = channel.unary_unary(
-                '/ItemService/EditarItem',
+                '/articulo.ItemService/EditarItem',
                 request_serializer=articulo__pb2.ItemSale.SerializeToString,
                 response_deserializer=articulo__pb2.ItemId.FromString,
                 )
         self.NuevoItemSaleRequest = channel.stream_unary(
-                '/ItemService/NuevoItemSaleRequest',
+                '/articulo.ItemService/NuevoItemSaleRequest',
                 request_serializer=articulo__pb2.NewItemSaleRequest.SerializeToString,
                 response_deserializer=articulo__pb2.ItemId.FromString,
                 )
         self.UploadProductImage = channel.stream_unary(
-                '/ItemService/UploadProductImage',
+                '/articulo.ItemService/UploadProductImage',
                 request_serializer=articulo__pb2.DataChunk.SerializeToString,
                 response_deserializer=articulo__pb2.UploadProductResponse.FromString,
                 )
         self.GetItem = channel.unary_unary(
-                '/ItemService/GetItem',
+                '/articulo.ItemService/GetItem',
                 request_serializer=articulo__pb2.ItemId.SerializeToString,
                 response_deserializer=articulo__pb2.ItemSale.FromString,
                 )
         self.GetItems = channel.unary_unary(
-                '/ItemService/GetItems',
+                '/articulo.ItemService/GetItems',
                 request_serializer=articulo__pb2.getItemsRequest.SerializeToString,
                 response_deserializer=articulo__pb2.Items.FromString,
                 )
         self.GetItemsFiltered = channel.unary_unary(
-                '/ItemService/GetItemsFiltered',
+                '/articulo.ItemService/GetItemsFiltered',
                 request_serializer=articulo__pb2.getItemsFiltered.SerializeToString,
                 response_deserializer=articulo__pb2.Items.FromString,
                 )
         self.ComprarItem = channel.unary_unary(
-                '/ItemService/ComprarItem',
+                '/articulo.ItemService/ComprarItem',
                 request_serializer=articulo__pb2.buyItemRequest.SerializeToString,
                 response_deserializer=articulo__pb2.Empty.FromString,
                 )
         self.ItemsComprados = channel.unary_unary(
-                '/ItemService/ItemsComprados',
+                '/articulo.ItemService/ItemsComprados',
                 request_serializer=articulo__pb2.ItemsCompraVenta.SerializeToString,
                 response_deserializer=articulo__pb2.ItemsCompraVentaResponse.FromString,
                 )
         self.ItemsEnVenta = channel.unary_unary(
-                '/ItemService/ItemsEnVenta',
+                '/articulo.ItemService/ItemsEnVenta',
                 request_serializer=articulo__pb2.ItemsCompraVenta.SerializeToString,
                 response_deserializer=articulo__pb2.ItemsCompraVentaResponse.FromString,
                 )
         self.DownloadProductImage = channel.unary_stream(
-                '/ItemService/DownloadProductImage',
+                '/articulo.ItemService/DownloadProductImage',
                 request_serializer=articulo__pb2.DownloadProductImageRequest.SerializeToString,
                 response_deserializer=articulo__pb2.DataChunk.FromString,
                 )
@@ -200,7 +200,7 @@ def add_ItemServiceServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'ItemService', rpc_method_handlers)
+            'articulo.ItemService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -219,7 +219,7 @@ class ItemService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ItemService/NuevoItem',
+        return grpc.experimental.unary_unary(request, target, '/articulo.ItemService/NuevoItem',
             articulo__pb2.ItemSale.SerializeToString,
             articulo__pb2.ItemId.FromString,
             options, channel_credentials,
@@ -236,7 +236,7 @@ class ItemService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ItemService/EditarItem',
+        return grpc.experimental.unary_unary(request, target, '/articulo.ItemService/EditarItem',
             articulo__pb2.ItemSale.SerializeToString,
             articulo__pb2.ItemId.FromString,
             options, channel_credentials,
@@ -253,7 +253,7 @@ class ItemService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.stream_unary(request_iterator, target, '/ItemService/NuevoItemSaleRequest',
+        return grpc.experimental.stream_unary(request_iterator, target, '/articulo.ItemService/NuevoItemSaleRequest',
             articulo__pb2.NewItemSaleRequest.SerializeToString,
             articulo__pb2.ItemId.FromString,
             options, channel_credentials,
@@ -270,7 +270,7 @@ class ItemService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.stream_unary(request_iterator, target, '/ItemService/UploadProductImage',
+        return grpc.experimental.stream_unary(request_iterator, target, '/articulo.ItemService/UploadProductImage',
             articulo__pb2.DataChunk.SerializeToString,
             articulo__pb2.UploadProductResponse.FromString,
             options, channel_credentials,
@@ -287,7 +287,7 @@ class ItemService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ItemService/GetItem',
+        return grpc.experimental.unary_unary(request, target, '/articulo.ItemService/GetItem',
             articulo__pb2.ItemId.SerializeToString,
             articulo__pb2.ItemSale.FromString,
             options, channel_credentials,
@@ -304,7 +304,7 @@ class ItemService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ItemService/GetItems',
+        return grpc.experimental.unary_unary(request, target, '/articulo.ItemService/GetItems',
             articulo__pb2.getItemsRequest.SerializeToString,
             articulo__pb2.Items.FromString,
             options, channel_credentials,
@@ -321,7 +321,7 @@ class ItemService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ItemService/GetItemsFiltered',
+        return grpc.experimental.unary_unary(request, target, '/articulo.ItemService/GetItemsFiltered',
             articulo__pb2.getItemsFiltered.SerializeToString,
             articulo__pb2.Items.FromString,
             options, channel_credentials,
@@ -338,7 +338,7 @@ class ItemService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ItemService/ComprarItem',
+        return grpc.experimental.unary_unary(request, target, '/articulo.ItemService/ComprarItem',
             articulo__pb2.buyItemRequest.SerializeToString,
             articulo__pb2.Empty.FromString,
             options, channel_credentials,
@@ -355,7 +355,7 @@ class ItemService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ItemService/ItemsComprados',
+        return grpc.experimental.unary_unary(request, target, '/articulo.ItemService/ItemsComprados',
             articulo__pb2.ItemsCompraVenta.SerializeToString,
             articulo__pb2.ItemsCompraVentaResponse.FromString,
             options, channel_credentials,
@@ -372,7 +372,7 @@ class ItemService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/ItemService/ItemsEnVenta',
+        return grpc.experimental.unary_unary(request, target, '/articulo.ItemService/ItemsEnVenta',
             articulo__pb2.ItemsCompraVenta.SerializeToString,
             articulo__pb2.ItemsCompraVentaResponse.FromString,
             options, channel_credentials,
@@ -389,7 +389,7 @@ class ItemService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/ItemService/DownloadProductImage',
+        return grpc.experimental.unary_stream(request, target, '/articulo.ItemService/DownloadProductImage',
             articulo__pb2.DownloadProductImageRequest.SerializeToString,
             articulo__pb2.DataChunk.FromString,
             options, channel_credentials,
