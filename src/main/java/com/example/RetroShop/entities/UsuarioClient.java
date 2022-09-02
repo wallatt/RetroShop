@@ -6,11 +6,11 @@ import io.grpc.StatusRuntimeException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
-import io.netty.*;
+
 
 import io.grpc.RetroShop.usuario.*;
 import io.grpc.RetroShop.usuario.UsuarioGrpc.*;
-import io.grpc.RetroShop.usuario.UsuarioGrpc.*;
+// import io.grpc.RetroShop.usuario.UsuarioGrpc.*;
 
 /**
  * A simple client that requests a greeting from the {@link UsuarioServer}.
