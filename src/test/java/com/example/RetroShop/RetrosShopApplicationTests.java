@@ -1,10 +1,10 @@
-package com.example.RetrosShop;
+package com.example.RetroShop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RetrosShopApplicationTests {
+class RetroShopApplicationTests {
 
 	@Test
 	void contextLoads() {

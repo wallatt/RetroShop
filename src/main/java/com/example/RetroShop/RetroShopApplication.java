@@ -1,13 +1,13 @@
-package com.example.RetrosShop;
+package com.example.RetroShop;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RetrosShopApplication {
+public class RetroShopApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RetrosShopApplication.class, args);
+		SpringApplication.run(RetroShopApplication.class, args);
 	}
 
 }
