@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:fragment="head">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Unla</title>
+    <!-- Favicon-->
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link
+      href="../static/css/home.css"
+      th:href="@{/css/home.css}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div>
+      <!-- <p th:text="${Articulo.getSellerId()}"></p> -->
+    </div>
+    <div>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Articulo</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Fecha fabricacion</th>
+            <th scope="col">precio</th>
+            <th scope="col">cantidad disponible</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td th:text="${Articulo.getItem().getNombre()}"></td>
+            <td th:text="${Articulo.getItem().getDescripcion()}"></td>
+            <td th:text="${Articulo.getItem().getCategory()}"></td>
+            <td th:text="${Articulo.getItem().getFechaFabricacion()}"></td>
+            <td th:text="${Articulo.getItem().getPrecio()}"></td>
+            <td th:text="${Articulo.getItem().getCantidad}"></td>
+
+            <!-- item.getImagenList()
+                        item.getItem()
+                        item.getItem().getCantidad()
+                        item.getItem().getCategory()
+                        item.getItem().getFechaFabricacion()
+                        item.getItem(). -->
+          </tr>
+        </tbody>
+      </table>
+      <div th:each="foto:${Articulo.getImagenList()}">
+        <!-- <p th:text="${foto}"></p> -->
+        <!-- <p th:text="http://localhost:8080/fotos/ + ${foto}"></p> -->
+        <img  th:src=" 'http://localhost:8080/fotos/' + ${foto}"></img>
+    </div>
+    <a th:href="'http://localhost:8080/usuario/' + ${Articulo.getSellerId()}">Ir a usuario</a>
+    </div>
+  </body>
+</html>

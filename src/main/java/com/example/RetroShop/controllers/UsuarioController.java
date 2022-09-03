@@ -1,6 +1,7 @@
 package com.example.RetroShop.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.RetroShop.entities.UsuarioClient;
 import io.grpc.RetroShop.usuario.Persona;
@@ -31,7 +32,7 @@ public class UsuarioController {
     }
 
  
-    @GetMapping("/login")
+    @GetMapping("/login/")
     public String login(){
 
         UserSesion sesion = hello.iniciarSesion("Gallardo", "abc");
@@ -41,6 +42,18 @@ public class UsuarioController {
             logger.info(" "+e);
         }
         return sesion.toString();
+    }
+
+    @GetMapping("/usuario/{id_usuario}")
+    public String login(@PathVariable int id_usuario){
+
+        Persona persona = hello.getUsuario(id_usuario);
+        try{
+            logger.info(persona.toString());
+        }catch(Exception e){
+            logger.info(" "+e);
+        }
+        return persona.toString();
     }
     
 }
