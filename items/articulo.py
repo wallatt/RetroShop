@@ -55,10 +55,7 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
 
         self.BDItems.updateRutaFoto(config.item_id, filename, idFoto)
 
-        #Verificar cantidad de fotos ya guardadas
-        #Obtener id foto
-        #guardar
-        with open('bkpimg/'+filename,'wb') as f:
+        with open('img/'+filename,'wb') as f:
             for chunk in s:
                 f.write(chunk)
 
@@ -71,9 +68,7 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
             s.append(NewItemSaleRequest.data)
             if str(NewItemSaleRequest.configuration):
                 config = NewItemSaleRequest.configuration
-        
-        # filename = self.nombreFoto(config)
-        
+                
         parametros = self.getParametros(config)
         item_id = self.BDItems.insertarNuevoArticulo(*parametros)
 
@@ -82,16 +77,28 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
         punto = '.' if config.tipo_img[0] !='.' else ''
         filename = str(config.user_id)+'_'+str(item_id)+'_'+str(idFoto)+punto+config.tipo_img
 
-        print(item_id)
-        print(filename)
-        print(idFoto)
         self.BDItems.updateRutaFoto(item_id, filename, idFoto)
 
-        with open('bkpimg/'+filename,'wb') as f:
+        with open('img/'+filename,'wb') as f:
             for chunk in s:
                 f.write(chunk)
         return ItemId(item_id = item_id, user_id = parametros[0])
 
+    def getParametros(self,config):
+        fech = config.item.fecha_fabricacion
+        num = str(fech).split(':')
+        
+        fecha = datetime.fromtimestamp(int(num[1]))
+        categoria = int(str(config.item.category))+1
+        parametros = []
+        parametros.append(config.user_id)
+        parametros.append(config.item.nombre)
+        parametros.append(fecha)
+        parametros.append(categoria)
+        parametros.append(config.item.descripcion)
+        parametros.append(config.item.precio)
+        parametros.append(config.item.cantidad)
+        return parametros
 
     def GetItem(self,request, context):
         id_usuario = request.user_id
@@ -106,48 +113,28 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
         fotos =[]
         for ruta in articulo[9]:
             fotos.append(ruta[0])
-        timestamp = Timestamp()
-        fecha = articulo[5]
-        timestamp.FromDatetime(fecha)
+
+            timestamp = Timestamp()
+            fecha = articulo[5]
+            timestamp.FromDatetime(fecha)
 
         item = Item(item_id = articulo[0],
-        nombre = articulo[1],
-        descripcion = articulo[2],
-        precio = articulo[3],
-        cantidad = articulo[4],
-        fecha_fabricacion = timestamp,
-        category = articulo[6],
-        )
+            nombre = articulo[1],
+            descripcion = articulo[2],
+            precio = articulo[3],
+            cantidad = articulo[4],
+            fecha_fabricacion = timestamp,
+            category = articulo[6],)
         vendedor = articulo[7]
 
         return vendedor, item, fotos
-
-
-        
+  
 
     def nombreFoto(self, config):
         cantPublicacionVendedor = self.BDItems.getCantPublicaciones(config.user_id)
         return str(config.user_id)+'_'+str(cantPublicacionVendedor)+'_'+'1'+'.'+config.tipo_img
 
-    def getParametros(self,config):
 
-        print(type(config.item.fecha_fabricacion))
-        fech = config.item.fecha_fabricacion
-        num = str(fech).split(':')
-        
-        fecha = datetime.fromtimestamp(int(num[1]))
-        categoria = int(str(config.item.category))+1
-        parametros = []
-        parametros.append(config.user_id)
-        parametros.append(config.item.nombre)
-        parametros.append(fecha)
-        parametros.append(categoria)
-        # parametros.append('')
-        parametros.append(config.item.descripcion)
-        parametros.append(config.item.precio)
-        parametros.append(config.item.cantidad)
-        print(parametros)
-        return parametros
         
         
 
