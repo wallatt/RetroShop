@@ -8,55 +8,72 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Unla</title>
+    <title>RetroS</title>
     <!-- Favicon-->
     <!-- Core theme CSS (includes Bootstrap)-->
     <link
-      href="../static/css/home.css"
-      th:href="@{/css/home.css}"
+      href="../../static/css/styles.css"
+      th:href="@{/css/styles.css}"
       rel="stylesheet"
     />
   </head>
   <body>
-    <div>
-      <!-- <p th:text="${Articulo.getSellerId()}"></p> -->
-    </div>
-    <div>
-      <table class="table">
-        <thead class="thead-dark">
-          <tr>
-            <th scope="col">Articulo</th>
-            <th scope="col">Descripcion</th>
-            <th scope="col">Categoria</th>
-            <th scope="col">Fecha fabricacion</th>
-            <th scope="col">precio</th>
-            <th scope="col">cantidad disponible</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td th:text="${Articulo.getItem().getNombre()}"></td>
-            <td th:text="${Articulo.getItem().getDescripcion()}"></td>
-            <td th:text="${Articulo.getItem().getCategory()}"></td>
-            <td th:text="${Articulo.getItem().getFechaFabricacion()}"></td>
-            <td th:text="${Articulo.getItem().getPrecio()}"></td>
-            <td th:text="${Articulo.getItem().getCantidad}"></td>
+    <div th:each="Articulo:${Articulos}" class="py-5">
 
-            <!-- item.getImagenList()
-                        item.getItem()
-                        item.getItem().getCantidad()
-                        item.getItem().getCategory()
-                        item.getItem().getFechaFabricacion()
-                        item.getItem(). -->
-          </tr>
-        </tbody>
-      </table>
-      <div th:each="foto:${Articulo.getImagenList()}">
-        <!-- <p th:text="${foto}"></p> -->
-        <!-- <p th:text="http://localhost:8080/fotos/ + ${foto}"></p> -->
-        <img  th:src=" 'http://localhost:8080/fotos/' + ${foto}"></img>
+      <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+          <div
+            class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
+          >
+      <div class="col mb-5" style="width: 500px;">
+        <div class="card h-100">
+            <!-- Sale badge-->
+             <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem" th:text="${Articulo.getItem().getItem().getCategory()}"></div>
+            <!-- Product image-->
+            
+            <!-- <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." /> -->
+            <!-- <div style="width: 500px; height: 500px; overflow-x:scroll; padding: 5px; display:inline-block; float:left;"> -->
+            <div style="max-width:500px; max-height:500px; overflow-y:scroll; border-radius: 5px;">
+            
+                <div th:each="foto:${Articulo.getItem().getImagenList()}">
+                  <img th:src=" 'http://localhost:8080/fotos/' + ${foto}" style="max-width:100%;max-height:100%;" ></img>
+                </div>
+              
+            </div>
+            <!-- Product details-->
+            <div class="card-body" style = "height:200px;">
+                <div class="text-left" >
+                    <!-- Product name-->
+                    <h5 class="fw-bolder" th:text="${Articulo.getItem().getItem().getNombre()}">Special Item</h5>
+                    <!-- Product reviews-->
+                    <!-- Product price-->
+                    <!-- <span class="text-muted text-decoration-line-through" >$20.00</span> -->
+                    <h5 th:text="${Articulo.getItem().getItem().getDescripcion()}"></h5>
+                    <!-- <p th:text="${Articulo.getItem().getCategory()}"></p> -->
+                    <h5 th:text="'Fecha de fabricacion: ' + ${Articulo.getFecha()}"></h5>
+                    <h5 th:text=" 'Precio: $' +${Articulo.getItem().getItem().getPrecio()}"></h5>
+                    <h5 th:text="'Unidades disponibles: ' + ${Articulo.getItem().getItem().getCantidad}"></h5>
+                </div>
+            </div>
+            <!-- Product actions-->
+            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Comprar</a></div>
+            </div>
+        </div>
     </div>
-    <a th:href="'http://localhost:8080/usuario/' + ${Articulo.getSellerId()}">Ir a usuario</a>
+          </div>
+        </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
     </div>
   </body>
 </html>

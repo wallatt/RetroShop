@@ -11,8 +11,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.RetroShop.entities.ArticuloClient;
 import com.example.RetroShop.helper.ViewRouteHelper;
+import com.example.RetroShop.models.Articulo;
+import com.google.protobuf.Timestamp;
 
 import io.grpc.RetroShop.articulo.ItemSale;
+import io.grpc.RetroShop.articulo.Items;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -24,20 +33,6 @@ public class ArticuloController {
 
     Logger logger = Logger.getLogger(ArticuloController.class.getName());
 
-
-    @GetMapping("/item")
-    public String login(){
-
-        ItemSale item = cliente.getItem(9, 2);
-        try{
-            logger.info(item.getItem().toString());
-        }catch(Exception e){
-            logger.info(" "+e);
-        }
-        return item.toString();
-    }
-
-    // @GetMapping("/fotos")
     @ResponseBody
     @RequestMapping(value = "/fotos/{id_foto}", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] getfoto(@PathVariable String id_foto){
@@ -77,13 +72,27 @@ public class ArticuloController {
     }
 
     @GetMapping("/item/{id_item}")
-    public ModelAndView getItems(@PathVariable("id_item") int id){
-        ModelAndView mav = new ModelAndView(ViewRouteHelper.ARTICULOS);
+    public ModelAndView getItem(@PathVariable("id_item") int id){
+        ModelAndView mav = new ModelAndView(ViewRouteHelper.ARTICULO);
         ItemSale item = cliente.getItem(id, 2);
         mav.addObject("Articulo", item);
         return mav;
-        
     }
+    
+    @GetMapping("/items")
+    public ModelAndView getItems(){
+        ModelAndView mav = new ModelAndView(ViewRouteHelper.ARTICULOS);
+        Items items = cliente.getItems();
+        List<Articulo> articulos = new ArrayList<Articulo>();
+        for(ItemSale i:items.getItemsList()){
+            articulos.add(new Articulo(i));  
+        }
+        mav.addObject("Articulos", articulos);
+        return mav;
+    }
+    
+
+
 
 
     

@@ -61,6 +61,22 @@ public class ArticuloClient {
         return response;
     }
 
+    public Items getItems(){
+        getItemsRequest request = getItemsRequest.newBuilder().setUserId(1).build();
+        Items response;
+        try{
+            logger.info("intentando obtener articulos ");
+            response = blockingStub.getItems(request);
+            logger.info("quiza se obtubieron articulos ");
+        }
+        catch (StatusRuntimeException e) {
+            logger.info("no se pudo obtener articulos");
+            return null;
+        }
+        return response;
+    }
+    
+
     public byte[] getImage(String foto){
         
         ArrayList<String> lista_fotos = new ArrayList<String>();
@@ -94,13 +110,6 @@ public class ArticuloClient {
             logger.info("no se pudo ");
         }
         return null;
-        
-       
-        
-        
-         
-
-
     }
 
 
@@ -264,6 +273,6 @@ public class ArticuloClient {
 
     }
 
-    
+     
     
 }
