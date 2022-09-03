@@ -9,7 +9,7 @@ def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     articulo_pb2_grpc.add_ItemServiceServicer_to_server(servicioArticulo(), server)
     
-    server.add_insecure_port("[::]:50051")
+    server.add_insecure_port("[::]:50052")
     server.start()
     server.wait_for_termination()
 

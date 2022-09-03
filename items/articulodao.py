@@ -120,7 +120,7 @@ class DAO():
                     print("No se pudo obtener articulo: {0}".format(ex))
 
     
-    def insertarNuevoArticulo(self, vendedor_id, nombre, fecha, categoria, foto, desc = "", precio =0.0, cant = 1):
+    def insertarNuevoArticulo(self, vendedor_id, nombre, fecha, categoria, desc = "", precio =0.0, cant = 1):
         if self.conexion.is_connected():   
             idseller = self.getIdvendedor(vendedor_id)
             assert not self.itemRepetido(nombre, idseller)
@@ -131,7 +131,7 @@ class DAO():
                 cursor.execute(sql.format(nombre, desc, precio, cant, fecha, categoria, idseller, 1))
                 self.conexion.commit()
                 id_item = cursor.lastrowid
-                self.insertarFoto(id_item, foto)
+                # self.insertarFoto(id_item, foto)
                 return id_item 
             except Error as ex:
                 print("No se pudo registrar articulo: {0}".format(ex))
@@ -225,19 +225,56 @@ class DAO():
 
                 cursor.execute(sql.format(ruta_foto, id_articulo))
                 self.conexion.commit()
+                return cursor.lastrowid
             except Error as ex:
                 print("No se pudo guardar foto: {0}".format(ex))
+
+
+    def updateRutaFoto(self, item_id, filename, idFoto):
+        if self.conexion.is_connected():   
+            try:
+                cursor = self.conexion.cursor()
+                sql = "UPDATE fotos set ruta = '{0}' Where id = '{1}' AND itemsventa_id = '{2}'"
+
+                cursor.execute(sql.format(filename, idFoto, item_id))
+                self.conexion.commit()
+            except Error as ex:
+                print("No se pudo guardar foto: {0}".format(ex))
+
+    def getCantidadFotos(self,id_articulo):
+        if self.conexion.is_connected():   
+            try:
+                cursor = self.conexion.cursor()
+                sql = "SELECT COUNT(id) from fotos where itemsventa_id = '{0}'"
+
+                cursor.execute(sql.format(id_articulo))
+                return cursor.fetchone()[0]
+            except Error as ex:
+                print("No se pudo guardar foto: {0}".format(ex))
+    
+    def getIdSiguienteFoto(self,id_articulo):
+        if self.conexion.is_connected():   
+            try:
+                cursor = self.conexion.cursor()
+                sql = "SELECT max(id) from fotos where itemsventa_id = '{0}'"
+
+                cursor.execute(sql.format(id_articulo))
+                return cursor.fetchone()[0]
+            except Error as ex:
+                print("No se pudo guardar foto: {0}".format(ex))
+
     
 
     def getFotos(self, id_articulo):
         if self.conexion.is_connected():   
             try:
                 cursor = self.conexion.cursor()
-                sql = "select id, ruta from fotos where itemsventa_id = '{0}'"
+                sql = "select ruta from fotos where itemsventa_id = '{0}'"
                 cursor.execute(sql.format(id_articulo))
                 return cursor.fetchall()
             except Error as ex:
                 print("No se pudieron obtener fotos del articulo: {0}".format(ex))
+    
 
 
     def eliminarFotosItem(self, id_articulo):
@@ -360,7 +397,14 @@ if __name__ == "__main__":
     # print(dao.getListaItems(category='HOGAR', nombre='', preciomin=10, preciomax =1600))
     # print(dao.getPublicacionesDelVendedor(2))
     # print(dao.comprarItem(1, 3, 2))
-    print(dao.getArticulosComprado(3))
+    # print(dao.getArticulosComprado(3))S
+    # print(dao.getCantidadFotos(1))
+    # print(dao.getIdSiguienteFoto(1))
+    # print(dao.getCantidadFotos(2))
+    # print(dao.getIdSiguienteFoto(2))
+    print(dao.updateRutaFoto(2,'hola.png', 5))
+    print(dao.updateRutaFoto(2,'holas.png', 6))
+
 
  
     
