@@ -3,13 +3,14 @@ import articulo_pb2
 import articulo_pb2_grpc
 from articulo_pb2 import Empty, DataChunk
 from articulo_pb2 import DownloadProductImageRequest, UploadProductResponse, ItemId, metadata
-from articulo_pb2 import ItemSale, Item, ItemCategory
+from articulo_pb2 import ItemSale, Item, ItemCategory, Items
 from concurrent import futures
 from pathlib import Path
 from articulodao import DAO
 from datetime import datetime
 from google.protobuf.timestamp_pb2 import Timestamp
 import logging
+
 
 
 class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
@@ -84,6 +85,7 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
                 f.write(chunk)
         return ItemId(item_id = item_id, user_id = parametros[0])
 
+
     def getParametros(self,config):
         fech = config.item.fecha_fabricacion
         num = str(fech).split(':')
@@ -100,6 +102,7 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
         parametros.append(config.item.cantidad)
         return parametros
 
+
     def GetItem(self,request, context):
         id_usuario = request.user_id
         print(id_usuario,' usuario pidio item')
@@ -108,10 +111,34 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
         seller, item, imagen = self.parsearArticulo(articulo)
         return ItemSale(seller_id=seller, item=item, imagen=imagen)
 
+
     def parsearArticulo(self, articulo):
         logging.info('paerse')
         fotos =[]
         for ruta in articulo[9]:
+            fotos.append(ruta[0])
+
+            timestamp = Timestamp()
+            fecha = articulo[5]
+            timestamp.FromDatetime(fecha)
+ 
+
+        item = Item(item_id = articulo[0],
+            nombre = articulo[1],
+            descripcion = articulo[2],
+            precio = articulo[3],
+            cantidad = articulo[4],
+            fecha_fabricacion = timestamp,
+            category = articulo[6],
+            isActiva = articulo[8],)
+        vendedor = articulo[7]
+
+        return vendedor, item, fotos
+
+    def parsearArticuloVendedor(self, articulo):
+        logging.info('paerse')
+        fotos =[]
+        for ruta in articulo[10]:
             fotos.append(ruta[0])
 
             timestamp = Timestamp()
@@ -124,18 +151,53 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
             precio = articulo[3],
             cantidad = articulo[4],
             fecha_fabricacion = timestamp,
-            category = articulo[6],)
+            category = articulo[6],
+        cantVendida = articulo[9],
+        isActiva = articulo[8])
         vendedor = articulo[7]
 
+
         return vendedor, item, fotos
-  
+
 
     def nombreFoto(self, config):
         cantPublicacionVendedor = self.BDItems.getCantPublicaciones(config.user_id)
         return str(config.user_id)+'_'+str(cantPublicacionVendedor)+'_'+'1'+'.'+config.tipo_img
 
 
+    def GetItems(self, config, context):
+        id_usuario = config.user_id
+        id_articulos = self.BDItems.getItemsdentroDeParametros()
+        articulos =[]
+        for id in id_articulos:
+            articulo = self.BDItems.getArticulo(id)
+            seller, item, imagen = self.parsearArticulo(articulo)
+            articulos.append(ItemSale(seller_id=seller, item=item, imagen=imagen))
+        return Items(items = articulos)
+            
         
+    def ItemsEnVenta(self, config, context):
+        id_usuario = config.user_id
+        articulos = self.BDItems.getPublicacionesDelVendedor(id_usuario)
+        resultado =[]
+        for articulo in articulos:
+            seller, item, imagen = self.parsearArticuloVendedor(articulo)
+            resultado.append(ItemSale(seller_id=seller, item=item, imagen=imagen))
+        return Items(items = resultado)
+
+    def ComprarItem(self,config,context):
+        user_id = config.user_id
+        item_id = config.item_id
+
+        cantidad = config.cantidad
+        self.BDItems.comprarItem(item_id,user_id, cantidad)
+        articulo = self.BDItems.getArticulo(item_id)
+        if articulo[4]<=0:
+            self.BDItems.darDeBajaPublicacion(item_id)
+
+        return Empty()
+
+
         
 
 

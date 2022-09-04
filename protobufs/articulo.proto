@@ -38,6 +38,8 @@ message Item{
     int32 cantidad = 5;
     google.protobuf.Timestamp fecha_fabricacion = 6;
     ItemCategory category = 7;
+    int32 cantVendida = 8;
+    bool isActiva = 9;
 }
 
 message ItemSale{
@@ -99,6 +101,8 @@ message getItemsFiltered{
 message buyItemRequest{
     int32 user_id = 1;
     int32 item_id = 2;
+    int32 cantidad = 3;
+
 }
 message getItemsRequest{
     int32 user_id = 1;

@@ -85,8 +85,6 @@ class DAO():
                 sql = "UPDATE itemsventa set cantidad = cantidad - '{0}', cantidad_vendida = cantidad_vendida + '{0}' where id = '{1}'"
                 cursor.execute(sql.format(cantidad, item_id))
                 self.conexion.commit()
-
-
             except Error as ex:
                     print("No se pudo obtener articulo: {0}".format(ex))
 
@@ -187,12 +185,11 @@ class DAO():
         if self.conexion.is_connected():
             try:
                 cursor = self.conexion.cursor()
-                sql = "UPDATE itemsventa SET venta_activa = 0 WHERE id = '{1}' "
+                sql = "UPDATE itemsventa SET venta_activa = 0 WHERE id = '{0}'"
 
                 cursor.execute(sql.format(id_item))
                 self.conexion.commit()
-                id_item = cursor.lastrowid
-                return id_item 
+                
             except Error as ex:
                 print("No se pudo hacer update de articulo: {0}".format(ex)) 
 
@@ -402,9 +399,9 @@ if __name__ == "__main__":
     # print(dao.getIdSiguienteFoto(1))
     # print(dao.getCantidadFotos(2))
     # print(dao.getIdSiguienteFoto(2))
-    print(dao.updateRutaFoto(2,'hola.png', 5))
-    print(dao.updateRutaFoto(2,'holas.png', 6))
-
+    # print(dao.updateRutaFoto(2,'hola.png', 5))
+    # print(dao.updateRutaFoto(2,'holas.png', 6))
+    print(dao.getPublicacionesDelVendedor(2))
 
  
     
