@@ -10,12 +10,12 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+import com.example.RetroShop.models.Compra;
 import com.google.j2objc.annotations.ReflectionSupport.Level;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Timestamp;
 import static java.lang.System.currentTimeMillis;
 
-import io.grpc.RetroShop.articulo.ItemServiceGrpc;
 import io.grpc.RetroShop.articulo.ItemServiceGrpc.*;
 import io.grpc.RetroShop.articulo.*;
 import io.grpc.RetroShop.articulo.ItemServiceGrpc.ItemServiceBlockingStub;
@@ -27,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class ArticuloClient {
 
@@ -198,6 +199,72 @@ public class ArticuloClient {
     }
 
 
+    public void cargarImagen(InputStream foto, String ruta)throws InterruptedException{
+        final CountDownLatch finishLatch = new CountDownLatch(1);
+
+        StreamObserver<DataChunk> requestObserver = 
+        stub.withDeadlineAfter(5, TimeUnit.SECONDS)
+        .uploadProductImage(new StreamObserver<UploadProductResponse>() {
+            @Override
+            public void onNext(UploadProductResponse response){
+                logger.info("receive response: \n" + response);
+            }
+            @Override
+            public void onError(Throwable t){
+                logger.info("Upload fallo " + t);
+                finishLatch.countDown();
+            }
+
+            @Override
+            public void onCompleted(){
+                logger.info("Image Uploaded ");
+                finishLatch.countDown();
+            }
+            
+        });
+        
+            
+            String nombre = String.valueOf(ruta.hashCode());
+
+            String imagetype = ruta.substring(ruta.lastIndexOf("."));
+            metadata metadatos = metadata.newBuilder().setUserId(2).setItemId(9).setNombre(nombre).setTipoImg(imagetype).build(); 
+            DataChunk request = DataChunk.newBuilder().setConfiguration(metadatos).build();
+    
+            try{
+                requestObserver.onNext(request);
+    
+                byte[] buffer = new byte[1024];
+                while(true){
+                    int n = foto.read(buffer);
+                    if( n <= 0){
+                        foto.close();
+                        break;
+                    }
+                    
+                    if(finishLatch.getCount() == 0){
+                        foto.close();
+                        return;
+                    }
+                    request = DataChunk.newBuilder().setData(ByteString.copyFrom(buffer,0,n)).build();
+    
+                    requestObserver.onNext(request);
+                    logger.info("Se envio imagen de tamano "+ n);
+                }
+            }catch(Exception e){
+                logger.info("fallo carga "+ e.getMessage()); 
+                requestObserver.onError(e);
+                return;
+            }
+            requestObserver.onCompleted();
+            if(!finishLatch.await(1, TimeUnit.MINUTES)){
+                logger.warning("request no se completo en un minuto");
+    
+            }
+        
+
+        
+    }
+
     public void nuevoArticulo(String ruta, int user_id, String articulo, String desc, double precio, int cant) throws InterruptedException{
         final CountDownLatch finishLatch = new CountDownLatch(1);
 
@@ -287,6 +354,41 @@ public class ArticuloClient {
 
     }
 
-     
+    public void comprarArticulo(Compra compra){
+        buyItemRequest request = buyItemRequest.newBuilder()
+                                .setCantidad(compra.getCantidad())
+                                .setUserId(compra.getIdUsuario())
+                                .setItemId(compra.getIdArticulo())
+                                .build();
+        Empty response;
+        try{
+            logger.info("intentando comprar articulo");
+            response = blockingStub.comprarItem(request);
+        }
+        catch (StatusRuntimeException e) {
+            logger.info("error al intentar comprar articulo");
+        }
+        
+        }
+
+    public ItemsCompraVentaResponse getItemsComprados(int user_id) {
+        ItemsCompraVenta request = ItemsCompraVenta.newBuilder().setUserId(user_id).build();
+        ItemsCompraVentaResponse response;
+        try{
+            logger.info("intentando obtener articulos ");
+            response = blockingStub.itemsComprados(request);
+            logger.info("quiza se obtubieron articulos ");
+        }
+        catch (StatusRuntimeException e) {
+            logger.info("no se pudo obtener articulos");
+            return null;
+        }
+        return response;
+    }        
+        
+      
+
+        
+    
     
 }

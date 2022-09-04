@@ -1,10 +1,13 @@
 package com.example.RetroShop.controllers;
 
 import org.apache.catalina.authenticator.SavedRequest;
+import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -94,6 +97,16 @@ public class UsuarioController {
         return new RedirectView("/ingresar");
     }
 
+    @Controller
+    public class MyErrorController implements ErrorController  {
+    @RequestMapping("/error")
+    public String handleError() {
+        //do something like logging
+        return "error";
+    }
+}
+
+
     @PostMapping("/login")
     public RedirectView login(@ModelAttribute("cuenta") CuentaModel cuenta, HttpServletResponse response){
         ModelAndView mav;
@@ -117,7 +130,7 @@ public class UsuarioController {
         String nombre = persona.getNombre();
         String apellido = persona.getApellido();
         int id_sesion = sesion.getIdSesion();
-        int id_usuario = sesion.getIdSesion();
+        int id_usuario = sesion.getIdPersona();
         logger.info("nombre: "+nombre);
         logger.info("apellido: "+apellido);
         logger.info("id_sesion: "+id_sesion);

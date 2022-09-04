@@ -58,8 +58,8 @@
 
 
     <div th:each="Articulo:${Articulos}" class="py-5">
-
-      <section class="py-5">
+      
+      <section class="py-5" th:if="${Articulo.getItem().getItem().getIsActiva()}">
         <div class="container px-4 px-lg-5 mt-5">
           <div
             class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
@@ -92,13 +92,36 @@
                     <h5 class="text-muted" th:text=" 'Precio: $' +${Articulo.getItem().getItem().getPrecio()}"></h5>
                     <h5 class="text-muted" th:text="'Fabricacion: ' + ${Articulo.getFecha()}"></h5>
                     <h5 class="text-muted" th:text="'Unidades disponibles: ' + ${Articulo.getItem().getItem().getCantidad()}"></h5>
+                  </div>
                 </div>
-            </div>
-            <!-- Product actions-->
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div class="text-center"><a class="btn success"
-                  href="/hola">Comprar</a></div>
-            </div>
+             
+            
+            <form class="card-footer p-4 pt-0 border-top-0 bg-transparent" th:action="@{'/comprar/'+ ${Articulo.getItem().getItem().getItemId()}}" method="post" th:object="${compra}">              
+              <div class="container">
+                <input class="text-right quantity p-2 " style="width:20%"
+                type="number"
+                name="cantidad" access="false" 
+                min="1" th:max ="${Articulo.getItem().getItem().getCantidad()}"
+                step="1" 
+                id="cantidad"
+                value = 1
+                onkeypress="return isNumberKey(event)"
+                >
+                <div class="text-left">
+                  <input class="btn success"
+                  type="submit"
+                  value="Comprar"
+                  ></input>
+                </div>
+
+
+              </div>
+
+   
+          </form>
+
+
+            
         </div>
     </div>
           </div>
@@ -116,4 +139,12 @@
 
     </div>
   </body>
+  <script>
+    function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+  </script>
 </html>

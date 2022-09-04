@@ -90,14 +90,11 @@
                     <!-- <p th:text="${Articulo.getItem().getCategory()}"></p> -->
                     <h5 class="text-muted" th:text=" 'Precio: $' +${Articulo.getItem().getItem().getPrecio()}"></h5>
                     <h5 class="text-muted" th:text="'Fabricacion: ' + ${Articulo.getFecha()}"></h5>
-                    <h5 class="text-muted" th:text="'Unidades disponibles: ' + ${Articulo.getItem().getItem().getCantidad()}"></h5>
-                    <h5 class="text-muted" th:text="'Unidades vendidas: ' + ${Articulo.getItem().getItem().getCantVendida()}"></h5>
+                    <h5 class="text-muted" th:text="'Unidades compradas: ' + ${Articulo.getItem().getItem().getCantidad()}"></h5>
+                    
                 </div>
             </div>
-            <!-- Product actions-->
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div class="text-center"><a class="btn danger" href="#">Dar de baja</a></div>
-            </div>
+            
         </div>
     </div>
           </div>
