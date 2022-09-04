@@ -7,6 +7,7 @@ public class ViewRouteHelper {
     public static String FOTO="home/foto";
     public static String ARTICULO="home/articulo";
     public static String ARTICULOS="home/articulos";
+    public static String PUBLICACIONES="home/publicaciones";
     public static String INGRESO="login/ingreso";
     public static String REGISTRO_SUCCESS="login/ingreso";
     public static String REGISTRO_FAIL="login/ingreso";

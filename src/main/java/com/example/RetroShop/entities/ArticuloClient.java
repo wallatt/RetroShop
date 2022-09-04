@@ -67,6 +67,20 @@ public class ArticuloClient {
         try{
             logger.info("intentando obtener articulos ");
             response = blockingStub.getItems(request);
+        }
+        catch (StatusRuntimeException e) {
+            logger.info("no se pudo obtener articulos");
+            return null;
+        }
+        return response;
+    }
+
+    public ItemsCompraVentaResponse getItemsEnVenta(int id_usuario){
+        ItemsCompraVenta request = ItemsCompraVenta.newBuilder().setUserId(id_usuario).build();
+        ItemsCompraVentaResponse response;
+        try{
+            logger.info("intentando obtener articulos ");
+            response = blockingStub.itemsEnVenta(request);
             logger.info("quiza se obtubieron articulos ");
         }
         catch (StatusRuntimeException e) {
@@ -107,7 +121,7 @@ public class ArticuloClient {
              return bytesresponse;
         }
         catch (StatusRuntimeException e) {
-            logger.info("no se pudo ");
+            logger.info("no se pudo obtener imagen ");
         }
         return null;
     }

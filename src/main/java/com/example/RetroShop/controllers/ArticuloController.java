@@ -1,6 +1,7 @@
 package com.example.RetroShop.controllers;
 
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import com.google.protobuf.Timestamp;
 
 import io.grpc.RetroShop.articulo.ItemSale;
 import io.grpc.RetroShop.articulo.Items;
+import io.grpc.RetroShop.articulo.ItemsCompraVentaResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +25,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 
@@ -36,7 +40,7 @@ public class ArticuloController {
     @ResponseBody
     @RequestMapping(value = "/fotos/{id_foto}", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
     public byte[] getfoto(@PathVariable String id_foto){
-        logger.info("Se viene por aca el request");
+        logger.info("Resolviendo imagen request");
 
         byte[] response = cliente.getImage(id_foto);
 
@@ -91,6 +95,32 @@ public class ArticuloController {
         return mav;
     }
     
+    @GetMapping("/ventas")
+    public ModelAndView getpublicaciones(@CookieValue(value = "nombre", defaultValue = "Atta") String nombre,
+                                        @CookieValue(value = "apellido", defaultValue = "Atta") String apellido, 
+                                        @CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,
+                                        @CookieValue(value = "id_sesion", defaultValue = "Atta") String id_sesion
+                                        ){
+
+        ModelAndView mav = new ModelAndView(ViewRouteHelper.PUBLICACIONES);
+        logger.info("nombre de usuario +" +nombre);
+        int user_id = 0;
+        if(id_usuario == "Atta"){
+            logger.info("no se guardo el id_usuario");
+            return mav;
+        }else{
+            user_id = Integer.parseInt(id_usuario);
+        }
+
+        ItemsCompraVentaResponse items = cliente.getItemsEnVenta(2);
+        List<Articulo> articulos = new ArrayList<Articulo>();
+        for(ItemSale i:items.getItemsList()){
+            logger.info("esta venta activa "+ i.getItem().getIsActiva());
+            articulos.add(new Articulo(i));  
+        }
+        mav.addObject("Articulos", articulos);
+        return mav;
+    }
 
 
 

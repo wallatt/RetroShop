@@ -91,10 +91,15 @@ body {
   line-height: var(--bs-body-line-height);
   color: var(--bs-body-color);
   text-align: var(--bs-body-text-align);
-  background-color: var(--bs-body-bg);
+  /* background-color: var(--bs-body-bg); */
+  background-color: #dee2e6;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
+/* Green */
+
+/* Blue */
 
 hr {
   margin: 1rem 0;
@@ -11653,4 +11658,65 @@ fieldset:disabled .btn {
   .d-print-none {
     display: none !important;
   }
+}
+
+.btn {
+  border: 2px solid green;
+  background-color: white;
+  color: green;
+  padding: 10px 24px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.success {
+  border-color: #04aa6d;
+  color: green;
+}
+
+.success:hover {
+  background-color: #04aa6d;
+  color: white;
+}
+
+.info {
+  border-color: #2196f3;
+  color: dodgerblue;
+}
+
+.info:hover {
+  background: #2196f3;
+  color: white;
+}
+
+/* Orange */
+.warning {
+  border-color: #ff9800;
+  color: orange;
+}
+
+.warning:hover {
+  background: #ff9800;
+  color: white;
+}
+
+/* Red */
+.danger {
+  border-color: #f44336;
+  color: red;
+}
+
+.danger:hover {
+  background: #f44336;
+  color: white;
+}
+
+/* Gray */
+.default {
+  border-color: #e7e7e7;
+  color: black;
+}
+
+.default:hover {
+  background: #e7e7e7;
 }

@@ -51,7 +51,7 @@ public class UsuarioClient {
         getSessionStatus request = getSessionStatus.newBuilder().setIdPersona(id_usuario).setIdSesion(id_sesion).build();
         UserSesionResponse response;
         try{
-            logger.info("intentando obtener usuario "+ id_usuario);
+            logger.info("intentando obtener estado sesion "+ id_usuario);
             response = blockingStub.getEstadoSesion(request);
         }
         catch (StatusRuntimeException e) {
