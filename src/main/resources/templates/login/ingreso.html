@@ -12,13 +12,29 @@
     <!-- Favicon-->
     <!-- Core theme CSS (includes Bootstrap)-->
     <link
-      href="css/styles.css"
+      href="../../static/css/styles.css"
       th:href="@{/css/styles.css}"
       rel="stylesheet"
     />
   </head>
   <body>
-
+    <div th:switch="${estado}"> 
+       
+      <div class="container" th:case="'success'">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <div class="alert alert-info">Se ha registrado correctamente</div>
+          </div>
+        </div>
+      </div>
+      <div class="container" th:case="'fail'">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3">
+            <div class="alert alert-info">Fallo el registro</div>
+          </div>
+        </div>
+      </div>
+    </div>
     
     
 

@@ -67,8 +67,10 @@ public class UsuarioClient {
         setDni(dni).
         setMail(mail).        
         build();
+        logger.info("creando cuenta y usuario"+usuario+ "   "+ password);
         Cuenta cuenta = Cuenta.newBuilder().setUsuario(usuario).setHashedPassword(password).build();
         CrearUsuarioRequest request = CrearUsuarioRequest.newBuilder().setPersona(persona).setCuenta(cuenta).build();
+        logger.info("creado cuenta y usuario");
         UsuarioResponse response;
         try{
             logger.info("intentando generar nuevo usuario ");

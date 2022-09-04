@@ -2,6 +2,7 @@ package com.example.RetroShop.models;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 

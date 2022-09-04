@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
+  
   <head th:fragment="head">
     <meta charset="utf-8" />
     <meta
@@ -18,6 +20,43 @@
     />
   </head>
   <body>
+
+
+
+    <div th:fragment="wrapper(content)" class="d-flex" id="wrapper">
+      <!-- Sidebar-->
+      <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light pb-2 pt-3">
+          <a class="navbar-brand m-5" th:href="@{/home}"> <img
+              src="https://img.freepik.com/premium-vector/old-analog-camera-icon_18667-110.jpg"
+              width="85" height="80" alt="" />
+  
+          </a>
+        </div>
+        <div class="list-group list-group-flush">
+
+          
+          
+          <h5 class="list-group-item  list-group-item-light p-3 " 
+          >Bienvenido</h5>
+          <a class="list-group-item list-group-item-action list-group-item-light p-3 "
+          th:href="@{/compras}">Mis compras</a>
+          <a class="list-group-item list-group-item-action list-group-item-light p-3"
+          th:href="@{/ventas}">Mis publicaciones</a>
+          
+          <a class="list-group-item list-group-item-action list-group-item-light p-3"
+          th:href=@{/ventas/nuevo}>Nueva venta</a>
+          <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href=@{/billetera}>
+            Billetera</a>
+            <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/perfil}">Mi
+              perfil</a>
+              <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                 th:href="@{/ingresar}">Logout</a>
+        </div>
+      </div>
+
+
+
     <div th:each="Articulo:${Articulos}" class="py-5">
 
       <section class="py-5">
@@ -25,7 +64,7 @@
           <div
             class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
           >
-      <div class="col mb-5" style="width: 500px;">
+      <div class="col mb-5" style="width: 500px; height: 680px">
         <div class="card h-100">
             <!-- Sale badge-->
              <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem" th:text="${Articulo.getItem().getItem().getCategory()}"></div>
