@@ -138,6 +138,7 @@ service ItemService{
 
     rpc GetItem(ItemId) returns(ItemSale);
     rpc GetItems(getItemsRequest) returns (Items);
+    rpc GetUltimoArticuloCreado(getItemsRequest) returns (ItemId);
         rpc GetItemsFiltered(getItemsFiltered) returns(Items);
     rpc ComprarItem(buyItemRequest) returns (Empty);
 

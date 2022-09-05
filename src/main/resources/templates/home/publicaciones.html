@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-  
+
   <head th:fragment="head">
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+      />
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>RetroS</title>
@@ -17,7 +17,7 @@
       href="../../static/css/styles.css"
       th:href="@{/css/styles.css}"
       rel="stylesheet"
-    />
+      />
   </head>
   <body>
 
@@ -25,94 +25,113 @@
 
     <div th:fragment="wrapper(content)" class="d-flex" id="wrapper">
       <!-- Sidebar-->
-      <div class="border-end bg-white" id="sidebar-wrapper" >
+      <div class="border-end bg-white" id="sidebar-wrapper">
         <div class="sidebar-heading border-bottom bg-light pb-2 pt-3">
           <a class="navbar-brand m-5" th:href="@{/items}"> <img
               src="https://img.freepik.com/premium-vector/old-analog-camera-icon_18667-110.jpg"
               width="120" height="120" style="border-radius:50%" alt="" />
-  
           </a>
         </div>
         <div class="list-group list-group-flush">
 
-          
-          <h5 class="list-group-item  list-group-item-light p-3 " 
-          >Bienvenido</h5>
-          <a class="list-group-item list-group-item-action list-group-item-light p-3 "
-          th:href="@{/compras}">Mis compras</a>
-          <a class="list-group-item list-group-item-action list-group-item-light p-3"
-          th:href="@{/ventas}">Mis publicaciones</a>
-          
-          <a class="list-group-item list-group-item-action list-group-item-light p-3"
-          th:href=@{/ventas/nuevo}>Nueva venta</a>
-          <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href=@{/billetera}>
+
+          <a class="list-group-item list-group-item-action list-group-item-light
+            p-3 "
+            th:href="@{/items}">Inicio</a>
+          <a class="list-group-item list-group-item-action
+            list-group-item-light p-3 "
+            th:href="@{/compras}">Mis compras</a>
+          <a class="list-group-item list-group-item-action
+            list-group-item-light p-3"
+            th:href="@{/ventas}">Mis publicaciones</a>
+
+          <a class="list-group-item list-group-item-action
+            list-group-item-light p-3"
+            th:href=@{/ventas/nuevo}>Nueva venta</a>
+          <a class="list-group-item list-group-item-action
+            list-group-item-light p-3" th:href=@{/billetera}>
             Billetera</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/perfil}">Mi
-              perfil</a>
-              <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                 th:href="@{/ingresar}">Logout</a>
+          <a class="list-group-item list-group-item-action
+            list-group-item-light p-3" th:href="@{/perfil}">Mi
+            perfil</a>
+          <a class="list-group-item list-group-item-action
+            list-group-item-light p-3"
+            th:href="@{/ingresar}">Logout</a>
         </div>
       </div>
 
+      <div class="myContent container text-center main">
+        <div class=" d-flex justify-content-around pt-4 flex-wrap">
 
+          <div th:each="Articulo:${Articulos}" class=" p-3" style="width: 30rem;">
 
-    <div th:each="Articulo:${Articulos}" class="py-5">
+          <section class="py-3">
+              <div class="container ">
+                <div
+                  class="row 
+                  justify-content-center">
+                  <div class="col mb-5" style="width: 500px; height: 680px">
+                    <div class="card h-100">
+                      <!-- Sale badge-->
+                      <div class="badge bg-dark text-white position-absolute"
+                        style="top: 0.5rem; right: 0.5rem"
+                        th:text="${Articulo.getItem().getItem().getCategory()}"></div>
+                      <!-- Product image-->
 
-      <section class="py-5">
-        <div class="container px-4 px-lg-5 mt-5">
-          <div
-            class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
-          >
-      <div class="col mb-5" style="width: 500px; height: 680px">
-        <div class="card h-100">
-            <!-- Sale badge-->
-             <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem" th:text="${Articulo.getItem().getItem().getCategory()}"></div>
-            <!-- Product image-->
-            
-            <!-- <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." /> -->
-            <!-- <div style="width: 500px; height: 500px; overflow-x:scroll; padding: 5px; display:inline-block; float:left;"> -->
-            <div style="max-width:500px; max-height:500px; overflow-y:scroll; border-radius: 5px;">
-            
-                <div th:each="foto:${Articulo.getItem().getImagenList()}">
-                  <img th:src=" 'http://localhost:8080/fotos/' + ${foto}" style="max-width:100%;max-height:100%;" ></img>
+                      <!-- <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." /> -->
+                      <!-- <div style="width: 500px; height: 500px; overflow-x:scroll; padding: 5px; display:inline-block; float:left;"> -->
+                      <div style="max-width:500px; max-height:500px;
+                        overflow-y:scroll; border-radius: 5px;">
+
+                        <div
+                          th:each="foto:${Articulo.getItem().getImagenList()}">
+                          <img th:src=" 'http://localhost:8080/fotos/' +
+                            ${foto}"
+                            style="max-width:100%;max-height:100%;"></img>
+                      </div>
+
+                    </div>
+                    <!-- Product details-->
+                    <div class="card-body" style="height:300px;">
+                      <div class="text-left">
+                        <!-- Product name-->
+                        <h5 class="fw-bolder"
+                          th:text="${Articulo.getItem().getItem().getNombre()}">Special
+                          Item</h5>
+                        <!-- Product reviews-->
+                        <!-- Product price-->
+                        <!-- <span class="text-muted text-decoration-line-through" >$20.00</span> -->
+                        <h5 class="text-muted"
+                          th:text="${Articulo.getItem().getItem().getDescripcion()}"></h5>
+                        <!-- <p th:text="${Articulo.getItem().getCategory()}"></p> -->
+                        <h5 class="text-muted" th:text=" 'Precio: $'
+                          +${Articulo.getItem().getItem().getPrecio()}"></h5>
+                        <h5 class="text-muted" th:text="'Fabricacion: ' +
+                          ${Articulo.getFecha()}"></h5>
+                        <h5 class="text-muted" th:text="'Unidades disponibles: '
+                          +
+                          ${Articulo.getItem().getItem().getCantidad()}"></h5>
+                        <h5 class="text-muted" th:text="'Unidades vendidas: ' +
+                          ${Articulo.getItem().getItem().getCantVendida()}"></h5>
+                      </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0
+                      bg-transparent">
+                      <div class="text-center"><a class="btn danger" href="#">Dar
+                          de baja</a></div>
+                    </div>
+                  </div>
                 </div>
-              
+              </div>
             </div>
-            <!-- Product details-->
-            <div class="card-body" style = "height:300px;">
-                <div class="text-left" >
-                    <!-- Product name-->
-                    <h5 class="fw-bolder" th:text="${Articulo.getItem().getItem().getNombre()}">Special Item</h5>
-                    <!-- Product reviews-->
-                    <!-- Product price-->
-                    <!-- <span class="text-muted text-decoration-line-through" >$20.00</span> -->
-                    <h5 class="text-muted" th:text="${Articulo.getItem().getItem().getDescripcion()}"></h5>
-                    <!-- <p th:text="${Articulo.getItem().getCategory()}"></p> -->
-                    <h5 class="text-muted" th:text=" 'Precio: $' +${Articulo.getItem().getItem().getPrecio()}"></h5>
-                    <h5 class="text-muted" th:text="'Fabricacion: ' + ${Articulo.getFecha()}"></h5>
-                    <h5 class="text-muted" th:text="'Unidades disponibles: ' + ${Articulo.getItem().getItem().getCantidad()}"></h5>
-                    <h5 class="text-muted" th:text="'Unidades vendidas: ' + ${Articulo.getItem().getItem().getCantVendida()}"></h5>
-                </div>
-            </div>
-            <!-- Product actions-->
-            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                <div class="text-center"><a class="btn danger" href="#">Dar de baja</a></div>
-            </div>
+          </section>
+
+
+
+
         </div>
-    </div>
-          </div>
-        </div>
-  </section>
-
-
-
-
-
-
-
-
-
-
+      </div>
     </div>
   </body>
 </html>

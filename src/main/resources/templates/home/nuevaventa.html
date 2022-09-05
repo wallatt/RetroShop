@@ -59,7 +59,7 @@
 
 
   <div class="container px-700 px-lg-5 mt-5"> 
-    <form class="form-horizontal" th:action="@{/ventas/submit}" method="post" th:object="${venta}">
+    <form class="form-horizontal" th:action="@{/ventas/submit}" method="post" th:object="${venta}"  enctype="multipart/form-data">
         <fieldset>
         
         <!-- Form Name -->
@@ -178,20 +178,16 @@
           
         </div>
     </div>
-    <!-- File Button --> 
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="fotos">Imagenes</label>
-        <div class="col-md-4">
-            <input id="fotos" name="fotos"
-            class="input-file"
-            type="file" multiple
+
+        <div>
+            <label for="imagenes" style="margin-top:40px; margin-right: -20px;" ></label>
+            <input type="file"  name="files" class="custom-file-upload"
+            accept=".jpg, .jpeg, .png"
             required=""
-            th:field:"*{fotos}"
+            multiple            
             >
           </div>
-        </div>
 
-        
         
         </fieldset>
         <div class="text-left button" style="margin-top:15px">
@@ -204,25 +200,8 @@
     </form>
   </div>
 
-  <div>
+  
 
-      <form method="post" th:action="@{/imagen/submit}" enctype="multipart/form-data" th:object="${imagen}" >
-          <div>
-              <label for="profile_pic">Choose fisle to upload</label>
-              <input type="file" id="imagen" name="imagen"
-              accept=".jpg, .jpeg, .png">
-            </div>
-            <div>
-                <button>Submit</button>
-            </div>
-        </form>
-    </div>
-
-    <div>
-
-        
-
-    </div>
   
 
 </div>

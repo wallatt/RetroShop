@@ -20,6 +20,7 @@ import com.example.RetroShop.entities.ArticuloClient;
 import com.example.RetroShop.helper.ViewRouteHelper;
 import com.example.RetroShop.models.Articulo;
 import com.example.RetroShop.models.Compra;
+import com.example.RetroShop.models.ImagenWrapper;
 import com.example.RetroShop.models.ModeloImagen;
 import com.example.RetroShop.models.Venta;
 import com.google.protobuf.Timestamp;
@@ -203,20 +204,22 @@ public class ArticuloController {
         }
 
         Venta venta = new Venta();
-        ModeloImagen imagen = new ModeloImagen();
+        ImagenWrapper imagen = new ImagenWrapper();
+        // ModeloImagen[] imagenes = new ModeloImagen[5];
         ModelAndView mav = new ModelAndView(ViewRouteHelper.NUEVA_PUBLICACION);
         mav.addObject("venta",venta);
         mav.addObject("imagen",imagen);
+        // mav.addObject("imagen",imagenes);
         return mav;
     }
     
     
-    @PostMapping("ventas/submit")
-    public String getNuevoArticulo(@CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,
-                                        @CookieValue(value = "id_sesion", defaultValue = "Atta") String id_sesion, @ModelAttribute("venta")Venta venta                                        
-                                        ){
+    // @PostMapping("ventas/submit")
+    // public String getNuevoArticulo(@CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,
+    //                                     @CookieValue(value = "id_sesion", defaultValue = "Atta") String id_sesion, @ModelAttribute("venta")Venta venta                                        
+    //                                     ){
 
-        return " el usuario "+ id_usuario +" quiere vender " + venta;
+    //     return " el usuario "+ id_usuario +" quiere vender " + venta;
         // logger.info(" el usuario "+ id_usuario +" quiere vender " + venta);
         // int user_id = 0;
         // if(id_usuario == "Atta"){
@@ -231,52 +234,133 @@ public class ArticuloController {
         // ModelAndView mav = new ModelAndView(ViewRouteHelper.NUEVA_PUBLICACION);
         // mav.addObject("venta",venta);
         // return mav;
-    }
-
-    // @PostMapping("/imagen/submit")
-    // public String imagen (){
-    //     return "se cargo la imagen";
     // }
 
-//     @PostMapping("/imagen/submit")
-//     public String submit(@ModelAttribute ModeloImagen modeloImagen, ModelMap modelMap) {
 
-//         MultipartFile file = modeloImagen.getImagen();
-//         // byte [] byteArr=file.getBytes();
+
+// @PostMapping("/imagen/submit")
+// public String submit(@ModelAttribute ModeloImagen file) {
+//     logger.info("obteniendo imagen del request");
+
+//         logger.info("Iterando las imagenes");
+//         MultipartFile imagen = file.getImagen();
+//         logger.info("imagen data "+ imagen.getOriginalFilename());
+
+//         // try{
+//         //     byte [] byteArr=imagen.getBytes();
+//         //     InputStream foto = imagen.getInputStream();
+//         //     cliente.cargarImagen(foto, imagen.getOriginalFilename());
+//         //         logger.info("retorno de cargar imagen");
+                
+//         //     }catch(Exception e){
+//         //         logger.info("error cargando imagen en bytes"+e.getMessage());
+//         //     }
         
-//         logger.info("file + "+file.getOriginalFilename());
-//         modelMap.addAttribute("modeloImagen", modeloImagen);
-//         return "fileUploadView";
-// }
-
-
-//     @RequestMapping(value = "/imagen/submit", method = RequestMethod.POST)
-//     public String submit(@RequestParam("file") MultipartFile file, ModelMap modelMap) {
-
-//         // MultipartFile file = modeloImagen.getImagen();
-//         // byte [] byteArr=file.getBytes();
-//         logger.info("obteniendo el mapping de imagen");
-//         logger.info("file + "+file.getOriginalFilename());
-//         // modelMap.addAttribute("modeloImagen", file);
-//         return "file + "+file.getOriginalFilename();
+//             //  modelMap.addAttribute("files", files);
+        
+//             return "fileUploadView";
 // }
 
 @PostMapping("/imagen/submit")
-public String submit(@ModelAttribute ModeloImagen file) {
+public String submit(@ModelAttribute ImagenWrapper file) {
     logger.info("obteniendo imagen del request");
 
-         MultipartFile imagen = file.getImagen();
-         try{
-             byte [] byteArr=imagen.getBytes();
-             InputStream foto = imagen.getInputStream();
-             cliente.cargarImagen(foto, imagen.getOriginalFilename());
-             logger.info("retorno de cargar imagen");
- 
+        logger.info("Iterando las imagenes");
 
-         }catch(Exception e){
+        ArrayList<ModeloImagen> imagenes = file.getImagenes();
+        logger.info("Imagenes recolectadas "+ imagenes.size());
+        // logger.info("imagen data "+ imagen.getOriginalFilename());
+
+        // try{
+        //     byte [] byteArr=imagen.getBytes();
+        //     InputStream foto = imagen.getInputStream();
+        //     cliente.cargarImagen(foto, imagen.getOriginalFilename());
+        //         logger.info("retorno de cargar imagen");
+                
+        //     }catch(Exception e){
+        //         logger.info("error cargando imagen en bytes"+e.getMessage());
+        //     }
+        
+            //  modelMap.addAttribute("files", files);
+        
+            return "fileUploadView";
+}
+// @PostMapping("/imagen/submit")
+// public String submit(@ModelAttribute ImagenWrapper file) {
+//     logger.info("obteniendo imagen del request");
+    
+//     ArrayList<ModeloImagen> imagenes = file.getImagenes();
+//         for(int i = 0 ; i < imagenes.size(); i++){
+
+//             logger.info("Iterando las imagenes");
+//             MultipartFile imagen = imagenes.get(i).getImagen();
+//             try{
+//                 byte [] byteArr=imagen.getBytes();
+//                 InputStream foto = imagen.getInputStream();
+//                 cliente.cargarImagen(foto, imagen.getOriginalFilename());
+//                 logger.info("retorno de cargar imagen");
+                
+//             }catch(Exception e){
+//                 logger.info("error cargando imagen en bytes"+e.getMessage());
+//             }
+//         }
+        
+//         //  modelMap.addAttribute("files", files);
+//     return "fileUploadView";
+// }
+
+
+// @RequestMapping(value = "/uploadMultiFile", method = RequestMethod.POST)
+// public String submit(@RequestParam("files") MultipartFile[] files, ModelMap modelMap) {
+//     modelMap.addAttribute("files", files);
+//     logger.info("largo de array "+files.length);
+//     logger.info("largo de array "+files[0].getOriginalFilename());
+//     logger.info("largo de array "+files[1].getOriginalFilename());
+//     for(int i = 0; i < files.length; i++){
+//         logger.info("Nombre de imagenes"+files[i].getOriginalFilename());
+
+//     }
+//     return "fileUploadView";
+// }
+
+
+@RequestMapping(value = "/ventas/submit", method = RequestMethod.POST)
+public String submitArticulos(
+                            @CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,
+                            @CookieValue(value = "id_sesion", defaultValue = "Atta") String id_sesion,    
+                            @RequestParam("files") MultipartFile[] files, ModelMap modelMap, 
+                            @ModelAttribute("venta")Venta venta) {
+
+    modelMap.addAttribute("files", files);
+
+    int user_id = 0;
+        if(id_usuario == "Atta"){
+            logger.info("no se guardo el id_usuario");
+            ModelAndView mav = new ModelAndView(ViewRouteHelper.PUBLICACIONES);
+            return "mav";
+        }else{
+            user_id = Integer.parseInt(id_usuario);
+        }
+
+    int idArticulo = 0;
+    for(int i = 0; i < (files.length > 5 ? 5 : files.length ); i++){
+
+        try{
+        byte [] byteArr = files[i].getBytes();
+        InputStream foto = files[i].getInputStream();
+        if(i == 0){
+           idArticulo = cliente.cargarArticulo(foto, files[i].getOriginalFilename(), user_id, venta);
+           logger.info("Cargando primera imagen, articulo quedo con id "+ idArticulo);
+
+        }else{
+            cliente.cargarImagen(foto, files[i].getOriginalFilename(), user_id, idArticulo);
+            logger.info("Cargando siguientes imagenes");
+        }
+            
+        }catch(Exception e){
             logger.info("error cargando imagen en bytes"+e.getMessage());
-         }
-        //  modelMap.addAttribute("files", files);
+        }
+    }
     return "fileUploadView";
 }
 

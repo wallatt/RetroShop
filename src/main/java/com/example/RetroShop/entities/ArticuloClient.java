@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import com.example.RetroShop.models.Compra;
+import com.example.RetroShop.models.Venta;
 import com.google.j2objc.annotations.ReflectionSupport.Level;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Timestamp;
@@ -199,7 +200,7 @@ public class ArticuloClient {
     }
 
 
-    public void cargarImagen(InputStream foto, String ruta)throws InterruptedException{
+    public void cargarImagen(InputStream foto, String ruta, int user_id,int item_id)throws InterruptedException{
         final CountDownLatch finishLatch = new CountDownLatch(1);
 
         StreamObserver<DataChunk> requestObserver = 
@@ -222,12 +223,11 @@ public class ArticuloClient {
             }
             
         });
-        
             
             String nombre = String.valueOf(ruta.hashCode());
 
             String imagetype = ruta.substring(ruta.lastIndexOf("."));
-            metadata metadatos = metadata.newBuilder().setUserId(2).setItemId(9).setNombre(nombre).setTipoImg(imagetype).build(); 
+            metadata metadatos = metadata.newBuilder().setUserId(user_id).setItemId(item_id).setNombre(nombre).setTipoImg(imagetype).build(); 
             DataChunk request = DataChunk.newBuilder().setConfiguration(metadatos).build();
     
             try{
@@ -353,6 +353,101 @@ public class ArticuloClient {
 
 
     }
+    
+    public int cargarArticulo(InputStream foto, String imagen, int user_id, Venta venta) throws InterruptedException{
+        final CountDownLatch finishLatch = new CountDownLatch(1);
+
+        StreamObserver<NewItemSaleRequest> requestObserver = 
+        stub.withDeadlineAfter(5, TimeUnit.SECONDS)
+        .nuevoItemSaleRequest(new StreamObserver<ItemId>() {
+            @Override
+            public void onNext(ItemId response){
+                logger.info("receive response: \n" + response);
+            }
+            @Override
+            public void onError(Throwable t){
+                logger.info("Upload fallo " + t);
+                finishLatch.countDown();
+            }
+
+            @Override
+            public void onCompleted(){
+                logger.info("Image Uploaded ");
+                finishLatch.countDown();
+            }
+            
+        });
+
+
+        
+            String nombre = String.valueOf(imagen.hashCode());
+            ItemCategory cat = ItemCategory.forNumber(Integer.parseInt(venta.getCategoria()));
+            Instant time = Instant.now();
+            Timestamp timestamp = Timestamp.newBuilder().setSeconds(time.getEpochSecond())
+            .build();
+            
+            Item item = Item.newBuilder().setNombre(venta.getNombre())
+                                        .setDescripcion(venta.getDescripcion())
+                                        .setPrecio(venta.getPrecio())
+                                        .setCantidad(venta.getCantidad())
+                                        .setFechaFabricacion(timestamp)
+                                        .setCategory(cat)
+                                        .build();
+            String imagetype = imagen.substring(imagen.lastIndexOf("."));
+
+            Itemdata metadatos = Itemdata.newBuilder()
+                                .setUserId(user_id)
+                                .setItemId(0)
+                                .setTipoImg(imagetype)
+                                .setNombre(nombre)
+                                .setItem(item)
+                                .build(); 
+            NewItemSaleRequest request = NewItemSaleRequest.newBuilder().setConfiguration(metadatos).build();
+            int articuloId =0;
+            try{
+                requestObserver.onNext(request);
+    
+                byte[] buffer = new byte[1024];
+                while(true){
+                    int n = foto.read(buffer);
+                    if( n <= 0){
+                        foto.close();
+                        break;
+                    }
+                    
+                    if(finishLatch.getCount() == 0){
+                        foto.close();
+                        return 0;
+                    }
+                    request = NewItemSaleRequest.newBuilder().setData(ByteString.copyFrom(buffer,0,n)).build();
+    
+                    requestObserver.onNext(request);
+                    logger.info("Se envio imagen de tamano "+ n);
+                }
+            }catch(Exception e){
+                logger.info("fallo carga "+ e.getMessage()); 
+                requestObserver.onError(e);
+                return 0;
+            }
+            requestObserver.onCompleted();
+            if(!finishLatch.await(1, TimeUnit.MINUTES)){
+                logger.warning("request no se completo en un minuto");
+    
+            }
+            getItemsRequest requestId = getItemsRequest.newBuilder().setUserId(user_id).build();
+            ItemId response;
+            try{
+                response = blockingStub.getUltimoArticuloCreado(requestId);
+                articuloId = response.getItemId();
+            }
+            catch (StatusRuntimeException e) {
+                logger.info("no se pudo obtener articulos");
+                return 0;
+            }
+            return articuloId;
+
+
+    }
 
     public void comprarArticulo(Compra compra){
         buyItemRequest request = buyItemRequest.newBuilder()
@@ -362,7 +457,6 @@ public class ArticuloClient {
                                 .build();
         Empty response;
         try{
-            logger.info("intentando comprar articulo");
             response = blockingStub.comprarItem(request);
         }
         catch (StatusRuntimeException e) {
@@ -375,9 +469,7 @@ public class ArticuloClient {
         ItemsCompraVenta request = ItemsCompraVenta.newBuilder().setUserId(user_id).build();
         ItemsCompraVentaResponse response;
         try{
-            logger.info("intentando obtener articulos ");
             response = blockingStub.itemsComprados(request);
-            logger.info("quiza se obtubieron articulos ");
         }
         catch (StatusRuntimeException e) {
             logger.info("no se pudo obtener articulos");
