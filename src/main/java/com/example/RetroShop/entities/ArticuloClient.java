@@ -5,6 +5,7 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,8 @@ import io.grpc.RetroShop.articulo.ItemServiceGrpc.ItemServiceBlockingStub;
 import io.grpc.stub.StreamObserver;
 
 import java.nio.file.Files;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -63,6 +66,7 @@ public class ArticuloClient {
         return response;
     }
 
+    
     public Items getItems(){
         getItemsRequest request = getItemsRequest.newBuilder().setUserId(1).build();
         Items response;
@@ -76,6 +80,7 @@ public class ArticuloClient {
         }
         return response;
     }
+
 
     public ItemsCompraVentaResponse getItemsEnVenta(int id_usuario){
         ItemsCompraVenta request = ItemsCompraVenta.newBuilder().setUserId(id_usuario).build();
@@ -265,6 +270,7 @@ public class ArticuloClient {
         
     }
 
+
     public void nuevoArticulo(String ruta, int user_id, String articulo, String desc, double precio, int cant) throws InterruptedException{
         final CountDownLatch finishLatch = new CountDownLatch(1);
 
@@ -354,6 +360,7 @@ public class ArticuloClient {
 
     }
     
+
     public int cargarArticulo(InputStream foto, String imagen, int user_id, Venta venta) throws InterruptedException{
         final CountDownLatch finishLatch = new CountDownLatch(1);
 
@@ -378,13 +385,25 @@ public class ArticuloClient {
             
         });
 
-
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        // you can change format of date
+            Date date = new Date();
+            try {
+                date =formatter.parse(venta.getFecha());
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+            // Timestamp timeStampDate = new Timestamp(date.getTime());
+            // Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
         
             String nombre = String.valueOf(imagen.hashCode());
             ItemCategory cat = ItemCategory.forNumber(Integer.parseInt(venta.getCategoria()));
             Instant time = Instant.now();
-            Timestamp timestamp = Timestamp.newBuilder().setSeconds(time.getEpochSecond())
+            Timestamp timestamp = Timestamp.newBuilder().setSeconds(date.getTime())
             .build();
+            logger.info("timestamp google "+ timestamp.toString());
+            logger.info("timestamp google "+ timestamp.getSeconds());
+            logger.info("timestamp mio "+ date.getTime());
             
             Item item = Item.newBuilder().setNombre(venta.getNombre())
                                         .setDescripcion(venta.getDescripcion())
@@ -449,6 +468,7 @@ public class ArticuloClient {
 
     }
 
+
     public void comprarArticulo(Compra compra){
         buyItemRequest request = buyItemRequest.newBuilder()
                                 .setCantidad(compra.getCantidad())
@@ -464,6 +484,7 @@ public class ArticuloClient {
         }
         
         }
+
 
     public ItemsCompraVentaResponse getItemsComprados(int user_id) {
         ItemsCompraVenta request = ItemsCompraVenta.newBuilder().setUserId(user_id).build();

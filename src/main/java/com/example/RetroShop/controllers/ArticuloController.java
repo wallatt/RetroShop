@@ -20,25 +20,25 @@ import com.example.RetroShop.entities.ArticuloClient;
 import com.example.RetroShop.helper.ViewRouteHelper;
 import com.example.RetroShop.models.Articulo;
 import com.example.RetroShop.models.Compra;
+import com.example.RetroShop.models.Filtro;
 import com.example.RetroShop.models.ImagenWrapper;
-import com.example.RetroShop.models.ModeloImagen;
 import com.example.RetroShop.models.Venta;
-import com.google.protobuf.Timestamp;
 
+import io.grpc.RetroShop.articulo.ItemCategory;
 import io.grpc.RetroShop.articulo.ItemSale;
 import io.grpc.RetroShop.articulo.Items;
 import io.grpc.RetroShop.articulo.ItemsCompraVentaResponse;
+import com.google.protobuf.Timestamp;
 
-import java.io.FileInputStream;
+
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpServletRequest;
 
 
 
@@ -59,33 +59,6 @@ public class ArticuloController {
         return response;
     }
 
-    @GetMapping("/nuevafoto")
-    public String subirfoto(){
-        try{
-        cliente.subirImagen("C:/Users/Wallatt/Downloads/abc4.png", 2, 2);
-        }catch(Exception e){
-            logger.info("error cargando imagen "+e.getMessage());
-        }
-        return "hola";
-    }
-
-    @GetMapping("/nuevoarticulo")
-    public String nuevoarticulo(){
-
-        int idusuario = 2;
-
-        String rutaFoto = "C:/Users/Wallatt/Downloads/abc5.png";
-        String nombre = "Microondas";
-        String descripcion = "Azul 5 años de uso";
-        double precio = 650;
-        int cantidad =2;
-        try{
-            cliente.nuevoArticulo(rutaFoto,idusuario,nombre,descripcion, precio, cantidad);
-        }catch(Exception e){
-            logger.info("error cargando imagen "+e.getMessage());
-        }
-        return "hola";
-    }
 
     @GetMapping("/item/{id_item}")
     public ModelAndView getItem(@PathVariable("id_item") int id){
@@ -99,8 +72,34 @@ public class ArticuloController {
         return mav;
     }
     
+
     @GetMapping("/items")
-    public ModelAndView getItems(){
+    public ModelAndView getItems(@RequestParam(required = false) String nombre,
+                                @RequestParam(required = false) String categoria,
+                                @RequestParam(required = false) String precioMin,
+                                @RequestParam(required = false) String precioMax,
+                                @RequestParam(required = false) String fechaMin,
+                                @RequestParam(required = false) String fechaMax
+    ){
+        logger.info(fechaMin + "");
+        logger.info(fechaMax + "");
+        Filtro filtro = new Filtro(nombre, categoria, precioMin, precioMax, fechaMin,fechaMax);
+
+        if(filtro.getFechaMax()!=null){
+            logger.info("fecha max esta seteada "+ filtro.getFechaMax().toString());
+        }
+
+        if(filtro.getFechaMin()!=null){
+            logger.info("fecha min esta seteada "+ filtro.getFechaMin().toString());
+        }
+        logger.info("nombre "+ filtro.getNombre());
+        logger.info("categoria "+ filtro.getCategoria());
+        logger.info("precio max "+ filtro.getPrecioMax());
+        logger.info("precio min "+ filtro.getPrecioMin());
+
+        
+        
+        
         ModelAndView mav = new ModelAndView(ViewRouteHelper.ARTICULOS);
         Items items = cliente.getItems();
         List<Articulo> articulos = new ArrayList<Articulo>();
@@ -110,13 +109,13 @@ public class ArticuloController {
             logger.info(" "+ i.getItem().getIsActiva());
         }
         Compra compra = new Compra();
-        compra.setCantidad(25);
         mav.addObject("Articulos", articulos);
         mav.addObject("compra", compra);
         logger.info("se agregaron los modelos a la vista de items");
         return mav;
     }
     
+
     @GetMapping("/ventas")
     public ModelAndView getpublicaciones(@CookieValue(value = "nombre", defaultValue = "Atta") String nombre,
                                         @CookieValue(value = "apellido", defaultValue = "Atta") String apellido, 
@@ -144,6 +143,7 @@ public class ArticuloController {
         return mav;
     }
     
+
     @GetMapping("/compras")
     public ModelAndView getcompras(@CookieValue(value = "nombre", defaultValue = "Atta") String nombre,
                                         @CookieValue(value = "apellido", defaultValue = "Atta") String apellido, 
@@ -186,6 +186,7 @@ public class ArticuloController {
         return new RedirectView("/items");
     }
 
+
     @GetMapping("ventas/nuevo")
     public ModelAndView getNuevoArticulo(@CookieValue(value = "nombre", defaultValue = "Atta") String nombre,
                                         @CookieValue(value = "apellido", defaultValue = "Atta") String apellido, 
@@ -213,119 +214,9 @@ public class ArticuloController {
         return mav;
     }
     
-    
-    // @PostMapping("ventas/submit")
-    // public String getNuevoArticulo(@CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,
-    //                                     @CookieValue(value = "id_sesion", defaultValue = "Atta") String id_sesion, @ModelAttribute("venta")Venta venta                                        
-    //                                     ){
 
-    //     return " el usuario "+ id_usuario +" quiere vender " + venta;
-        // logger.info(" el usuario "+ id_usuario +" quiere vender " + venta);
-        // int user_id = 0;
-        // if(id_usuario == "Atta"){
-        //     logger.info("no se guardo el id_usuario");
-        //     ModelAndView mav = new ModelAndView(ViewRouteHelper.PUBLICACIONES);
-        //     return mav;
-        // }else{
-        //     user_id = Integer.parseInt(id_usuario);
-        // }
-
-        // Venta venta = new Venta();
-        // ModelAndView mav = new ModelAndView(ViewRouteHelper.NUEVA_PUBLICACION);
-        // mav.addObject("venta",venta);
-        // return mav;
-    // }
-
-
-
-// @PostMapping("/imagen/submit")
-// public String submit(@ModelAttribute ModeloImagen file) {
-//     logger.info("obteniendo imagen del request");
-
-//         logger.info("Iterando las imagenes");
-//         MultipartFile imagen = file.getImagen();
-//         logger.info("imagen data "+ imagen.getOriginalFilename());
-
-//         // try{
-//         //     byte [] byteArr=imagen.getBytes();
-//         //     InputStream foto = imagen.getInputStream();
-//         //     cliente.cargarImagen(foto, imagen.getOriginalFilename());
-//         //         logger.info("retorno de cargar imagen");
-                
-//         //     }catch(Exception e){
-//         //         logger.info("error cargando imagen en bytes"+e.getMessage());
-//         //     }
-        
-//             //  modelMap.addAttribute("files", files);
-        
-//             return "fileUploadView";
-// }
-
-@PostMapping("/imagen/submit")
-public String submit(@ModelAttribute ImagenWrapper file) {
-    logger.info("obteniendo imagen del request");
-
-        logger.info("Iterando las imagenes");
-
-        ArrayList<ModeloImagen> imagenes = file.getImagenes();
-        logger.info("Imagenes recolectadas "+ imagenes.size());
-        // logger.info("imagen data "+ imagen.getOriginalFilename());
-
-        // try{
-        //     byte [] byteArr=imagen.getBytes();
-        //     InputStream foto = imagen.getInputStream();
-        //     cliente.cargarImagen(foto, imagen.getOriginalFilename());
-        //         logger.info("retorno de cargar imagen");
-                
-        //     }catch(Exception e){
-        //         logger.info("error cargando imagen en bytes"+e.getMessage());
-        //     }
-        
-            //  modelMap.addAttribute("files", files);
-        
-            return "fileUploadView";
-}
-// @PostMapping("/imagen/submit")
-// public String submit(@ModelAttribute ImagenWrapper file) {
-//     logger.info("obteniendo imagen del request");
-    
-//     ArrayList<ModeloImagen> imagenes = file.getImagenes();
-//         for(int i = 0 ; i < imagenes.size(); i++){
-
-//             logger.info("Iterando las imagenes");
-//             MultipartFile imagen = imagenes.get(i).getImagen();
-//             try{
-//                 byte [] byteArr=imagen.getBytes();
-//                 InputStream foto = imagen.getInputStream();
-//                 cliente.cargarImagen(foto, imagen.getOriginalFilename());
-//                 logger.info("retorno de cargar imagen");
-                
-//             }catch(Exception e){
-//                 logger.info("error cargando imagen en bytes"+e.getMessage());
-//             }
-//         }
-        
-//         //  modelMap.addAttribute("files", files);
-//     return "fileUploadView";
-// }
-
-
-// @RequestMapping(value = "/uploadMultiFile", method = RequestMethod.POST)
-// public String submit(@RequestParam("files") MultipartFile[] files, ModelMap modelMap) {
-//     modelMap.addAttribute("files", files);
-//     logger.info("largo de array "+files.length);
-//     logger.info("largo de array "+files[0].getOriginalFilename());
-//     logger.info("largo de array "+files[1].getOriginalFilename());
-//     for(int i = 0; i < files.length; i++){
-//         logger.info("Nombre de imagenes"+files[i].getOriginalFilename());
-
-//     }
-//     return "fileUploadView";
-// }
-
-
-@RequestMapping(value = "/ventas/submit", method = RequestMethod.POST)
-public String submitArticulos(
+    @RequestMapping(value = "/ventas/submit", method = RequestMethod.POST)
+    public RedirectView submitArticulos(
                             @CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,
                             @CookieValue(value = "id_sesion", defaultValue = "Atta") String id_sesion,    
                             @RequestParam("files") MultipartFile[] files, ModelMap modelMap, 
@@ -333,11 +224,12 @@ public String submitArticulos(
 
     modelMap.addAttribute("files", files);
 
+
+    RedirectView mav = new RedirectView("/ventas");
     int user_id = 0;
         if(id_usuario == "Atta"){
             logger.info("no se guardo el id_usuario");
-            ModelAndView mav = new ModelAndView(ViewRouteHelper.PUBLICACIONES);
-            return "mav";
+            return mav;
         }else{
             user_id = Integer.parseInt(id_usuario);
         }
@@ -361,10 +253,25 @@ public String submitArticulos(
             logger.info("error cargando imagen en bytes"+e.getMessage());
         }
     }
-    return "fileUploadView";
+    return mav;
 }
 
-
+    // @PostMapping("/filtrar"){
+    //     public ModelAndView filtrarItems(@ModelAttribute("compra")Filtro filtro){
+    //     ModelAndView mav = new ModelAndView(ViewRouteHelper.ARTICULOS);
+    //     Items items = cliente.getItems();
+    //     List<Articulo> articulos = new ArrayList<Articulo>();
+    //     for(ItemSale i:items.getItemsList()){
+    //         articulos.add(new Articulo(i));  
+    //         logger.info("venta es en estado "+ i.getItem().getItemId());
+    //         logger.info(" "+ i.getItem().getIsActiva());
+    //     }
+    //     Compra compra = new Compra();
+    //     mav.addObject("Articulos", articulos);
+    //     mav.addObject("compra", compra);
+    //     logger.info("se agregaron los modelos a la vista de items");
+    //     return mav;
+    // }
 
 
     

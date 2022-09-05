@@ -94,19 +94,6 @@
           </div>
         </div>
 
-        <!-- Textarea -->
-        <!-- <div class="form-group">
-          <label class="col-md-4 control-label" for="Descripcion">Descripcion</label>
-          <div class="col-md-4">                     
-            <input id="desc"
-            class="form-control"
-            type="text"
-            name="Descripcion"
-            required=""
-            th:field:"*{desc}"
-            ></input>
-          </div>
-        </div> -->
         <!-- Select Basic -->
         <div class="form-group">
           <label class="col-md-4 control-label" for="categoria">Categoria</label>
@@ -116,7 +103,7 @@
              class="form-control"
              th:field:"*{categoria}"
              >
-              <option th:value="1" th:text="Tecnologias"></option>
+              <option th:value="1" th:text="Tecnologia"></option>
               <option th:value="2" th:text="Libros"></option>
               <option th:value="3" th:text="Vestimenta"></option>
               <option th:value="4" th:text="Vehiculos"></option>
@@ -157,8 +144,7 @@
                 required=""
                 th:field:"*{cantidad}"
                 >
-                
-                
+                   
             </div>
         </div>
         

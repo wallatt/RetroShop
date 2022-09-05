@@ -57,6 +57,132 @@
           <a class="list-group-item list-group-item-action list-group-item-light
             p-3"
             th:href="@{/ingresar}">Logout</a>
+
+
+
+
+
+
+                            <!-- formulario de filtro -->
+                  <!-- formulario de filtro -->
+                  <!-- formulario de filtro -->
+                  <!-- formulario de filtro -->
+                  <div class="container px-700 px-lg-5 mt-5 " style="width: 35rem; overflow: hidden" > 
+                    <form class="form-horizontal" th:action="@{/items}" method="get">
+                        <fieldset>
+                        
+                        <!-- Form Name -->
+                        <legend>Filtrar articulos</legend>
+                        
+                        <!-- Text input-->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="nombre"></label>  
+                          <div class="col-md-4">
+                          <input id="nombre" name="nombre"
+                                type="text"
+                                placeholder="Articulo"
+                                class="form-control input-md"
+                                >
+                          </div>
+                        </div>
+                
+                        <!-- Select Basic -->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="categoria"></label>
+                          <div class="col-md-4">
+                            <select id="categoria"
+                             name="categoria"
+                             class="form-control"
+                             value="0"
+                             >
+                              <option th:value="0" disabled selected th:text="Categoria"></option>
+                              <option th:value="1" th:text="Tecnologia"></option>
+                              <option th:value="2" th:text="Libros"></option>
+                              <option th:value="3" th:text="Vestimenta"></option>
+                              <option th:value="4" th:text="Vehiculos"></option>
+                              <option th:value="5" th:text="Deportes"></option>
+                              <option th:value="6" th:text="Hogar"></option>
+                            </select>
+                          </div>
+                        </div>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="precioMin"></label>  
+                            <div class="col-md-4">
+                                <input
+                                id="precioMin"
+                                name="precioMin"
+                                type="number"
+                                placeholder="Precio minimo"
+                                class="form-control input-md"
+                                step="100"
+                                min="0"
+                                max="9999999"
+                                onkeypress="return isNumberKey(event)"
+                                > 
+                            </div>
+                        </div>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="precioMax"></label>  
+                            <div class="col-md-4">
+                                <input
+                                id="precioMax"
+                                name="precioMax"
+                                type="number"
+                                placeholder="Precio maximo"
+                                class="form-control input-md"
+                                step="100"
+                                min="0"
+                                max="9999999"
+                                onkeypress="return isNumberKey(event)"
+                                > 
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="fecha">Fabricacion</label>  
+                            <div class="col-md-4">
+                          <input id="fechaMin"
+                          name="fechaMin"
+                          type="date"
+                          placeholder="Fecha minima"
+                          class="form-control input-md"
+                          >
+                          
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="fecha"></label>  
+                            <div class="col-md-4">
+                          <input id="fechaMax"
+                          name="fechaMax"
+                          type="date"
+                          placeholder="Fecha maxima"
+                          class="form-control input-md"
+                          >
+                        </div>
+                    </div>      
+                        </fieldset>
+                        <div class="text-left button" style="margin-top:15px">
+                            <input class="btn warning"
+                            type="submit"
+                            value="Aplicar filtros"
+                            ></input>
+                        </div>
+                
+                    </form>
+                  </div>
+                   <!-- formulario de filtro -->
+                  <!-- formulario de filtro -->
+                  <!-- formulario de filtro -->
+                  <!-- formulario de filtro -->
+
+
+
+
+
+
+
         </div>
       </div>
 
@@ -129,6 +255,10 @@
                       </div>
                     </div>
                   </form>
+
+  
+
+
 
 
 
