@@ -16,17 +16,19 @@ message Empty {}
 
 enum ItemCategory {
 
-    TECNOLOGIA = 0;
+    NINGUNA = 0;
+    
+    TECNOLOGIA = 1;
 
-    LIBROS = 1;
+    LIBROS = 2;
 
-    VESTIMENTA = 2;
+    VESTIMENTA = 3;
 
-    VEHICULOS = 3;
+    VEHICULOS = 4;
 
-    DEPORTES = 4;
+    DEPORTES = 5;
 
-    HOGAR = 5;
+    HOGAR = 6;
 
 }
 
@@ -139,6 +141,7 @@ service ItemService{
 
     rpc GetItem(ItemId) returns(ItemSale);
     rpc GetItems(getItemsRequest) returns (Items);
+    rpc GetUltimoArticuloCreado(getItemsRequest) returns (ItemId);
         rpc GetItemsFiltered(getItemsFiltered) returns(Items);
     rpc ComprarItem(buyItemRequest) returns (Empty);
 

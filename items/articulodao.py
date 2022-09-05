@@ -1,3 +1,4 @@
+from logging import Logger
 import mysql.connector
 from mysql.connector import Error
 from datetime import time, datetime
@@ -22,9 +23,8 @@ class DAO():
                 cursor = self.conexion.cursor()
                 sql = "select id from itemsventa where 1=1 "
                 if category:
-                    id_cate=self.getCategoriaId(category)
                     sql += " and categoria_idcategoria = '{0}'"
-                    sql = sql.format(id_cate)
+                    sql = sql.format(category)
                 if nombre:
                     nombre = '%'+nombre+'%'
                     sql += " and nombre like '{0}'"
@@ -51,6 +51,42 @@ class DAO():
                 return resultado
             except Error as ex:
                 print("Error al intentar conectar conectar: {0}".format(ex))
+
+
+    def getQuery(self, category=None, nombre = None, preciomin=None, preciomax = None, fdesde = None, fhasta = None, venta_activa= None):
+        # if self.conexion.is_connected():
+        #     try:
+                # cursor = self.conexion.cursor()
+                sql = "select id from itemsventa where 1=1 "
+                if category:
+                    sql += " and categoria_idcategoria = '{0}'"
+                    sql = sql.format(category)
+                if nombre:
+                    nombre = '%'+nombre+'%'
+                    sql += " and nombre like '{0}' "
+                    sql = sql.format(nombre)
+                if preciomin:
+                    sql += " and precio >= '{0}' "
+                    sql = sql.format(preciomin)
+                if preciomax:
+                    sql += " and precio <= '{0}' "
+                    sql = sql.format(preciomax)
+                if fdesde:
+                    sql += " and fecha_fabricacion >= '{0}' "
+                    sql = sql.format(fdesde)
+                if fhasta:
+                    sql += " and fecha_fabricacion <= '{0}' "
+                    sql = sql.format(fhasta)
+                if type(venta_activa)==None or venta_activa == 1:
+                    sql += " and venta_activa = 1 "
+                # cursor.execute(sql)
+                # articulos = cursor.fetchall()
+                # resultado=[]
+                # for id in articulos:
+                #     resultado.append(id[0])
+                return sql
+            # except Error as ex:
+            #     print("Error al intentar conectar conectar: {0}".format(ex))
 
     def getPublicacionesDelVendedor(self, id_vendedor):
         id_seller = self.getIdvendedor(id_vendedor)
@@ -111,7 +147,7 @@ class DAO():
                 articulos = cursor.fetchall()
                 resultado =[]
                 for a in articulos:
-                    publicacion = self.getArticuloComprado(a[0])
+                    publicacion = self.getArticuloComprado(a[0],id_comprador)
                     resultado.append(publicacion)
                 return resultado
             except Error as ex:
@@ -155,13 +191,13 @@ class DAO():
             except Error as ex:
                     print("No se pudo obtener articulo: {0}".format(ex))
 
-    def getArticuloComprado(self, id_item):
+    def getArticuloComprado(self, id_item, id_comprador):
         if self.conexion.is_connected():
             try:
                 cursor = self.conexion.cursor()
                 sql = ("select itemsventa.id, itemsventa.nombre, descripcion, precio, b.cantidad, fecha_fabricacion, c.nombre as categoria, v.vendedor_id as vendedor_id, venta_activa "
-                "from itemsventa inner join seller v on v.id = itemsventa.seller_id inner join buyer b on b.itemsventa_id = itemsventa.id inner join categoria c on itemsventa.categoria_idcategoria = c.idcategoria where itemsventa.id = '{0}'")
-                cursor.execute(sql.format(id_item))
+                "from itemsventa inner join seller v on v.id = itemsventa.seller_id inner join buyer b on b.itemsventa_id = itemsventa.id inner join categoria c on itemsventa.categoria_idcategoria = c.idcategoria where itemsventa.id = '{0}' and id_comprador = '{1}' ")
+                cursor.execute(sql.format(id_item,id_comprador))
                 articulo = cursor.fetchone()
                 fotos = self.getFotos(id_item)
                 resultado = (*articulo, fotos,)
@@ -185,7 +221,7 @@ class DAO():
         if self.conexion.is_connected():
             try:
                 cursor = self.conexion.cursor()
-                sql = "UPDATE itemsventa SET venta_activa = 0 WHERE id = '{0}'"
+                sql = "UPDATE itemsventa SET venta_activa = 0 WHERE id = '{}'"
 
                 cursor.execute(sql.format(id_item))
                 self.conexion.commit()
@@ -354,6 +390,18 @@ class DAO():
             except Error as ex:
                 print("Error al obteniendo al vendedor del item: {0}".format(ex))
 
+    def getUltimoItem(self, id_vendedor):
+        if self.conexion.is_connected():
+            idseller = self.getIdvendedor(id_vendedor)
+            try:
+                cursor = self.conexion.cursor()
+                cursor.execute("SELECT max(id) FROM itemsventa where seller_id = {0}".format(idseller))
+                resultado = cursor.fetchone() 
+                return resultado[0] if resultado else resultado
+            except Error as ex:
+                print("Error al obteniendo al vendedor del item: {0}".format(ex))
+
+
 
     def updateArticulo(self, item_id, vendedor_id, nombre, fecha, categoria, desc = "", precio =0.0, cant = 1):
         if self.conexion.is_connected():
@@ -401,6 +449,19 @@ if __name__ == "__main__":
     # print(dao.getIdSiguienteFoto(2))
     # print(dao.updateRutaFoto(2,'hola.png', 5))
     # print(dao.updateRutaFoto(2,'holas.png', 6))
+    # print(dao.getPublicacionesDelVendedor(2))
+    print(dao.getArticulosComprado(9))
+    # print(dao.getArticuloComprado(9,9))
+
+    
+    # categoria = None
+    # nombre = 'c'
+    # precioMin = None
+    # precioMax = None
+    # fechaMin = None
+    # fechaMax = None
+    # id_articulos = dao.getItemsdentroDeParametros(category = categoria, nombre = nombre, preciomin=precioMin, preciomax=precioMax, fdesde = fechaMin, fhasta = fechaMax, venta_activa=1)
+
     print(dao.getPublicacionesDelVendedor(2))
 
  

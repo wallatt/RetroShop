@@ -44,6 +44,11 @@ class ItemServiceStub(object):
                 request_serializer=articulo__pb2.getItemsRequest.SerializeToString,
                 response_deserializer=articulo__pb2.Items.FromString,
                 )
+        self.GetUltimoArticuloCreado = channel.unary_unary(
+                '/articulo.ItemService/GetUltimoArticuloCreado',
+                request_serializer=articulo__pb2.getItemsRequest.SerializeToString,
+                response_deserializer=articulo__pb2.ItemId.FromString,
+                )
         self.GetItemsFiltered = channel.unary_unary(
                 '/articulo.ItemService/GetItemsFiltered',
                 request_serializer=articulo__pb2.getItemsFiltered.SerializeToString,
@@ -105,6 +110,12 @@ class ItemServiceServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def GetItems(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetUltimoArticuloCreado(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -172,6 +183,11 @@ def add_ItemServiceServicer_to_server(servicer, server):
                     servicer.GetItems,
                     request_deserializer=articulo__pb2.getItemsRequest.FromString,
                     response_serializer=articulo__pb2.Items.SerializeToString,
+            ),
+            'GetUltimoArticuloCreado': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetUltimoArticuloCreado,
+                    request_deserializer=articulo__pb2.getItemsRequest.FromString,
+                    response_serializer=articulo__pb2.ItemId.SerializeToString,
             ),
             'GetItemsFiltered': grpc.unary_unary_rpc_method_handler(
                     servicer.GetItemsFiltered,
@@ -307,6 +323,23 @@ class ItemService(object):
         return grpc.experimental.unary_unary(request, target, '/articulo.ItemService/GetItems',
             articulo__pb2.getItemsRequest.SerializeToString,
             articulo__pb2.Items.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetUltimoArticuloCreado(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/articulo.ItemService/GetUltimoArticuloCreado',
+            articulo__pb2.getItemsRequest.SerializeToString,
+            articulo__pb2.ItemId.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

@@ -9,7 +9,7 @@ from pathlib import Path
 from articulodao import DAO
 from datetime import datetime
 from google.protobuf.timestamp_pb2 import Timestamp
-import logging
+from logging import Logger
 
 
 
@@ -53,6 +53,7 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
 
         punto = '.' if config.tipo_img[0] !='.' else ''
         filename = str(config.user_id)+'_'+str(config.item_id)+'_'+str(idFoto)+punto+config.tipo_img
+        print("foto que se ingresa nombre que le queda ",filename)
 
         self.BDItems.updateRutaFoto(config.item_id, filename, idFoto)
 
@@ -88,10 +89,11 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
 
     def getParametros(self,config):
         fech = config.item.fecha_fabricacion
-        num = str(fech).split(':')
-        
-        fecha = datetime.fromtimestamp(int(num[1]))
-        categoria = int(str(config.item.category))+1
+        num = str(fech).split(':')[1].replace(' ','').replace('\n','')
+        a = int(num)
+        a = a/1000
+        fecha = datetime.fromtimestamp(a)
+        categoria = int(str(config.item.category))
         parametros = []
         parametros.append(config.user_id)
         parametros.append(config.item.nombre)
@@ -113,7 +115,6 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
 
 
     def parsearArticulo(self, articulo):
-        logging.info('paerse')
         fotos =[]
         for ruta in articulo[9]:
             fotos.append(ruta[0])
@@ -135,8 +136,8 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
 
         return vendedor, item, fotos
 
+
     def parsearArticuloVendedor(self, articulo):
-        logging.info('paerse')
         fotos =[]
         for ruta in articulo[10]:
             fotos.append(ruta[0])
@@ -166,24 +167,32 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
 
 
     def GetItems(self, config, context):
+        print("geting items")
         id_usuario = config.user_id
         id_articulos = self.BDItems.getItemsdentroDeParametros()
         articulos =[]
+        print(len(id_articulos))
         for id in id_articulos:
             articulo = self.BDItems.getArticulo(id)
+            print(articulo)
             seller, item, imagen = self.parsearArticulo(articulo)
             articulos.append(ItemSale(seller_id=seller, item=item, imagen=imagen))
         return Items(items = articulos)
             
         
     def ItemsEnVenta(self, config, context):
+        print("items en venta")
         id_usuario = config.user_id
+
         articulos = self.BDItems.getPublicacionesDelVendedor(id_usuario)
         resultado =[]
+ 
         for articulo in articulos:
+            print(articulo)
             seller, item, imagen = self.parsearArticuloVendedor(articulo)
             resultado.append(ItemSale(seller_id=seller, item=item, imagen=imagen))
         return Items(items = resultado)
+
 
     def ComprarItem(self,config,context):
         user_id = config.user_id
@@ -196,6 +205,71 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
             self.BDItems.darDeBajaPublicacion(item_id)
 
         return Empty()
+
+    # veerificar que trae vacia las compras
+    def ItemsComprados(self, config, context):
+        id_usuario = config.user_id
+        print('buscando items comprados')
+        articulos = self.BDItems.getArticulosComprado(id_usuario)
+        print(articulos)
+        resultado =[]
+        if articulos == None:
+            return resultado.append(ItemSale())
+        for articulo in articulos:
+            seller, item, imagen = self.parsearArticulo(articulo)
+            print(seller, item, imagen)
+            resultado.append(ItemSale(seller_id=seller, item=item, imagen=imagen))
+        return Items(items = resultado)
+
+
+    def GetUltimoArticuloCreado(self,config,context):
+        id_usuario = config.user_id
+
+        item_id = self.BDItems.getUltimoItem(id_usuario)
+
+        print("imprimiendo llamada al ultimo articulo del vendedor ", item_id)
+        return ItemId(item_id = item_id, user_id=id_usuario)
+
+
+    def GetItemsFiltered(self,config,context):
+        print("intentado filtrar articulos")
+        id_usuario = config.user_id
+        print(id_usuario)
+
+        fecha1=str(config.fecha_desde)
+        fecha2=str(config.fecha_hasta)
+        
+        print(len(fecha1), fecha2)
+        fechaMin = self.getFechaFromTimeStamp(fecha1)
+        fechaMax = self.getFechaFromTimeStamp(fecha2)
+        precioMin = None if config.preciomin == 0 else config.preciomin 
+        precioMax = None if config.preciomax == 0 else config.preciomax 
+        print(type(config.category))
+        print(int(str(config.category)))
+        categoria = None if int(str(config.category)) == 0 else int(str(config.category)) 
+        nombre = None if config.nombre == "" else config.nombre 
+     
+
+        query = self.BDItems.getQuery(category = categoria, nombre = nombre, preciomin=precioMin, preciomax=precioMax, fdesde = fechaMin, fhasta = fechaMax, venta_activa=1)
+        print(query)
+        id_articulos = self.BDItems.getItemsdentroDeParametros(category = categoria, nombre = nombre, preciomin=precioMin, preciomax=precioMax, fdesde = fechaMin, fhasta = fechaMax)
+        print(len(id_articulos))
+        articulos =[]
+        for id in id_articulos:
+            articulo = self.BDItems.getArticulo(id)
+            seller, item, imagen = self.parsearArticulo(articulo)
+            articulos.append(ItemSale(seller_id=seller, item=item, imagen=imagen))
+        return Items(items = articulos)
+
+    def getFechaFromTimeStamp(self, fecha):
+        if len(fecha) == 0:
+            print("fecha vacia")
+            return None
+        print("no vacio")
+        num = fecha.split(':')[1].replace(' ','').replace('\n','')
+        a = int(num)
+        a = a/1000
+        return datetime.fromtimestamp(a)
 
 
         
