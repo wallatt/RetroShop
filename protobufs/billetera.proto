@@ -18,6 +18,7 @@ message saldoResponse{
 message cargarSaldoRequest{
     int32 idUsuario = 1;
     double importe = 2;
+    int32 idSesion = 3;
 }
 
 message puedeHacerCompraRequest{

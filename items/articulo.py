@@ -205,7 +205,10 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
         articulo = self.BDItems.getArticulo(item_id)
         if cantidad <= articulo[4]:
             total = cantidad * articulo[3]
+            print(" esto debe pagar el usuario ,", total)
+
             esSolvente = self.billetera.puedeHacerCompra(user_id, total)
+            print(" es solvente el usuario ,", esSolvente)
             if esSolvente:
                 print("id del vendedor ",articulo[7])
                 self.billetera.hacerCompra(user_id, articulo[7], total)

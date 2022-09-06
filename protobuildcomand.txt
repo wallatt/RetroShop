@@ -1,5 +1,3 @@
-python -m grpc_tools.protoc -I../protobufs --python_out=. --grpc_python_out=. ../protobufs/recommendations.proto
 python -m grpc_tools.protoc -I../protobufs --python_out=. --grpc_python_out=. ../protobufs/usuario.proto
-python -m grpc_tools.protoc -I../protobufs --python_out=. --grpc_python_out=. ../protobufs/image.proto
 python -m grpc_tools.protoc -I../protobufs --python_out=. --grpc_python_out=. ../protobufs/articulo.proto
 python -m grpc_tools.protoc -I../protobufs --python_out=. --grpc_python_out=. ../protobufs/billetera.proto

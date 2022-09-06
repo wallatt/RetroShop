@@ -106,8 +106,15 @@ class ServicioUsuario(usuario_pb2_grpc.UsuarioServicer):
 
 
     def CloseSession(self, request, context):
+        print('Closing session')
+        idpersona = int(request.id_persona)
+        idsesion = int(request.id_sesion)
+        print(idpersona)
+        print(idsesion)
         try:
-            self.BDUsuarios.cerrarSesion(request.id_persona, request.id_sesion)
+            resultado = self.BDUsuarios.cerrarSesion(idpersona, idsesion)
+            print(resultado)
+            print('Closed session')
         except:
             print('Error cerrando sesion')
         return UserSesionResponse()

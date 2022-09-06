@@ -20,6 +20,7 @@ class BilleteraClient():
     def puedeHacerCompra(self, idUsuario, importe):
         request = billetera_pb2.puedeHacerCompraRequest(idUsuario = idUsuario, importe = importe)
         response = self.client.puedeHacerCompra(request)
+        print("Puede hacer compra si o no,",response.puedeHacerCompra)
         return response.puedeHacerCompra
     
     def hacerCompra(self, idComprador, idVendedor, importe):

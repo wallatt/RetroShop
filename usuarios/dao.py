@@ -149,18 +149,17 @@ class DAO():
                 print("Error al intentar conectar conectar: {0}".format(ex))
     
     def cerrarSesion(self, user_id, sesion_id):
-        if self.isActiveSesion(user_id, sesion_id):
-            if self.conexion.is_connected():
-                try:
-                    cursor = self.conexion.cursor()
-                    query = "UPDATE sesion set closedSesion = 1 where idsesion = %s"
-                    sesion = (sesion_id,)
-                    cursor.execute(query, sesion)
-                    self.conexion.commit()
-                    return True
+        if self.conexion.is_connected():
+            try:
+                cursor = self.conexion.cursor()
+                sql = "UPDATE sesion set closedSesion = 1 where idsesion = '{0}'"
+                cursor.execute(sql.format(sesion_id))
+                
+                self.conexion.commit()
+                return True
 
-                except Error as ex:
-                    print("Error al intentar conectar conectar: {0}".format(ex))
+            except Error as ex:
+                print("Error al intentar conectar conectar: {0}".format(ex))
         
 
 
@@ -170,15 +169,5 @@ class DAO():
 if __name__ == "__main__":
     dao = DAO()
 
-    print(dao.ingresarUsuario('Henry', 'Veyron',666, 'hv@gmail.com','Type35', '6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090'))
-    # print(dao.listarUsuarios())
-    # print(dao.getUsuario(2))
-    # print(dao.getUsuarioDNI(232))
-    # print(dao.getUsuarioUser('Myura'))
-    # print(dao.listarUsuarios())
-    print(dao.iniciarSesion('MCP1'))
-    # print(dao.isActiveSesion(2,8))
-    # dao.cerrarSesion(2,8)
-    # print(dao.isActiveSesion(2,8))
-    print(len('6ca13d52ca70c883e0f0bb101e425a89e8624de51db2d2392593af6a84118090'))
+
 

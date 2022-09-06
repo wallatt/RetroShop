@@ -24,6 +24,8 @@ class servicioBilletera(billetera_pb2_grpc.BilleteraServicer):
         print("por cargar saldo")
         idUsuario = config.idUsuario
         importe = config.importe
+        print("importe a cargar ",importe)
+        print("importe a cargar ",idUsuario)
         if(importe <= 0):
             return Empty()
         if not self.billetera.existeUsuario(idUsuario):
