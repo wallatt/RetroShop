@@ -10,13 +10,15 @@ from articulodao import DAO
 from datetime import datetime
 from google.protobuf.timestamp_pb2 import Timestamp
 from logging import Logger
-
+import usuario_pb2_grpc
+import clienteBilletera
 
 
 class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
 
     def __init__(self,):
         self.BDItems = DAO()
+        self.billetera = clienteBilletera.BilleteraClient()
 
     def DownloadProductImage(self, request, context):
         """Recibe una lista de nombres de imagenes y devuelve las imagenes"""
@@ -169,6 +171,7 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
     def GetItems(self, config, context):
         print("geting items")
         id_usuario = config.user_id
+
         id_articulos = self.BDItems.getItemsdentroDeParametros()
         articulos =[]
         print(len(id_articulos))
@@ -197,9 +200,17 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
     def ComprarItem(self,config,context):
         user_id = config.user_id
         item_id = config.item_id
-
         cantidad = config.cantidad
-        self.BDItems.comprarItem(item_id,user_id, cantidad)
+
+        articulo = self.BDItems.getArticulo(item_id)
+        if cantidad <= articulo[4]:
+            total = cantidad * articulo[3]
+            esSolvente = self.billetera.puedeHacerCompra(user_id, total)
+            if esSolvente:
+                print("id del vendedor ",articulo[7])
+                self.billetera.hacerCompra(user_id, articulo[7], total)
+
+                self.BDItems.comprarItem(item_id,user_id, cantidad)
         articulo = self.BDItems.getArticulo(item_id)
         if articulo[4]<=0:
             self.BDItems.darDeBajaPublicacion(item_id)
@@ -260,6 +271,7 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
             seller, item, imagen = self.parsearArticulo(articulo)
             articulos.append(ItemSale(seller_id=seller, item=item, imagen=imagen))
         return Items(items = articulos)
+
 
     def getFechaFromTimeStamp(self, fecha):
         if len(fecha) == 0:

@@ -54,9 +54,6 @@ class DAO():
 
 
     def getQuery(self, category=None, nombre = None, preciomin=None, preciomax = None, fdesde = None, fhasta = None, venta_activa= None):
-        # if self.conexion.is_connected():
-        #     try:
-                # cursor = self.conexion.cursor()
                 sql = "select id from itemsventa where 1=1 "
                 if category:
                     sql += " and categoria_idcategoria = '{0}'"
@@ -79,14 +76,8 @@ class DAO():
                     sql = sql.format(fhasta)
                 if type(venta_activa)==None or venta_activa == 1:
                     sql += " and venta_activa = 1 "
-                # cursor.execute(sql)
-                # articulos = cursor.fetchall()
-                # resultado=[]
-                # for id in articulos:
-                #     resultado.append(id[0])
                 return sql
-            # except Error as ex:
-            #     print("Error al intentar conectar conectar: {0}".format(ex))
+
 
     def getPublicacionesDelVendedor(self, id_vendedor):
         id_seller = self.getIdvendedor(id_vendedor)

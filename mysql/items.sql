@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `items`.`itemsventa` (
   `categoria_idcategoria` INT NOT NULL,
   `seller_id` INT NOT NULL,
   `venta_activa` TINYINT NULL,
+  `cantidad_vendida` INT NULL DEFAULT 0,
   PRIMARY KEY (`id`, `categoria_idcategoria`, `seller_id`),
   INDEX `fk_itemsventa_categoria_idx` (`categoria_idcategoria` ASC) ,
   INDEX `fk_itemsventa_seller1_idx` (`seller_id` ASC) ,
@@ -58,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `items`.`itemsventa` (
   CONSTRAINT `fk_itemsventa_seller1`
     FOREIGN KEY (`seller_id`)
     REFERENCES `items`.`seller` (`id`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -101,10 +102,3 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-INSERT INTO `items`.`categoria` (`idcategoria`, `nombre`) VALUES ('1', 'TECNOLOGIA');
-INSERT INTO `items`.`categoria` (`idcategoria`, `nombre`) VALUES ('2', 'LIBROS');
-INSERT INTO `items`.`categoria` (`idcategoria`, `nombre`) VALUES ('3', 'VESTIMENTA');
-INSERT INTO `items`.`categoria` (`idcategoria`, `nombre`) VALUES ('4', 'VEHICULOS');
-INSERT INTO `items`.`categoria` (`idcategoria`, `nombre`) VALUES ('5', 'DEPORTES');
-INSERT INTO `items`.`categoria` (`idcategoria`, `nombre`) VALUES ('6', 'HOGAR');

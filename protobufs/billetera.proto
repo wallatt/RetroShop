@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.RetroShop.billetera";
+option java_outer_classname = "billeteraProto";
+option objc_class_prefix = "BIP";
+
+package billetera;
+
+
+message saldoRequest{
+    int32 idUsuario = 1;
+}
+message saldoResponse{
+    double saldo = 1;
+}
+
+message cargarSaldoRequest{
+    int32 idUsuario = 1;
+    double importe = 2;
+}
+
+message puedeHacerCompraRequest{
+    int32 idUsuario = 1;
+    double importe = 2;
+}
+
+message puedeHacerCompraResponse{
+    bool puedeHacerCompra = 1;
+}
+
+message hacerCompraRequest{
+    int32 idComprador = 1;
+    int32 idVendedor = 2;
+    double importe = 3;
+}
+
+message Empty{}
+
+
+service Billetera{
+    rpc getSaldo(saldoRequest) returns (saldoResponse);
+    rpc cargarSaldo(cargarSaldoRequest) returns (Empty);
+    rpc puedeHacerCompra(puedeHacerCompraRequest) returns (puedeHacerCompraResponse);
+    rpc hacerCompra(hacerCompraRequest) returns (Empty);
+
+}
+
