@@ -3,6 +3,7 @@ package com.example.RetroShop.controllers;
 import org.apache.catalina.authenticator.SavedRequest;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,17 +29,16 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 public class UsuarioController {
 
-    UsuarioClient cliente = new UsuarioClient("localhost", 50051);
 
     Logger logger = Logger.getLogger(UsuarioController.class.getName());
 
     @GetMapping("/nuevoUsuario")
     public String register(){
 
-        int idusuario = cliente.crearUsuario(2,"Horacio", "Pagani", 45678, "hp@gmail.com", "Gallardo", "abc");
+        int idusuario = Clientes.usuario.crearUsuario(2,"Horacio", "Pagani", 45678, "hp@gmail.com", "Gallardo", "abc");
 
         logger.info("id de usuario devuelto: " + idusuario);
-        Persona resultado = cliente.getUsuario(idusuario);
+        Persona resultado = Clientes.usuario.getUsuario(idusuario);
         try{
             logger.info(resultado.toString());
         }catch(Exception e){
@@ -53,7 +53,7 @@ public class UsuarioController {
     @GetMapping("/usuario/{id_usuario}")
     public String login(@PathVariable int id_usuario){
 
-        Persona persona = cliente.getUsuario(id_usuario);
+        Persona persona = Clientes.usuario.getUsuario(id_usuario);
         try{
             logger.info(persona.toString());
         }catch(Exception e){
@@ -63,7 +63,15 @@ public class UsuarioController {
     }
 
     @GetMapping("/ingresar")
-    public ModelAndView ingreso(){
+    public ModelAndView ingreso(@CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,
+                                @CookieValue(value = "id_sesion", defaultValue = "Atta") String id_sesion){
+
+        if(!id_usuario.matches("Atta") && !id_sesion.matches("Atta")){
+            int user_id = Integer.parseInt(id_usuario);
+            int sesion_id = Integer.parseInt(id_sesion);
+            Clientes.usuario.cerrarSesion(user_id, sesion_id);
+        }
+
         ModelAndView mav = new ModelAndView(ViewRouteHelper.INGRESO);
         mav.addObject("estado", "empty");
         mav.addObject("usuario", new Usuario());
@@ -75,7 +83,7 @@ public class UsuarioController {
 	public ModelAndView create(@ModelAttribute("user") Usuario usuario) throws Exception {
         ModelAndView mav = new ModelAndView(ViewRouteHelper.INGRESO);
 
-        int id = cliente.crearUsuario(0, 
+        int id = Clientes.usuario.crearUsuario(0, 
         usuario.getNombre(),
         usuario.getApellido(),
         usuario.getDni(),
@@ -112,7 +120,7 @@ public class UsuarioController {
         ModelAndView mav;
         logger.info("cuenta :"+ cuenta.getNombreUsuario());
         logger.info("contrasena :"+ cuenta.getPassword());
-        UserSesion sesion = cliente.iniciarSesion(cuenta.getNombreUsuario(), cuenta.getPassword());
+        UserSesion sesion = Clientes.usuario.iniciarSesion(cuenta.getNombreUsuario(), cuenta.getPassword());
         try{
             logger.info(sesion.toString());
         }catch(Exception e){
@@ -124,7 +132,7 @@ public class UsuarioController {
             return new RedirectView("/ingresar");
         }
         int iduser = sesion.getIdPersona();
-        Persona persona = cliente.getUsuario(iduser);
+        Persona persona = Clientes.usuario.getUsuario(iduser);
         mav = new ModelAndView();
         mav.addObject("usuario", persona);
         String nombre = persona.getNombre();

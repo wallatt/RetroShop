@@ -37,7 +37,7 @@
 
 
 
-          <h5 class="list-group-item list-group-item-light p-3 ">Bienvenido</h5>
+          <h5 class="list-group-item list-group-item-light p-3 " th:text="'Bienvenido     '+${persona?.getNombre()}">Bienvenido</h5>
           <a class="list-group-item list-group-item-action list-group-item-light
             p-3 "
             th:href="@{/compras}">Mis compras</a>
@@ -61,7 +61,7 @@
 
             
             <div class="container  mt-3 " style="width: 35rem; overflow: hidden;" > 
-              <h5 class="bolder"   th:text="'Saldo:     $'+${saldo.getSaldo()}"></h5>
+              <h5 class="bolder"   th:text="'Saldo:     $'+${saldo?.getSaldo()}"></h5>
             </div>
 
                             <!-- formulario de filtro -->

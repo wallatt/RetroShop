@@ -27,7 +27,7 @@ public class BilleteraClient {
         channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 
-    public double getSaldo(int idUsuario){
+    public double getSaldo(int idUsuario, int idSesion){
         saldoRequest request = saldoRequest.newBuilder().setIdUsuario(idUsuario).build();
         saldoResponse response;
         try{

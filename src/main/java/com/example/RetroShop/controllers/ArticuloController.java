@@ -24,12 +24,16 @@ import com.example.RetroShop.models.Compra;
 import com.example.RetroShop.models.Filtro;
 import com.example.RetroShop.models.ImagenWrapper;
 import com.example.RetroShop.models.Saldo;
+import com.example.RetroShop.models.Usuario;
 import com.example.RetroShop.models.Venta;
+import com.example.RetroShop.controllers.Clientes;
 
 import io.grpc.RetroShop.articulo.ItemCategory;
 import io.grpc.RetroShop.articulo.ItemSale;
 import io.grpc.RetroShop.articulo.Items;
 import io.grpc.RetroShop.articulo.ItemsCompraVentaResponse;
+import io.grpc.RetroShop.usuario.Persona;
+
 import com.google.protobuf.Timestamp;
 
 
@@ -44,11 +48,10 @@ import java.util.logging.Logger;
 
 
 
+
 @RestController
 public class ArticuloController {
 
-    ArticuloClient cliente = new ArticuloClient("localhost", 50052);
-    BilleteraClient billetera = new BilleteraClient("localhost", 50053);
 
     Logger logger = Logger.getLogger(ArticuloController.class.getName());
 
@@ -57,7 +60,7 @@ public class ArticuloController {
     public byte[] getfoto(@PathVariable String id_foto){
         logger.info("Resolviendo imagen request");
 
-        byte[] response = cliente.getImage(id_foto);
+        byte[] response = Clientes.articulo.getImage(id_foto);
 
         return response;
     }
@@ -66,7 +69,7 @@ public class ArticuloController {
     @GetMapping("/item/{id_item}")
     public ModelAndView getItem(@PathVariable("id_item") int id){
         ModelAndView mav = new ModelAndView(ViewRouteHelper.ARTICULO);
-        ItemSale item = cliente.getItem(id, 2);
+        ItemSale item = Clientes.articulo.getItem(id, 2);
 
         Compra compra = new Compra();
  
@@ -77,7 +80,8 @@ public class ArticuloController {
     
 
     @GetMapping("/items")
-    public ModelAndView getItems(@CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,
+    public ModelAndView getItems(@CookieValue(value = "id_sesion", defaultValue = "Atta") String id_sesion,
+                                @CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,
                                 @RequestParam(required = false) String nombre,
                                 @RequestParam(required = false) String categoria,
                                 @RequestParam(required = false) String precioMin,
@@ -89,23 +93,27 @@ public class ArticuloController {
         Filtro filtro = new Filtro(nombre, categoria, precioMin, precioMax, fechaMin,fechaMax);
         ModelAndView mav = new ModelAndView(ViewRouteHelper.ARTICULOS);
 
-        int user_id = 0;
-        if(id_usuario == "Atta"){
+        int idUsuario = 0;
+        int idSesion = 0;
+        if(!id_usuario.matches("Atta") && !id_sesion.matches("Atta")){
+            
+            idUsuario = Integer.parseInt(id_usuario);
+            idSesion = Integer.parseInt(id_sesion);
+        
+        }else{
             logger.info("no se guardo el id_usuario");
             return mav;
-        }else{
-            user_id = Integer.parseInt(id_usuario);
         }
 
-        Items items  = cliente.getItems(user_id);
+        Items items  = Clientes.articulo.getItems(idUsuario,idSesion);
         
         if(filtro.isConParametros()){
-            items = cliente.getFiltrados(filtro, user_id);
+            items = Clientes.articulo.getFiltrados(filtro, idUsuario,idSesion);
         }else{
-            items = cliente.getItems(user_id);
+            items = Clientes.articulo.getItems(idUsuario,idSesion);
         }
         if(items == null){
-            items = cliente.getItems(user_id);
+            items = Clientes.articulo.getItems(idUsuario,idSesion);
         }
         
         
@@ -119,11 +127,14 @@ public class ArticuloController {
             }
         }
         Compra compra = new Compra();
-        Saldo saldo = new Saldo(billetera.getSaldo(user_id));
-        logger.info("saldo buscado "+saldo.getSaldo());
+        Saldo saldo = new Saldo();
+        Persona persona = Clientes.usuario.getUsuario(idUsuario);
+        saldo.setSaldo(Clientes.billetera.getSaldo(idUsuario, idSesion));
+ 
         mav.addObject("saldo", saldo);
         mav.addObject("Articulos", articulos);
         mav.addObject("compra", compra);
+        mav.addObject("persona", persona);
         logger.info("se agregaron los modelos a la vista de items");
         return mav;
     }
@@ -139,14 +150,14 @@ public class ArticuloController {
         ModelAndView mav = new ModelAndView(ViewRouteHelper.PUBLICACIONES);
         logger.info("nombre de usuario " +nombre);
         int user_id = 0;
-        if(id_usuario == "Atta"){
+        int sesion_id = 0;
+        if(!id_usuario.matches("Atta") && !id_sesion.matches("Atta")){
             logger.info("no se guardo el id_usuario");
-            return mav;
-        }else{
             user_id = Integer.parseInt(id_usuario);
+            sesion_id = Integer.parseInt(id_sesion);
         }
 
-        ItemsCompraVentaResponse items = cliente.getItemsEnVenta(user_id);
+        ItemsCompraVentaResponse items = Clientes.articulo.getItemsEnVenta(user_id, sesion_id);
         List<Articulo> articulos = new ArrayList<Articulo>();
         if(items != null){
 
@@ -167,17 +178,15 @@ public class ArticuloController {
                                         @CookieValue(value = "id_sesion", defaultValue = "Atta") String id_sesion
                                         ){
 
-        logger.info("nombre de usuario +" +nombre);
-        int user_id = 0;
-        if(id_usuario == "Atta"){
-            logger.info("no se guardo el id_usuario");
-            ModelAndView mav = new ModelAndView(ViewRouteHelper.PUBLICACIONES);
-            return mav;
-        }else{
-            user_id = Integer.parseInt(id_usuario);
-        }
         ModelAndView mav = new ModelAndView(ViewRouteHelper.COMPRAS);
-        ItemsCompraVentaResponse items = cliente.getItemsComprados(user_id);
+        logger.info("nombre de usuario  " +nombre);
+        int user_id = 0;
+        int sesion_id = 0;
+        if(!id_usuario.matches("Atta") && !id_sesion.matches("Atta")){
+            user_id = Integer.parseInt(id_usuario);
+            sesion_id = Integer.parseInt(id_sesion);
+        }
+        ItemsCompraVentaResponse items = Clientes.articulo.getItemsComprados(user_id,sesion_id);
         List<Articulo> articulos = new ArrayList<Articulo>();
         if(items != null){
 
@@ -191,15 +200,16 @@ public class ArticuloController {
     }
 
 
+
     @PostMapping("/comprar/{id_item}")
     public RedirectView comprarArticulo(@CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,@ModelAttribute("compra")Compra compra,@PathVariable("id_item") int idArticulo ) {
 
         compra.setIdArticulo(idArticulo);
         int idUser =0;
-        if(id_usuario != null && id_usuario != "Atta"){
+        if(!id_usuario.matches("Atta")){
             idUser = Integer.parseInt(id_usuario);
             compra.setIdUsuario(idUser);
-            cliente.comprarArticulo(compra);
+            Clientes.articulo.comprarArticulo(compra);
         }
         
         return new RedirectView("/items");
@@ -246,7 +256,7 @@ public class ArticuloController {
 
     RedirectView mav = new RedirectView("/ventas");
     int user_id = 0;
-        if(id_usuario == "Atta"){
+        if(!id_usuario.matches("Atta")){
             logger.info("no se guardo el id_usuario");
             return mav;
         }else{
@@ -260,11 +270,11 @@ public class ArticuloController {
         byte [] byteArr = files[i].getBytes();
         InputStream foto = files[i].getInputStream();
         if(i == 0){
-           idArticulo = cliente.cargarArticulo(foto, files[i].getOriginalFilename(), user_id, venta);
+           idArticulo = Clientes.articulo.cargarArticulo(foto, files[i].getOriginalFilename(), user_id, venta);
            logger.info("Cargando primera imagen, articulo quedo con id "+ idArticulo);
 
         }else{
-            cliente.cargarImagen(foto, files[i].getOriginalFilename(), user_id, idArticulo);
+            Clientes.articulo.cargarImagen(foto, files[i].getOriginalFilename(), user_id, idArticulo);
             logger.info("Cargando siguientes imagenes");
         }
             
@@ -280,16 +290,18 @@ public class ArticuloController {
     public ModelAndView vistaBilletera(@CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,
                                         @CookieValue(value = "id_sesion", defaultValue = "Atta") String id_sesion){
         int user_id = 0;
-        if(id_usuario == "Atta"){
+        int sesion_id = 0;
+        if(!id_usuario.matches("Atta") && !id_sesion.matches("Atta")){
             logger.info("no se guardo el id_usuario");
+            user_id = Integer.parseInt(id_usuario);
+            sesion_id = Integer.parseInt(id_sesion);
+        }else{
             ModelAndView mav = new ModelAndView(ViewRouteHelper.PUBLICACIONES);
             return mav;
-        }else{
-            user_id = Integer.parseInt(id_usuario);
         }
         ModelAndView mav = new ModelAndView(ViewRouteHelper.BILLETERA);
 
-        Saldo saldo = new Saldo(billetera.getSaldo(user_id));
+        Saldo saldo = new Saldo(Clientes.billetera.getSaldo(user_id, sesion_id));
         mav.addObject("saldo", saldo);
         return mav;  
     }
@@ -306,7 +318,7 @@ public class ArticuloController {
     int sesion_id = 0;
     double importe = 0;
     logger.info("saldo a cargar "+saldo.getSaldo());
-    if(id_usuario != "Atta" && id_sesion != "Atta"){
+    if(!id_usuario.matches("Atta") && !id_sesion.matches("Atta")){
         user_id = Integer.parseInt(id_usuario);
         sesion_id = Integer.parseInt(id_sesion);
         importe = saldo.getSaldo();
@@ -314,7 +326,7 @@ public class ArticuloController {
         logger.info("no se guardo el id_usuario o la sesion");
         return mav;
     }
-    billetera.cargarSaldo(user_id, importe, sesion_id);
+    Clientes.billetera.cargarSaldo(user_id, importe, sesion_id);
 
     
     return mav;

@@ -68,7 +68,7 @@ public class ArticuloClient {
     }
 
     
-    public Items getItems(int user_id){
+    public Items getItems(int user_id, int sesion_id){
         getItemsRequest request = getItemsRequest.newBuilder().setUserId(user_id).build();
         Items response;
         try{
@@ -83,7 +83,7 @@ public class ArticuloClient {
     }
 
     
-    public Items getFiltrados(Filtro filtro, int user_id){
+    public Items getFiltrados(Filtro filtro, int user_id, int sesion_id){
 
         ItemCategory cat = ItemCategory.forNumber(Integer.parseInt(filtro.getCategoria()));
         Timestamp timestampMin;
@@ -123,7 +123,7 @@ public class ArticuloClient {
 
 
 
-    public ItemsCompraVentaResponse getItemsEnVenta(int id_usuario){
+    public ItemsCompraVentaResponse getItemsEnVenta(int id_usuario, int sesion_id){
         ItemsCompraVenta request = ItemsCompraVenta.newBuilder().setUserId(id_usuario).build();
         ItemsCompraVentaResponse response;
         try{
@@ -525,7 +525,7 @@ public class ArticuloClient {
         }
 
 
-    public ItemsCompraVentaResponse getItemsComprados(int user_id) {
+    public ItemsCompraVentaResponse getItemsComprados(int user_id, int sesion_id) {
         ItemsCompraVenta request = ItemsCompraVenta.newBuilder().setUserId(user_id).build();
         ItemsCompraVentaResponse response;
         try{
