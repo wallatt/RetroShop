@@ -10,8 +10,6 @@ from  usuario_pb2 import (
 )
 from dao import DAO
 
-import logging
-
 
 
 class ServicioUsuario(usuario_pb2_grpc.UsuarioServicer):
@@ -79,9 +77,6 @@ class ServicioUsuario(usuario_pb2_grpc.UsuarioServicer):
         user_id = request.id
         persona = Persona()
         cuenta = Cuenta()
-        # print('hola')
-        # persona = Persona(id =1, nombre = 'walter', apellido = 'lacoste', dni = 111 ,mail = 'yo@gmail.co')
-        # cuenta = Cuenta(usuario = 'wlacoste', hashedPassword = '')
         
         try:
             res = self.BDUsuarios.getUsuario(user_id)
