@@ -17,11 +17,13 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.example.RetroShop.entities.ArticuloClient;
+import com.example.RetroShop.entities.BilleteraClient;
 import com.example.RetroShop.helper.ViewRouteHelper;
 import com.example.RetroShop.models.Articulo;
 import com.example.RetroShop.models.Compra;
 import com.example.RetroShop.models.Filtro;
 import com.example.RetroShop.models.ImagenWrapper;
+import com.example.RetroShop.models.Saldo;
 import com.example.RetroShop.models.Venta;
 
 import io.grpc.RetroShop.articulo.ItemCategory;
@@ -46,6 +48,7 @@ import java.util.logging.Logger;
 public class ArticuloController {
 
     ArticuloClient cliente = new ArticuloClient("localhost", 50052);
+    BilleteraClient billetera = new BilleteraClient("localhost", 50053);
 
     Logger logger = Logger.getLogger(ArticuloController.class.getName());
 
@@ -74,41 +77,51 @@ public class ArticuloController {
     
 
     @GetMapping("/items")
-    public ModelAndView getItems(@RequestParam(required = false) String nombre,
+    public ModelAndView getItems(@CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,
+                                @RequestParam(required = false) String nombre,
                                 @RequestParam(required = false) String categoria,
                                 @RequestParam(required = false) String precioMin,
                                 @RequestParam(required = false) String precioMax,
                                 @RequestParam(required = false) String fechaMin,
                                 @RequestParam(required = false) String fechaMax
     ){
-        logger.info(fechaMin + "");
-        logger.info(fechaMax + "");
+
         Filtro filtro = new Filtro(nombre, categoria, precioMin, precioMax, fechaMin,fechaMax);
-
-        if(filtro.getFechaMax()!=null){
-            logger.info("fecha max esta seteada "+ filtro.getFechaMax().toString());
-        }
-
-        if(filtro.getFechaMin()!=null){
-            logger.info("fecha min esta seteada "+ filtro.getFechaMin().toString());
-        }
-        logger.info("nombre "+ filtro.getNombre());
-        logger.info("categoria "+ filtro.getCategoria());
-        logger.info("precio max "+ filtro.getPrecioMax());
-        logger.info("precio min "+ filtro.getPrecioMin());
-
-        
-        
-        
         ModelAndView mav = new ModelAndView(ViewRouteHelper.ARTICULOS);
-        Items items = cliente.getItems();
+
+        int user_id = 0;
+        if(id_usuario == "Atta"){
+            logger.info("no se guardo el id_usuario");
+            return mav;
+        }else{
+            user_id = Integer.parseInt(id_usuario);
+        }
+
+        Items items  = cliente.getItems(user_id);
+        
+        if(filtro.isConParametros()){
+            items = cliente.getFiltrados(filtro, user_id);
+        }else{
+            items = cliente.getItems(user_id);
+        }
+        if(items == null){
+            items = cliente.getItems(user_id);
+        }
+        
+        
         List<Articulo> articulos = new ArrayList<Articulo>();
-        for(ItemSale i:items.getItemsList()){
-            articulos.add(new Articulo(i));  
-            logger.info("venta es en estado "+ i.getItem().getItemId());
-            logger.info(" "+ i.getItem().getIsActiva());
+        if(items != null){
+
+            for(ItemSale i:items.getItemsList()){
+                articulos.add(new Articulo(i));  
+                logger.info("venta es en estado "+ i.getItem().getItemId());
+                logger.info(" "+ i.getItem().getIsActiva());
+            }
         }
         Compra compra = new Compra();
+        Saldo saldo = new Saldo(billetera.getSaldo(user_id));
+        logger.info("saldo buscado "+saldo.getSaldo());
+        mav.addObject("saldo", saldo);
         mav.addObject("Articulos", articulos);
         mav.addObject("compra", compra);
         logger.info("se agregaron los modelos a la vista de items");
@@ -124,7 +137,7 @@ public class ArticuloController {
                                         ){
 
         ModelAndView mav = new ModelAndView(ViewRouteHelper.PUBLICACIONES);
-        logger.info("nombre de usuario +" +nombre);
+        logger.info("nombre de usuario " +nombre);
         int user_id = 0;
         if(id_usuario == "Atta"){
             logger.info("no se guardo el id_usuario");
@@ -135,12 +148,15 @@ public class ArticuloController {
 
         ItemsCompraVentaResponse items = cliente.getItemsEnVenta(user_id);
         List<Articulo> articulos = new ArrayList<Articulo>();
-        for(ItemSale i:items.getItemsList()){
-            logger.info("esta venta activa "+ i.getItem().getIsActiva());
-            articulos.add(new Articulo(i));  
+        if(items != null){
+
+            for(ItemSale i:items.getItemsList()){
+                logger.info("esta venta activa "+ i.getItem().getIsActiva());
+                articulos.add(new Articulo(i));  
+            }
         }
         mav.addObject("Articulos", articulos);
-        return mav;
+            return mav;
     }
     
 
@@ -163,9 +179,12 @@ public class ArticuloController {
         ModelAndView mav = new ModelAndView(ViewRouteHelper.COMPRAS);
         ItemsCompraVentaResponse items = cliente.getItemsComprados(user_id);
         List<Articulo> articulos = new ArrayList<Articulo>();
-        for(ItemSale i:items.getItemsList()){
-            logger.info("esta venta activa "+ i.getItem().getIsActiva());
-            articulos.add(new Articulo(i));  
+        if(items != null){
+
+            for(ItemSale i:items.getItemsList()){
+                logger.info("esta venta activa "+ i.getItem().getIsActiva());
+                articulos.add(new Articulo(i));  
+            }
         }
         mav.addObject("Articulos", articulos);
         return mav;
@@ -256,24 +275,48 @@ public class ArticuloController {
     return mav;
 }
 
-    // @PostMapping("/filtrar"){
-    //     public ModelAndView filtrarItems(@ModelAttribute("compra")Filtro filtro){
-    //     ModelAndView mav = new ModelAndView(ViewRouteHelper.ARTICULOS);
-    //     Items items = cliente.getItems();
-    //     List<Articulo> articulos = new ArrayList<Articulo>();
-    //     for(ItemSale i:items.getItemsList()){
-    //         articulos.add(new Articulo(i));  
-    //         logger.info("venta es en estado "+ i.getItem().getItemId());
-    //         logger.info(" "+ i.getItem().getIsActiva());
-    //     }
-    //     Compra compra = new Compra();
-    //     mav.addObject("Articulos", articulos);
-    //     mav.addObject("compra", compra);
-    //     logger.info("se agregaron los modelos a la vista de items");
-    //     return mav;
-    // }
+
+    @GetMapping("/billetera")
+    public ModelAndView vistaBilletera(@CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,
+                                        @CookieValue(value = "id_sesion", defaultValue = "Atta") String id_sesion){
+        int user_id = 0;
+        if(id_usuario == "Atta"){
+            logger.info("no se guardo el id_usuario");
+            ModelAndView mav = new ModelAndView(ViewRouteHelper.PUBLICACIONES);
+            return mav;
+        }else{
+            user_id = Integer.parseInt(id_usuario);
+        }
+        ModelAndView mav = new ModelAndView(ViewRouteHelper.BILLETERA);
+
+        Saldo saldo = new Saldo(billetera.getSaldo(user_id));
+        mav.addObject("saldo", saldo);
+        return mav;  
+    }
+
+    @RequestMapping(value = "/billetera", method = RequestMethod.POST)
+    public RedirectView cargarBilletera(
+                            @CookieValue(value = "id_usuario", defaultValue = "Atta") String id_usuario,
+                            @CookieValue(value = "id_sesion", defaultValue = "Atta") String id_sesion,    
+                            @ModelAttribute("saldo")Saldo saldo) {
 
 
+    RedirectView mav = new RedirectView("/items");
+    int user_id = 0;
+    int sesion_id = 0;
+    double importe = 0;
+    logger.info("saldo a cargar "+saldo.getSaldo());
+    if(id_usuario != "Atta" && id_sesion != "Atta"){
+        user_id = Integer.parseInt(id_usuario);
+        sesion_id = Integer.parseInt(id_sesion);
+        importe = saldo.getSaldo();
+    }else{
+        logger.info("no se guardo el id_usuario o la sesion");
+        return mav;
+    }
+    billetera.cargarSaldo(user_id, importe, sesion_id);
+
     
-    
+    return mav;
+    }
 }

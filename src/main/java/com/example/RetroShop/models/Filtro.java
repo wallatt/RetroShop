@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import ch.qos.logback.classic.Logger;
 
 public class Filtro {
     String categoria;
@@ -13,6 +12,7 @@ public class Filtro {
     double precioMin;
     Date fechaMin;
     Date fechaMax;
+    boolean conParametros;
 
 
     public Filtro() {
@@ -20,14 +20,24 @@ public class Filtro {
 
     public Filtro(String nombre, String categoria, String precioMin, String precioMax, String fechaMin, String fechaMax) {
         this.nombre = nombre == null ? "" : nombre;
-        this.categoria = categoria == null ? "" : categoria;
+        this.categoria = categoria == null ? "0" : categoria;
         setPrecioMin(precioMin);
         setPrecioMax(precioMax);
         setFechas(fechaMin, fechaMax);
         setPrecios();
+        setConParametros();
     }
 
-    public void setFechas(String fechaMin, String fechaMax) {  
+    private void setConParametros(){
+        if(this.categoria !="0" || this.nombre !="" || this.precioMin >0 || this.precioMax >0 || this.fechaMax!= null || this.fechaMin!= null){
+            this.conParametros = true;
+        }
+    }
+    public boolean isConParametros(){
+        return this.conParametros;
+    }
+
+    private void setFechas(String fechaMin, String fechaMax) {  
 
        if(fechaMin != null){
         DateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -127,6 +137,20 @@ public class Filtro {
     }
     public Date getFechaMin() {
         return this.fechaMin;
+    }
+
+
+    @Override
+    public String toString() {
+        return "{" +
+            " categoria='" + getCategoria() + "'" +
+            ", nombre='" + getNombre() + "'" +
+            ", precioMax='" + getPrecioMax() + "'" +
+            ", precioMin='" + getPrecioMin() + "'" +
+            ", fechaMin='" + getFechaMin() + "'" +
+            ", fechaMax='" + getFechaMax() + "'" +
+            ", conParametros='" + isConParametros() + "'" +
+            "}";
     }
 
 

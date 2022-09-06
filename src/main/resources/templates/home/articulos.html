@@ -50,7 +50,8 @@
             th:href=@{/ventas/nuevo}>Nueva venta</a>
           <a class="list-group-item list-group-item-action list-group-item-light
             p-3" th:href=@{/billetera}>
-            Billetera</a>
+            Billetera
+            </a>
           <a class="list-group-item list-group-item-action list-group-item-light
             p-3" th:href="@{/perfil}">Mi
             perfil</a>
@@ -58,21 +59,22 @@
             p-3"
             th:href="@{/ingresar}">Logout</a>
 
-
-
-
-
+            
+            <div class="container  mt-3 " style="width: 35rem; overflow: hidden;" > 
+              <h5 class="bolder"   th:text="'Saldo:     $'+${saldo.getSaldo()}"></h5>
+            </div>
 
                             <!-- formulario de filtro -->
                   <!-- formulario de filtro -->
                   <!-- formulario de filtro -->
                   <!-- formulario de filtro -->
-                  <div class="container px-700 px-lg-5 mt-5 " style="width: 35rem; overflow: hidden" > 
+                  <div class="container px-700 px-lg-5 mt-3 " style="width: 35rem; overflow: hidden" > 
                     <form class="form-horizontal" th:action="@{/items}" method="get">
                         <fieldset>
                         
                         <!-- Form Name -->
-                        <legend>Filtrar articulos</legend>
+                        
+                        <h4 >Filtrar articulos</h4>
                         
                         <!-- Text input-->
                         <div class="form-group">

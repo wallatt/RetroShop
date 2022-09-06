@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import com.example.RetroShop.models.Compra;
+import com.example.RetroShop.models.Filtro;
 import com.example.RetroShop.models.Venta;
 import com.google.j2objc.annotations.ReflectionSupport.Level;
 import com.google.protobuf.ByteString;
@@ -67,8 +68,8 @@ public class ArticuloClient {
     }
 
     
-    public Items getItems(){
-        getItemsRequest request = getItemsRequest.newBuilder().setUserId(1).build();
+    public Items getItems(int user_id){
+        getItemsRequest request = getItemsRequest.newBuilder().setUserId(user_id).build();
         Items response;
         try{
             logger.info("intentando obtener articulos ");
@@ -80,6 +81,46 @@ public class ArticuloClient {
         }
         return response;
     }
+
+    
+    public Items getFiltrados(Filtro filtro, int user_id){
+
+        ItemCategory cat = ItemCategory.forNumber(Integer.parseInt(filtro.getCategoria()));
+        Timestamp timestampMin;
+        Timestamp timestampMax;
+        try {
+            timestampMin = Timestamp.newBuilder().setSeconds(filtro.getFechaMin().getTime()).build();
+        } catch (Exception e) {
+            timestampMin = Timestamp.newBuilder().setSeconds(0).build();
+        }
+        try {
+            timestampMax = Timestamp.newBuilder().setSeconds(filtro.getFechaMax().getTime()).build();
+        } catch (Exception e) {
+            timestampMax = Timestamp.newBuilder().setSeconds(0).build();
+        }
+        // logger.info("timestamp max: " + timestampMax.toString());
+        // logger.info("timestamp min: " + timestampMin.toString());
+        // logger.info("fecha min: " + filtro.getFechaMin().toString());
+        // logger.info("fecha max: " + filtro.getFechaMax().toString());
+        getItemsFiltered request = getItemsFiltered.newBuilder().setUserId(user_id).setFechaDesde(timestampMin)
+                        .setFechaHasta(timestampMax)
+                        .setCategory(cat)
+                        .setPreciomin(filtro.getPrecioMin())
+                        .setPreciomax(filtro.getPrecioMax())
+                        .setNombre(filtro.getNombre())
+                        .build();
+        Items response;
+        try{
+            logger.info("intentando obtener articulos filtrados ");
+            response = blockingStub.getItemsFiltered(request);
+        }
+        catch (StatusRuntimeException e) {
+            logger.info("no se pudo obtener articulos filtrados");
+            return null;
+        }
+        return response;
+    }
+
 
 
     public ItemsCompraVentaResponse getItemsEnVenta(int id_usuario){
@@ -401,9 +442,7 @@ public class ArticuloClient {
             Instant time = Instant.now();
             Timestamp timestamp = Timestamp.newBuilder().setSeconds(date.getTime())
             .build();
-            logger.info("timestamp google "+ timestamp.toString());
-            logger.info("timestamp google "+ timestamp.getSeconds());
-            logger.info("timestamp mio "+ date.getTime());
+
             
             Item item = Item.newBuilder().setNombre(venta.getNombre())
                                         .setDescripcion(venta.getDescripcion())
