@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.RetroShop.usuario";
+option java_outer_classname = "usuarioProto";
+option objc_class_prefix = "USP";
+
+package usuario;
+
+message Persona{
+    int32 id = 1;
+    string nombre = 2;
+    string apellido = 3;
+    int32 dni = 4;
+    string mail = 5;
+}
+
+message Cuenta{
+    string usuario = 1;
+    string hashedPassword = 2;
+}
+
+message CrearUsuarioRequest{
+    Persona persona = 1;
+    Cuenta cuenta = 2;
+}
+
+message UsuarioResponse{
+    int32 id = 1;
+}
+
+message IniciarSesionRequest{
+    Cuenta cuenta = 1;
+}
+
+message GetUsuarioRequest{
+    int32 id = 1;
+}
+
+message GetPersonaResponse{
+    Persona persona = 1;
+    Cuenta cuenta = 2;
+
+}
+
+message UserSesion{
+    int32 id_sesion = 1;
+    int32 id_persona = 2;
+    bool isActiveSesion = 3;
+}
+
+message UserSesionResponse{
+    UserSesion userSesion = 1;
+}
+
+message getSessionStatus{
+    int32 id_sesion = 1;
+    int32 id_persona = 2;
+}
+
+message closeSessionRequest{
+    int32 id_sesion = 1;
+    int32 id_persona = 2;
+}
+
+message empty{}
+
+service Usuario{
+    rpc NuevoUsuario (CrearUsuarioRequest) returns (UsuarioResponse);
+    rpc UsuarioSesion(IniciarSesionRequest) returns (UserSesionResponse);
+    rpc GetUsuario(GetUsuarioRequest) returns (GetPersonaResponse);
+    rpc GetEstadoSesion(getSessionStatus) returns (UserSesionResponse);
+    rpc CloseSession(closeSessionRequest) returns (empty);
+}
+
+

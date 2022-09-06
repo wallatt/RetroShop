@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:fragment="head">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>RetroS</title>
+    <!-- Favicon-->
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link
+      href="css/styles.css"
+      th:href="@{/css/styles.css}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+
+    
+    
+
+    <section class="py-5">
+      <div class="container px-700 px-lg-5 mt-5">
+        <div
+          class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4"
+          style="float: right"
+        >
+          <form
+            class="form-horizontal"
+            style="width: 500px; max-height: 500px float = right"
+            th:action="@{/user/create}" method="post" th:object="${usuario}"
+          >
+            <fieldset>
+              <!-- Form Name -->
+              <legend>Registrarse</legend>
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="Nombre"
+                  >Nombre</label
+                >
+                <div class="col-md-4">
+                  <input
+                    id="Nombre"
+                    name="Nombre"
+                    type="text"
+                    placeholder="Jorge"
+                    class="form-control input-md"
+                    required=""
+                    th:field:"*{nombre}"
+                  />
+                </div>
+              </div>
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="apellido"
+                  >Apellido</label
+                >
+                <div class="col-md-4">
+                  <input
+                    id="apellido"
+                    name="apellido"
+                    type="text"
+                    placeholder="Perez"
+                    class="form-control input-md"
+                    required=""
+                    th:field:"*{apellido}"
+                  />
+                </div>
+              </div>
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="dni">dni</label>
+                <div class="col-md-4">
+                  <input
+                    id="dni"
+                    name="dni"
+                    type="number"
+                    placeholder="30123456"
+                    class="form-control input-md"
+                    required=""
+                    th:field:"*{dni}"
+                    onkeypress="return isNumberKey(event)"
+                  />
+                </div>
+              </div>
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="mail">Mail</label>
+                <div class="col-md-4">
+                  <input
+                    id="mail"
+                    name="mail"
+                    type="text"
+                    placeholder="JorgeP@mail.com"
+                    class="form-control input-md"
+                    required=""
+                    th:field:"*{mail}"
+                  />
+                </div>
+              </div>
+
+              <!-- Text input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="usuario"
+                  >Usuario</label
+                >
+                <div class="col-md-4">
+                  <input
+                    id="usuario"
+                    name="usuario"
+                    type="text"
+                    placeholder="jorge67"
+                    class="form-control input-md"
+                    required=""
+                    th:field:"*{usuario}"
+                  />
+                </div>
+              </div>
+
+              <!-- Password input-->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="password"
+                  >Contraseña</label
+                >
+                <div class="col-md-4">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="abc123"
+                    class="form-control input-md"
+                    required=""
+                    th:field:"*{password}"
+                  />
+                </div>
+              </div>
+
+
+              <!-- Button -->
+              <div class="form-group">
+                <label class="col-md-4 control-label" for="registrar"></label>
+                <div class="col-md-4">
+                  <button
+                    id="registrar"
+                    name="registrar"
+                    class="btn btn-primary"
+                    type="submit"
+                  >
+                    Registrar
+                  </button>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+
+        <div>
+          <form th:action="@{/login}" method="post" th:object="${cuenta}">
+              <fieldset>
+                <!-- Form Name -->
+                <legend>Iniciar sesion</legend>
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="nombreUsuario">Usuario</label>
+                  <div class="col-md-4">
+                    <input
+                      id="nombreUsuario"
+                      name="nombreUsuario"
+                      type="text"
+                      placeholder="jorge67"
+                      class="form-control input-md"
+                      required=""
+                      th:field:"*{nombreUsuario}"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="password"
+                    >Contraseña</label
+                  >
+                  <div class="col-md-4">
+                    <input
+                      id="password"
+                      name="password"
+                      type="password"
+                      placeholder="abc123"
+                      class="form-control input-md"
+                      required=""
+                      th:field:"*{password}"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-4 control-label" for="registrar"></label>
+                  <div class="col-md-4">
+                    <button id="registrar" name="registrar" class="btn btn-primary" type="submit">
+                      Login
+                    </button>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+
+  </body>
+
+  <script>
+    function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+  </script>
+  <script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		crossorigin="anonymous"></script>
+</html>

@@ -1,0 +1,156 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.RetroShop.articulo";
+option java_outer_classname = "articuloProto";
+option objc_class_prefix = "ARP";
+
+package articulo;
+
+
+import "google/protobuf/timestamp.proto";
+
+
+
+message Empty {}
+
+enum ItemCategory {
+
+    NINGUNA = 0;
+    
+    TECNOLOGIA = 1;
+
+    LIBROS = 2;
+
+    VESTIMENTA = 3;
+
+    VEHICULOS = 4;
+
+    DEPORTES = 5;
+
+    HOGAR = 6;
+
+}
+
+message Item{
+    int32 item_id = 1;
+    string nombre = 2;
+    string descripcion = 3;
+    double precio = 4;
+    int32 cantidad = 5;
+    google.protobuf.Timestamp fecha_fabricacion = 6;
+    ItemCategory category = 7;
+    int32 cantVendida = 8;
+    bool isActiva = 9;
+}
+
+message ItemSale{
+    int32 seller_id = 1;
+    Item item = 2;
+    repeated string imagen = 3;
+}
+
+
+message ItemId{
+    int32 item_id = 1;
+    int32 user_id = 2;
+}
+
+message metadata{
+    int32 user_id = 1;
+    int32 item_id = 2;
+    string tipo_img = 3;
+    string nombre = 4;
+}
+message DataChunk {
+    oneof request{
+        bytes data = 1;
+        metadata configuration = 2;
+    }
+}
+
+
+message Itemdata{
+    int32 user_id = 1;
+    int32 item_id = 2;
+    string tipo_img = 3;
+    string nombre = 4;
+    Item item = 5;
+}
+
+message NewItemSaleRequest {
+    oneof request{
+        bytes data = 1;
+        Itemdata configuration = 2;
+    }
+}
+
+message Items{
+    repeated ItemSale items = 1;
+}
+
+
+message getItemsFiltered{
+    int32 user_id = 1;
+    ItemCategory category = 2;
+    string nombre = 3;
+    double preciomin = 4;
+    double preciomax = 5;
+    google.protobuf.Timestamp fecha_desde = 6;
+    google.protobuf.Timestamp fecha_hasta = 7;
+}
+
+message buyItemRequest{
+    int32 user_id = 1;
+    int32 item_id = 2;
+    int32 cantidad = 3;
+}
+message getItemsRequest{
+    int32 user_id = 1;
+    int32 sesion_id = 2;
+}
+
+message ItemsCompraVenta{
+    int32 user_id = 1;
+}
+
+message ItemsCompraVentaResponse{
+    repeated ItemSale items= 1;
+}
+
+message DownloadProductImageRequest {
+    repeated string nombre_imagen = 1;
+}
+
+
+message UploadProductResponse {
+    enum ResultStatus {
+        SUCCESS = 0;
+        FAILED = 1;
+    }
+    ResultStatus result_status = 1;
+}
+
+
+service ItemService{
+    rpc NuevoItem(ItemSale) returns(ItemId);
+    rpc EditarItem(ItemSale) returns(ItemId);
+
+        rpc NuevoItemSaleRequest(stream NewItemSaleRequest) returns(ItemId);
+        rpc UploadProductImage(stream DataChunk) returns(UploadProductResponse){};
+
+    rpc GetItem(ItemId) returns(ItemSale);
+    rpc GetItems(getItemsRequest) returns (Items);
+    rpc GetUltimoArticuloCreado(getItemsRequest) returns (ItemId);
+        rpc GetItemsFiltered(getItemsFiltered) returns(Items);
+    rpc ComprarItem(buyItemRequest) returns (Empty);
+
+    rpc ItemsComprados(ItemsCompraVenta) returns (ItemsCompraVentaResponse);
+    rpc ItemsEnVenta(ItemsCompraVenta) returns (ItemsCompraVentaResponse);
+        rpc DownloadProductImage(DownloadProductImageRequest) returns(stream DataChunk){};
+}
+
+
+
+
+

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+  <head th:fragment="head">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>RetroS</title>
+    <!-- Favicon-->
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link
+      href="../../static/css/styles.css"
+      th:href="@{/css/styles.css}"
+      rel="stylesheet"
+      />
+  </head>
+  <body>
+
+
+
+    <div th:fragment="wrapper(content)" class="d-flex" id="wrapper">
+      <!-- Sidebar-->
+      <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light pb-2 pt-3">
+          <a class="navbar-brand m-5" th:href="@{/items}"> <img
+              src="https://img.freepik.com/premium-vector/old-analog-camera-icon_18667-110.jpg"
+              width="120" height="120" style="border-radius:50%" alt="" />
+
+          </a>
+        </div>
+        <div class="list-group list-group-flush">
+
+
+
+          <h5 class="list-group-item list-group-item-light p-3 ">Bienvenido</h5>
+          <a class="list-group-item list-group-item-action list-group-item-light
+            p-3 "
+            th:href="@{/compras}">Mis compras</a>
+          <a class="list-group-item list-group-item-action list-group-item-light
+            p-3"
+            th:href="@{/ventas}">Mis publicaciones</a>
+
+          <a class="list-group-item list-group-item-action list-group-item-light
+            p-3"
+            th:href=@{/ventas/nuevo}>Nueva venta</a>
+          <a class="list-group-item list-group-item-action list-group-item-light
+            p-3" th:href=@{/billetera}>
+            Billetera
+          </a>
+          <a class="list-group-item list-group-item-action list-group-item-light
+            p-3" th:href="@{/perfil}">Mi
+            perfil</a>
+          <a class="list-group-item list-group-item-action list-group-item-light
+            p-3"
+            th:href="@{/ingresar}">Logout</a>
+
+
+          <div class="container mt-3 " style="width: 35rem; overflow: hidden;">
+            <h5 class="bolder" th:text="'Saldo: $'+${saldo.getSaldo()}"></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container px-700 px-lg-5 mt-5 main"> 
+      <form class="form-horizontal" th:action="@{/billetera}" method="post" th:object="${saldo}" >
+          <fieldset>
+          
+          <!-- Form Name -->
+          <legend class="text-muted">Cargar saldo</legend>
+          
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-md-4 control-label text-muted text-sm mb-0" for="nombre">Nombre en la tarjeta</label>  
+            <div class="col-md-4">
+            <input id="nombre" name="nombre"
+                  type="text"
+                  placeholder="Nombre"
+                  class="form-control input-md"
+                  required=""
+                  >
+              
+            </div>
+          </div>
+      
+          
+          <!-- Text input-->
+          <div class="form-group">
+              <label class="col-md-4 text-muted control-label" for="saldo">Importe a cargar</label>  
+              <div class="col-md-4">
+                  <input
+                  id="saldo"
+                  name="saldo"
+                  type="number"
+                  placeholder=""
+                  class="form-control input-md"
+                  required=""
+                  step="100"
+                  min="100"
+                  value="100"
+                  th:field:"*{saldo}"
+                  onkeypress="return isNumberKey(event)"
+                  >
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="col-md-4 control-label text-muted text-sm mb-0" for="numtc">Numero de tarjeta de credito </label>  
+              <div class="col-md-4">
+                  <input
+                  id="precio"
+                  name="precio"
+                  type="text"
+                  placeholder="xxxx xxxx xxxx xxxx"
+                  class="form-control input-md"
+                  required=""
+                  onkeypress="return isNumberKey(event)"
+                  >
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="col-md-4 text-muted control-label" for="exp">Fecha de vencimiento </label>  
+              <div class="col-md-4">
+                  <input name="vencimiento" class="form-control input-md cc-number" type="tel" pattern="\d*" maxlength="5" 
+                  placeholder="MM/YY"
+                  onkeypress="return isNumberKey(event)"
+                  >
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="col-md-4 text-muted control-label" for="exp">CVV/CVC </label>  
+              <div class="col-md-4">
+                  <input name="credit-number" class="form-control input-md cc-number"
+                   type="tel" pattern="\d*" maxlength="3" placeholder="000"
+                  onkeypress="return isNumberKey(event)"
+                  >
+              </div>
+          </div>
+    
+          </fieldset>
+          <div class="text-left button" style="margin-top:15px">
+              <input class="btn success"
+              type="submit"
+              value="Cargar"
+
+              ></input>
+          </div>
+  
+      </form>
+    </div>
+
+
+
+
+
+  </body>
+  <script>
+    function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+    }
+    $(document).ready(function(){
+
+//For Card Number formatted input
+var cardNum = document.getElementById('cr_no');
+cardNum.onkeyup = function (e) {
+    if (this.value == this.lastValue) return;
+    var caretPosition = this.selectionStart;
+    var sanitizedValue = this.value.replace(/[^0-9]/gi, '');
+    var parts = [];
+    
+    for (var i = 0, len = sanitizedValue.length; i < len; i += 4) {
+        parts.push(sanitizedValue.substring(i, i + 4));
+    }
+    
+    for (var i = caretPosition - 1; i >= 0; i--) {
+        var c = this.value[i];
+        if (c < '0' || c > '9') {
+            caretPosition--;
+        }
+    }
+    caretPosition += Math.floor(caretPosition / 4);
+    
+    this.value = this.lastValue = parts.join(' ');
+    this.selectionStart = this.selectionEnd = caretPosition;
+}
+
+//For Date formatted input
+var expDate = document.getElementById('exp');
+expDate.onkeyup = function (e) {
+    if (this.value == this.lastValue) return;
+    var caretPosition = this.selectionStart;
+    var sanitizedValue = this.value.replace(/[^0-9]/gi, '');
+    var parts = [];
+    
+    for (var i = 0, len = sanitizedValue.length; i < len; i += 2) {
+        parts.push(sanitizedValue.substring(i, i + 2));
+    }
+    
+    for (var i = caretPosition - 1; i >= 0; i--) {
+        var c = this.value[i];
+        if (c < '0' || c > '9') {
+            caretPosition--;
+        }
+    }
+    caretPosition += Math.floor(caretPosition / 2);
+    
+    this.value = this.lastValue = parts.join('/');
+    this.selectionStart = this.selectionEnd = caretPosition;
+}
+
+});
+
+  </script>
+</html>

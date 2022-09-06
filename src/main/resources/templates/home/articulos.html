@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+  <head th:fragment="head">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>RetroS</title>
+    <!-- Favicon-->
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link
+      href="../../static/css/styles.css"
+      th:href="@{/css/styles.css}"
+      rel="stylesheet"
+      />
+  </head>
+  <body>
+
+
+
+    <div th:fragment="wrapper(content)" class="d-flex" id="wrapper">
+      <!-- Sidebar-->
+      <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light pb-2 pt-3">
+          <a class="navbar-brand m-5" th:href="@{/items}"> <img
+              src="https://img.freepik.com/premium-vector/old-analog-camera-icon_18667-110.jpg"
+              width="120" height="120" style="border-radius:50%" alt="" />
+
+          </a>
+        </div>
+        <div class="list-group list-group-flush">
+
+
+
+          <h5 class="list-group-item list-group-item-light p-3 " th:text="'Bienvenido     '+${persona?.getNombre()}">Bienvenido</h5>
+          <a class="list-group-item list-group-item-action list-group-item-light
+            p-3 "
+            th:href="@{/compras}">Mis compras</a>
+          <a class="list-group-item list-group-item-action list-group-item-light
+            p-3"
+            th:href="@{/ventas}">Mis publicaciones</a>
+
+          <a class="list-group-item list-group-item-action list-group-item-light
+            p-3"
+            th:href=@{/ventas/nuevo}>Nueva venta</a>
+          <a class="list-group-item list-group-item-action list-group-item-light
+            p-3" th:href=@{/billetera}>
+            Billetera
+            </a>
+          <a class="list-group-item list-group-item-action list-group-item-light
+            p-3" th:href="@{/perfil}">Mi
+            perfil</a>
+          <a class="list-group-item list-group-item-action list-group-item-light
+            p-3"
+            th:href="@{/ingresar}">Logout</a>
+
+            
+            <div class="container  mt-3 " style="width: 35rem; overflow: hidden;" > 
+              <h5 class="bolder"   th:text="'Saldo:     $'+${saldo?.getSaldo()}"></h5>
+            </div>
+
+                            <!-- formulario de filtro -->
+                  <!-- formulario de filtro -->
+                  <!-- formulario de filtro -->
+                  <!-- formulario de filtro -->
+                  <div class="container px-700 px-lg-5 mt-3 " style="width: 35rem; overflow: hidden" > 
+                    <form class="form-horizontal" th:action="@{/items}" method="get">
+                        <fieldset>
+                        
+                        <!-- Form Name -->
+                        
+                        <h4 >Filtrar articulos</h4>
+                        
+                        <!-- Text input-->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="nombre"></label>  
+                          <div class="col-md-4">
+                          <input id="nombre" name="nombre"
+                                type="text"
+                                placeholder="Articulo"
+                                class="form-control input-md"
+                                >
+                          </div>
+                        </div>
+                
+                        <!-- Select Basic -->
+                        <div class="form-group">
+                          <label class="col-md-4 control-label" for="categoria"></label>
+                          <div class="col-md-4">
+                            <select id="categoria"
+                             name="categoria"
+                             class="form-control"
+                             value="0"
+                             >
+                              <option th:value="0" disabled selected th:text="Categoria"></option>
+                              <option th:value="1" th:text="Tecnologia"></option>
+                              <option th:value="2" th:text="Libros"></option>
+                              <option th:value="3" th:text="Vestimenta"></option>
+                              <option th:value="4" th:text="Vehiculos"></option>
+                              <option th:value="5" th:text="Deportes"></option>
+                              <option th:value="6" th:text="Hogar"></option>
+                            </select>
+                          </div>
+                        </div>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="precioMin"></label>  
+                            <div class="col-md-4">
+                                <input
+                                id="precioMin"
+                                name="precioMin"
+                                type="number"
+                                placeholder="Precio minimo"
+                                class="form-control input-md"
+                                step="100"
+                                min="0"
+                                max="9999999"
+                                onkeypress="return isNumberKey(event)"
+                                > 
+                            </div>
+                        </div>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="precioMax"></label>  
+                            <div class="col-md-4">
+                                <input
+                                id="precioMax"
+                                name="precioMax"
+                                type="number"
+                                placeholder="Precio maximo"
+                                class="form-control input-md"
+                                step="100"
+                                min="0"
+                                max="9999999"
+                                onkeypress="return isNumberKey(event)"
+                                > 
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="fecha">Fabricacion</label>  
+                            <div class="col-md-4">
+                          <input id="fechaMin"
+                          name="fechaMin"
+                          type="date"
+                          placeholder="Fecha minima"
+                          class="form-control input-md"
+                          >
+                          
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="fecha"></label>  
+                            <div class="col-md-4">
+                          <input id="fechaMax"
+                          name="fechaMax"
+                          type="date"
+                          placeholder="Fecha maxima"
+                          class="form-control input-md"
+                          >
+                        </div>
+                    </div>      
+                        </fieldset>
+                        <div class="text-left button" style="margin-top:15px">
+                            <input class="btn warning"
+                            type="submit"
+                            value="Aplicar filtros"
+                            ></input>
+                        </div>
+                
+                    </form>
+                  </div>
+                   <!-- formulario de filtro -->
+                  <!-- formulario de filtro -->
+                  <!-- formulario de filtro -->
+                  <!-- formulario de filtro -->
+
+
+
+
+
+
+
+        </div>
+      </div>
+
+      <div class="myContent container text-center main">
+        <div class=" d-flex justify-content-around pt-4 flex-wrap">
+
+          <div th:each="Articulo:${Articulos}" class=" p-3" style="width: 30rem;">
+
+            <section class="py-3" th:if="${Articulo.getItem().getItem().getIsActiva()}">
+              <div class="container ">
+                <div
+                  class="row
+                  justify-content-center">
+                  <div class="col mb-5" style="width: 500px; height: 680px">
+                    <div class="card h-100">
+                      <div class="badge bg-dark text-white position-absolute"
+                        style="top: 0.5rem; right: 0.5rem"
+                        th:text="${Articulo.getItem().getItem().getCategory()}"></div>
+                      <div style="max-width:500px; max-height:500px;
+                        overflow-y:scroll; border-radius: 5px;">
+
+                        <div
+                          th:each="foto:${Articulo.getItem().getImagenList()}">
+                          <img th:src=" 'http://localhost:8080/fotos/' +
+                            ${foto}" style="max-width:100%;max-height:100%;"></img>
+                      </div>
+
+                    </div>
+                    <!-- Product details-->
+                    <div class="card-body" style="height:200px;">
+                      <div class="text-left">
+                        <!-- Product name-->
+                        <h5 class="fw-bolder"
+                          th:text="${Articulo.getItem().getItem().getNombre()}">Special
+                          Item</h5>
+                        <!-- Product reviews-->
+                        <!-- Product price-->
+                        <!-- <span class="text-muted text-decoration-line-through" >$20.00</span> -->
+                        <h5 class="text-muted"
+                          th:text="${Articulo.getItem().getItem().getDescripcion()}"></h5>
+                        <!-- <p th:text="${Articulo.getItem().getCategory()}"></p> -->
+                        <h5 class="text-muted" th:text=" 'Precio: $'
+                          +${Articulo.getItem().getItem().getPrecio()}"></h5>
+                        <h5 class="text-muted" th:text="'Fabricacion: ' +
+                          ${Articulo.getFecha()}"></h5>
+                        <h5 class="text-muted" th:text="'Unidades disponibles: '
+                          + ${Articulo.getItem().getItem().getCantidad()}"></h5>
+                      </div>
+                    </div>
+
+
+                    <form class="card-footer p-4 pt-0 border-top-0
+                      bg-transparent" th:action="@{'/comprar/'+
+                      ${Articulo.getItem().getItem().getItemId()}}"
+                      method="post" th:object="${compra}">
+                      <div class="container">
+                        <input class="text-right quantity p-2 "
+                          style="width:20%"
+                          type="number"
+                          name="cantidad" access="false"
+                          min="1" th:max="${Articulo.getItem().getItem().getCantidad()}"
+                          step="1"
+                          id="cantidad"
+                          value= 1
+                          onkeypress="return isNumberKey(event)">
+                        <div class="text-left">
+                          <input class="btn success"
+                            type="submit"
+                            value="Comprar"></input>
+                      </div>
+                    </div>
+                  </form>
+
+  
+
+
+
+
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </body>
+  <script>
+    function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+  </script>
+</html>
