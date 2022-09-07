@@ -69,7 +69,7 @@ public class ArticuloClient {
 
     
     public Items getItems(int user_id, int sesion_id){
-        getItemsRequest request = getItemsRequest.newBuilder().setUserId(user_id).build();
+        getItemsRequest request = getItemsRequest.newBuilder().setUserId(user_id).setSesionId(sesion_id).build();
         Items response;
         try{
             logger.info("intentando obtener articulos ");
@@ -108,6 +108,7 @@ public class ArticuloClient {
                         .setPreciomin(filtro.getPrecioMin())
                         .setPreciomax(filtro.getPrecioMax())
                         .setNombre(filtro.getNombre())
+                        .setSesionId(sesion_id)
                         .build();
         Items response;
         try{
@@ -124,7 +125,7 @@ public class ArticuloClient {
 
 
     public ItemsCompraVentaResponse getItemsEnVenta(int id_usuario, int sesion_id){
-        ItemsCompraVenta request = ItemsCompraVenta.newBuilder().setUserId(id_usuario).build();
+        ItemsCompraVenta request = ItemsCompraVenta.newBuilder().setUserId(id_usuario).setSesionId(sesion_id).build();
         ItemsCompraVentaResponse response;
         try{
             logger.info("intentando obtener articulos ");
@@ -526,7 +527,7 @@ public class ArticuloClient {
 
 
     public ItemsCompraVentaResponse getItemsComprados(int user_id, int sesion_id) {
-        ItemsCompraVenta request = ItemsCompraVenta.newBuilder().setUserId(user_id).build();
+        ItemsCompraVenta request = ItemsCompraVenta.newBuilder().setUserId(user_id).setSesionId(sesion_id).build();
         ItemsCompraVentaResponse response;
         try{
             response = blockingStub.itemsComprados(request);

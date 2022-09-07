@@ -49,6 +49,7 @@ public class UsuarioClient {
     
     public boolean esSesionActiva(int id_usuario,int id_sesion){
         getSessionStatus request = getSessionStatus.newBuilder().setIdPersona(id_usuario).setIdSesion(id_sesion).build();
+        logger.info("estado sesion para el usuario id " + id_usuario + "con id sesion "+ id_sesion);
         UserSesionResponse response;
         try{
             logger.info("intentando obtener estado sesion "+ id_usuario);
@@ -87,7 +88,7 @@ public class UsuarioClient {
         IniciarSesionRequest request = IniciarSesionRequest.newBuilder().setCuenta(cuenta).build();
         UserSesionResponse response;
         try{
-            logger.info("intentando generar nuevo usuario ");
+            logger.info("intentando iniciar sesion usuario ");
             response = blockingStub.usuarioSesion(request);
         }
         catch (StatusRuntimeException e) {
@@ -101,7 +102,7 @@ public class UsuarioClient {
                                     setIdPersona(id_usuario).
                                     setIdSesion(id_sesion).build();
         try{
-            logger.info("intentando generar nuevo usuario ");
+            logger.info("intentando cerrar sesion usuario ");
             blockingStub.closeSession(request);
         }
         catch (StatusRuntimeException e) {

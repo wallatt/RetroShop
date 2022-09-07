@@ -98,6 +98,8 @@ message getItemsFiltered{
     double preciomax = 5;
     google.protobuf.Timestamp fecha_desde = 6;
     google.protobuf.Timestamp fecha_hasta = 7;
+    int32 sesion_id = 8;
+
 }
 
 message buyItemRequest{
@@ -112,6 +114,7 @@ message getItemsRequest{
 
 message ItemsCompraVenta{
     int32 user_id = 1;
+    int32 sesion_id = 2;
 }
 
 message ItemsCompraVentaResponse{

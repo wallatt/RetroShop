@@ -28,7 +28,7 @@ public class BilleteraClient {
     }
 
     public double getSaldo(int idUsuario, int idSesion){
-        saldoRequest request = saldoRequest.newBuilder().setIdUsuario(idUsuario).build();
+        saldoRequest request = saldoRequest.newBuilder().setIdUsuario(idUsuario).setIdSesion(idSesion).build();
         saldoResponse response;
         try{
             logger.info("intentando obtener saldo de usuario "+ idUsuario);
