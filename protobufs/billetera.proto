@@ -10,6 +10,7 @@ package billetera;
 
 message saldoRequest{
     int32 idUsuario = 1;
+    int32 idSesion = 2;
 }
 message saldoResponse{
     double saldo = 1;

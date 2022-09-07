@@ -41,9 +41,9 @@ class ServicioUsuario(usuario_pb2_grpc.UsuarioServicer):
     def UsuarioSesion(self, request, context):
         cuenta = request.cuenta
         validUser = self.validacionContraseña(request, context)
-
         sesionUser = UserSesion()
         if validUser:
+            
             id_sesion = self.iniciarSesion(cuenta.usuario)
             user_id = self.BDUsuarios.getUsuarioId(cuenta.usuario)[0]
             sesionUser = UserSesion(id_sesion= id_sesion, id_persona = user_id, isActiveSesion = True)
@@ -52,9 +52,11 @@ class ServicioUsuario(usuario_pb2_grpc.UsuarioServicer):
 
 
     def validacionContraseña(self, request, context):
+        print("validando contrenasdn")
         cuenta = request.cuenta
-        password = self.hashear(cuenta.hashedPassword)
+        password = self.hashear(str(cuenta.hashedPassword))
         bdpassword = ''
+        print("validando contrenasdn")
         try:
             bdpassword = self.BDUsuarios.getCredenciales(cuenta.usuario)[0]
         except:
@@ -74,7 +76,7 @@ class ServicioUsuario(usuario_pb2_grpc.UsuarioServicer):
 
 
     def GetUsuario(self, request, context):
-        user_id = request.id
+        user_id = int(request.id)
         persona = Persona()
         cuenta = Cuenta()
         
@@ -89,11 +91,14 @@ class ServicioUsuario(usuario_pb2_grpc.UsuarioServicer):
 
 
     def GetEstadoSesion(self, request, context):
-        id_sesion = request.id_sesion
-        id_persona = request.id_persona
+        id_sesion = int(request.id_sesion)
+        id_persona = int(request.id_persona)
         estadoSesion = UserSesion(id_sesion=id_sesion, id_persona=id_persona, isActiveSesion=False)
         try:
-            estadoSesion.isActiveSesion = self.BDUsuarios.isActiveSesion(id_persona, id_sesion)
+            estado = self.BDUsuarios.isActiveSesion(id_persona, id_sesion)
+            print(estado)
+            estadoSesion.isActiveSesion = estado
+            print(estadoSesion.isActiveSesion)
         except:
             print('No se pudo obtener estado sesion')
 

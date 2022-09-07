@@ -10,8 +10,8 @@ from articulodao import DAO
 from datetime import datetime
 from google.protobuf.timestamp_pb2 import Timestamp
 from logging import Logger
-import usuario_pb2_grpc
 import clienteBilletera
+import clienteUsuario
 
 
 class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
@@ -19,6 +19,7 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
     def __init__(self,):
         self.BDItems = DAO()
         self.billetera = clienteBilletera.BilleteraClient()
+        self.usuario = clienteUsuario.UsuarioClient()
 
     def DownloadProductImage(self, request, context):
         """Recibe una lista de nombres de imagenes y devuelve las imagenes"""
@@ -167,12 +168,18 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
         cantPublicacionVendedor = self.BDItems.getCantPublicaciones(config.user_id)
         return str(config.user_id)+'_'+str(cantPublicacionVendedor)+'_'+'1'+'.'+config.tipo_img
 
+    def isActive(self, idUser,idSesion):
+        id_usuario = int(idUser)
+        id_sesion = int(idSesion)
+        isActiveSesion = self.usuario.getSessionStatus(id_sesion, id_usuario)
+        return isActiveSesion
 
     def GetItems(self, config, context):
-        print("geting items")
-        id_usuario = config.user_id
 
-        id_articulos = self.BDItems.getItemsdentroDeParametros()
+        id_articulos = []
+        
+        if(self.isActive(config.user_id, config.sesion_id)):
+            id_articulos = self.BDItems.getItemsdentroDeParametros()
         articulos =[]
         print(len(id_articulos))
         for id in id_articulos:
@@ -186,8 +193,9 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
     def ItemsEnVenta(self, config, context):
         print("items en venta")
         id_usuario = config.user_id
-
-        articulos = self.BDItems.getPublicacionesDelVendedor(id_usuario)
+        print("id_usuario")
+        if(self.isActive(config.user_id, config.sesion_id)):
+            articulos = self.BDItems.getPublicacionesDelVendedor(id_usuario)
         resultado =[]
  
         for articulo in articulos:
@@ -224,7 +232,9 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
     def ItemsComprados(self, config, context):
         id_usuario = config.user_id
         print('buscando items comprados')
-        articulos = self.BDItems.getArticulosComprado(id_usuario)
+        if(self.isActive(config.user_id, config.sesion_id)):
+
+            articulos = self.BDItems.getArticulosComprado(id_usuario)
         print(articulos)
         resultado =[]
         if articulos == None:
@@ -262,11 +272,12 @@ class servicioArticulo(articulo_pb2_grpc.ItemServiceServicer):
         print(int(str(config.category)))
         categoria = None if int(str(config.category)) == 0 else int(str(config.category)) 
         nombre = None if config.nombre == "" else config.nombre 
-     
-
+        
+        print('esta activa la sesion para el filtro ',self.isActive(config.user_id, config.sesion_id))
         query = self.BDItems.getQuery(category = categoria, nombre = nombre, preciomin=precioMin, preciomax=precioMax, fdesde = fechaMin, fhasta = fechaMax, venta_activa=1)
         print(query)
-        id_articulos = self.BDItems.getItemsdentroDeParametros(category = categoria, nombre = nombre, preciomin=precioMin, preciomax=precioMax, fdesde = fechaMin, fhasta = fechaMax)
+        if(self.isActive(config.user_id, config.sesion_id)):
+            id_articulos = self.BDItems.getItemsdentroDeParametros(category = categoria, nombre = nombre, preciomin=precioMin, preciomax=precioMax, fdesde = fechaMin, fhasta = fechaMax)
         print(len(id_articulos))
         articulos =[]
         for id in id_articulos:

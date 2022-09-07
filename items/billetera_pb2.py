@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n\033io.grpc.RetroShop.billeteraB\016billeteraProtoP\001\242\002\003BIP',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0f\x62illetera.proto\x12\tbilletera\"!\n\x0csaldoRequest\x12\x11\n\tidUsuario\x18\x01 \x01(\x05\"\x1e\n\rsaldoResponse\x12\r\n\x05saldo\x18\x01 \x01(\x01\"8\n\x12\x63\x61rgarSaldoRequest\x12\x11\n\tidUsuario\x18\x01 \x01(\x05\x12\x0f\n\x07importe\x18\x02 \x01(\x01\"=\n\x17puedeHacerCompraRequest\x12\x11\n\tidUsuario\x18\x01 \x01(\x05\x12\x0f\n\x07importe\x18\x02 \x01(\x01\"4\n\x18puedeHacerCompraResponse\x12\x18\n\x10puedeHacerCompra\x18\x01 \x01(\x08\"N\n\x12hacerCompraRequest\x12\x13\n\x0bidComprador\x18\x01 \x01(\x05\x12\x12\n\nidVendedor\x18\x02 \x01(\x05\x12\x0f\n\x07importe\x18\x03 \x01(\x01\"\x07\n\x05\x45mpty2\xa7\x02\n\tBilletera\x12=\n\x08getSaldo\x12\x17.billetera.saldoRequest\x1a\x18.billetera.saldoResponse\x12>\n\x0b\x63\x61rgarSaldo\x12\x1d.billetera.cargarSaldoRequest\x1a\x10.billetera.Empty\x12[\n\x10puedeHacerCompra\x12\".billetera.puedeHacerCompraRequest\x1a#.billetera.puedeHacerCompraResponse\x12>\n\x0bhacerCompra\x12\x1d.billetera.hacerCompraRequest\x1a\x10.billetera.EmptyB5\n\x1bio.grpc.RetroShop.billeteraB\x0e\x62illeteraProtoP\x01\xa2\x02\x03\x42IPb\x06proto3'
+  serialized_pb=b'\n\x0f\x62illetera.proto\x12\tbilletera\"3\n\x0csaldoRequest\x12\x11\n\tidUsuario\x18\x01 \x01(\x05\x12\x10\n\x08idSesion\x18\x02 \x01(\x05\"\x1e\n\rsaldoResponse\x12\r\n\x05saldo\x18\x01 \x01(\x01\"J\n\x12\x63\x61rgarSaldoRequest\x12\x11\n\tidUsuario\x18\x01 \x01(\x05\x12\x0f\n\x07importe\x18\x02 \x01(\x01\x12\x10\n\x08idSesion\x18\x03 \x01(\x05\"=\n\x17puedeHacerCompraRequest\x12\x11\n\tidUsuario\x18\x01 \x01(\x05\x12\x0f\n\x07importe\x18\x02 \x01(\x01\"4\n\x18puedeHacerCompraResponse\x12\x18\n\x10puedeHacerCompra\x18\x01 \x01(\x08\"N\n\x12hacerCompraRequest\x12\x13\n\x0bidComprador\x18\x01 \x01(\x05\x12\x12\n\nidVendedor\x18\x02 \x01(\x05\x12\x0f\n\x07importe\x18\x03 \x01(\x01\"\x07\n\x05\x45mpty2\xa7\x02\n\tBilletera\x12=\n\x08getSaldo\x12\x17.billetera.saldoRequest\x1a\x18.billetera.saldoResponse\x12>\n\x0b\x63\x61rgarSaldo\x12\x1d.billetera.cargarSaldoRequest\x1a\x10.billetera.Empty\x12[\n\x10puedeHacerCompra\x12\".billetera.puedeHacerCompraRequest\x1a#.billetera.puedeHacerCompraResponse\x12>\n\x0bhacerCompra\x12\x1d.billetera.hacerCompraRequest\x1a\x10.billetera.EmptyB5\n\x1bio.grpc.RetroShop.billeteraB\x0e\x62illeteraProtoP\x01\xa2\x02\x03\x42IPb\x06proto3'
 )
 
 
@@ -40,6 +40,13 @@ _SALDOREQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='idSesion', full_name='billetera.saldoRequest.idSesion', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -53,7 +60,7 @@ _SALDOREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=30,
-  serialized_end=63,
+  serialized_end=81,
 )
 
 
@@ -84,8 +91,8 @@ _SALDORESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=65,
-  serialized_end=95,
+  serialized_start=83,
+  serialized_end=113,
 )
 
 
@@ -111,6 +118,13 @@ _CARGARSALDOREQUEST = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='idSesion', full_name='billetera.cargarSaldoRequest.idSesion', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -123,8 +137,8 @@ _CARGARSALDOREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=97,
-  serialized_end=153,
+  serialized_start=115,
+  serialized_end=189,
 )
 
 
@@ -162,8 +176,8 @@ _PUEDEHACERCOMPRAREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=155,
-  serialized_end=216,
+  serialized_start=191,
+  serialized_end=252,
 )
 
 
@@ -194,8 +208,8 @@ _PUEDEHACERCOMPRARESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=218,
-  serialized_end=270,
+  serialized_start=254,
+  serialized_end=306,
 )
 
 
@@ -240,8 +254,8 @@ _HACERCOMPRAREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=272,
-  serialized_end=350,
+  serialized_start=308,
+  serialized_end=386,
 )
 
 
@@ -265,8 +279,8 @@ _EMPTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=352,
-  serialized_end=359,
+  serialized_start=388,
+  serialized_end=395,
 )
 
 DESCRIPTOR.message_types_by_name['saldoRequest'] = _SALDOREQUEST
@@ -337,8 +351,8 @@ _BILLETERA = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=362,
-  serialized_end=657,
+  serialized_start=398,
+  serialized_end=693,
   methods=[
   _descriptor.MethodDescriptor(
     name='getSaldo',

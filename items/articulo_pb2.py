@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'\n\032io.grpc.RetroShop.articuloB\rarticuloProtoP\001\242\002\003ARP',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0e\x61rticulo.proto\x12\x08\x61rticulo\x1a\x1fgoogle/protobuf/timestamp.proto\"\x07\n\x05\x45mpty\"\xe6\x01\n\x04Item\x12\x0f\n\x07item_id\x18\x01 \x01(\x05\x12\x0e\n\x06nombre\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scripcion\x18\x03 \x01(\t\x12\x0e\n\x06precio\x18\x04 \x01(\x01\x12\x10\n\x08\x63\x61ntidad\x18\x05 \x01(\x05\x12\x35\n\x11\x66\x65\x63ha_fabricacion\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12(\n\x08\x63\x61tegory\x18\x07 \x01(\x0e\x32\x16.articulo.ItemCategory\x12\x13\n\x0b\x63\x61ntVendida\x18\x08 \x01(\x05\x12\x10\n\x08isActiva\x18\t \x01(\x08\"K\n\x08ItemSale\x12\x11\n\tseller_id\x18\x01 \x01(\x05\x12\x1c\n\x04item\x18\x02 \x01(\x0b\x32\x0e.articulo.Item\x12\x0e\n\x06imagen\x18\x03 \x03(\t\"*\n\x06ItemId\x12\x0f\n\x07item_id\x18\x01 \x01(\x05\x12\x0f\n\x07user_id\x18\x02 \x01(\x05\"N\n\x08metadata\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0f\n\x07item_id\x18\x02 \x01(\x05\x12\x10\n\x08tipo_img\x18\x03 \x01(\t\x12\x0e\n\x06nombre\x18\x04 \x01(\t\"S\n\tDataChunk\x12\x0e\n\x04\x64\x61ta\x18\x01 \x01(\x0cH\x00\x12+\n\rconfiguration\x18\x02 \x01(\x0b\x32\x12.articulo.metadataH\x00\x42\t\n\x07request\"l\n\x08Itemdata\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0f\n\x07item_id\x18\x02 \x01(\x05\x12\x10\n\x08tipo_img\x18\x03 \x01(\t\x12\x0e\n\x06nombre\x18\x04 \x01(\t\x12\x1c\n\x04item\x18\x05 \x01(\x0b\x32\x0e.articulo.Item\"\\\n\x12NewItemSaleRequest\x12\x0e\n\x04\x64\x61ta\x18\x01 \x01(\x0cH\x00\x12+\n\rconfiguration\x18\x02 \x01(\x0b\x32\x12.articulo.ItemdataH\x00\x42\t\n\x07request\"*\n\x05Items\x12!\n\x05items\x18\x01 \x03(\x0b\x32\x12.articulo.ItemSale\"\xe5\x01\n\x10getItemsFiltered\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12(\n\x08\x63\x61tegory\x18\x02 \x01(\x0e\x32\x16.articulo.ItemCategory\x12\x0e\n\x06nombre\x18\x03 \x01(\t\x12\x11\n\tpreciomin\x18\x04 \x01(\x01\x12\x11\n\tpreciomax\x18\x05 \x01(\x01\x12/\n\x0b\x66\x65\x63ha_desde\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12/\n\x0b\x66\x65\x63ha_hasta\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\"D\n\x0e\x62uyItemRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0f\n\x07item_id\x18\x02 \x01(\x05\x12\x10\n\x08\x63\x61ntidad\x18\x03 \x01(\x05\"5\n\x0fgetItemsRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x11\n\tsesion_id\x18\x02 \x01(\x05\"#\n\x10ItemsCompraVenta\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\"=\n\x18ItemsCompraVentaResponse\x12!\n\x05items\x18\x01 \x03(\x0b\x32\x12.articulo.ItemSale\"4\n\x1b\x44ownloadProductImageRequest\x12\x15\n\rnombre_imagen\x18\x01 \x03(\t\"\x85\x01\n\x15UploadProductResponse\x12\x43\n\rresult_status\x18\x01 \x01(\x0e\x32,.articulo.UploadProductResponse.ResultStatus\"\'\n\x0cResultStatus\x12\x0b\n\x07SUCCESS\x10\x00\x12\n\n\x06\x46\x41ILED\x10\x01*o\n\x0cItemCategory\x12\x0b\n\x07NINGUNA\x10\x00\x12\x0e\n\nTECNOLOGIA\x10\x01\x12\n\n\x06LIBROS\x10\x02\x12\x0e\n\nVESTIMENTA\x10\x03\x12\r\n\tVEHICULOS\x10\x04\x12\x0c\n\x08\x44\x45PORTES\x10\x05\x12\t\n\x05HOGAR\x10\x06\x32\xb4\x06\n\x0bItemService\x12\x31\n\tNuevoItem\x12\x12.articulo.ItemSale\x1a\x10.articulo.ItemId\x12\x32\n\nEditarItem\x12\x12.articulo.ItemSale\x1a\x10.articulo.ItemId\x12H\n\x14NuevoItemSaleRequest\x12\x1c.articulo.NewItemSaleRequest\x1a\x10.articulo.ItemId(\x01\x12N\n\x12UploadProductImage\x12\x13.articulo.DataChunk\x1a\x1f.articulo.UploadProductResponse\"\x00(\x01\x12/\n\x07GetItem\x12\x10.articulo.ItemId\x1a\x12.articulo.ItemSale\x12\x36\n\x08GetItems\x12\x19.articulo.getItemsRequest\x1a\x0f.articulo.Items\x12\x46\n\x17GetUltimoArticuloCreado\x12\x19.articulo.getItemsRequest\x1a\x10.articulo.ItemId\x12?\n\x10GetItemsFiltered\x12\x1a.articulo.getItemsFiltered\x1a\x0f.articulo.Items\x12\x38\n\x0b\x43omprarItem\x12\x18.articulo.buyItemRequest\x1a\x0f.articulo.Empty\x12P\n\x0eItemsComprados\x12\x1a.articulo.ItemsCompraVenta\x1a\".articulo.ItemsCompraVentaResponse\x12N\n\x0cItemsEnVenta\x12\x1a.articulo.ItemsCompraVenta\x1a\".articulo.ItemsCompraVentaResponse\x12V\n\x14\x44ownloadProductImage\x12%.articulo.DownloadProductImageRequest\x1a\x13.articulo.DataChunk\"\x00\x30\x01\x42\x33\n\x1aio.grpc.RetroShop.articuloB\rarticuloProtoP\x01\xa2\x02\x03\x41RPb\x06proto3'
+  serialized_pb=b'\n\x0e\x61rticulo.proto\x12\x08\x61rticulo\x1a\x1fgoogle/protobuf/timestamp.proto\"\x07\n\x05\x45mpty\"\xe6\x01\n\x04Item\x12\x0f\n\x07item_id\x18\x01 \x01(\x05\x12\x0e\n\x06nombre\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scripcion\x18\x03 \x01(\t\x12\x0e\n\x06precio\x18\x04 \x01(\x01\x12\x10\n\x08\x63\x61ntidad\x18\x05 \x01(\x05\x12\x35\n\x11\x66\x65\x63ha_fabricacion\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12(\n\x08\x63\x61tegory\x18\x07 \x01(\x0e\x32\x16.articulo.ItemCategory\x12\x13\n\x0b\x63\x61ntVendida\x18\x08 \x01(\x05\x12\x10\n\x08isActiva\x18\t \x01(\x08\"K\n\x08ItemSale\x12\x11\n\tseller_id\x18\x01 \x01(\x05\x12\x1c\n\x04item\x18\x02 \x01(\x0b\x32\x0e.articulo.Item\x12\x0e\n\x06imagen\x18\x03 \x03(\t\"*\n\x06ItemId\x12\x0f\n\x07item_id\x18\x01 \x01(\x05\x12\x0f\n\x07user_id\x18\x02 \x01(\x05\"N\n\x08metadata\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0f\n\x07item_id\x18\x02 \x01(\x05\x12\x10\n\x08tipo_img\x18\x03 \x01(\t\x12\x0e\n\x06nombre\x18\x04 \x01(\t\"S\n\tDataChunk\x12\x0e\n\x04\x64\x61ta\x18\x01 \x01(\x0cH\x00\x12+\n\rconfiguration\x18\x02 \x01(\x0b\x32\x12.articulo.metadataH\x00\x42\t\n\x07request\"l\n\x08Itemdata\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0f\n\x07item_id\x18\x02 \x01(\x05\x12\x10\n\x08tipo_img\x18\x03 \x01(\t\x12\x0e\n\x06nombre\x18\x04 \x01(\t\x12\x1c\n\x04item\x18\x05 \x01(\x0b\x32\x0e.articulo.Item\"\\\n\x12NewItemSaleRequest\x12\x0e\n\x04\x64\x61ta\x18\x01 \x01(\x0cH\x00\x12+\n\rconfiguration\x18\x02 \x01(\x0b\x32\x12.articulo.ItemdataH\x00\x42\t\n\x07request\"*\n\x05Items\x12!\n\x05items\x18\x01 \x03(\x0b\x32\x12.articulo.ItemSale\"\xf8\x01\n\x10getItemsFiltered\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12(\n\x08\x63\x61tegory\x18\x02 \x01(\x0e\x32\x16.articulo.ItemCategory\x12\x0e\n\x06nombre\x18\x03 \x01(\t\x12\x11\n\tpreciomin\x18\x04 \x01(\x01\x12\x11\n\tpreciomax\x18\x05 \x01(\x01\x12/\n\x0b\x66\x65\x63ha_desde\x18\x06 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12/\n\x0b\x66\x65\x63ha_hasta\x18\x07 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x11\n\tsesion_id\x18\x08 \x01(\x05\"D\n\x0e\x62uyItemRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x0f\n\x07item_id\x18\x02 \x01(\x05\x12\x10\n\x08\x63\x61ntidad\x18\x03 \x01(\x05\"5\n\x0fgetItemsRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x11\n\tsesion_id\x18\x02 \x01(\x05\"6\n\x10ItemsCompraVenta\x12\x0f\n\x07user_id\x18\x01 \x01(\x05\x12\x11\n\tsesion_id\x18\x02 \x01(\x05\"=\n\x18ItemsCompraVentaResponse\x12!\n\x05items\x18\x01 \x03(\x0b\x32\x12.articulo.ItemSale\"4\n\x1b\x44ownloadProductImageRequest\x12\x15\n\rnombre_imagen\x18\x01 \x03(\t\"\x85\x01\n\x15UploadProductResponse\x12\x43\n\rresult_status\x18\x01 \x01(\x0e\x32,.articulo.UploadProductResponse.ResultStatus\"\'\n\x0cResultStatus\x12\x0b\n\x07SUCCESS\x10\x00\x12\n\n\x06\x46\x41ILED\x10\x01*o\n\x0cItemCategory\x12\x0b\n\x07NINGUNA\x10\x00\x12\x0e\n\nTECNOLOGIA\x10\x01\x12\n\n\x06LIBROS\x10\x02\x12\x0e\n\nVESTIMENTA\x10\x03\x12\r\n\tVEHICULOS\x10\x04\x12\x0c\n\x08\x44\x45PORTES\x10\x05\x12\t\n\x05HOGAR\x10\x06\x32\xb4\x06\n\x0bItemService\x12\x31\n\tNuevoItem\x12\x12.articulo.ItemSale\x1a\x10.articulo.ItemId\x12\x32\n\nEditarItem\x12\x12.articulo.ItemSale\x1a\x10.articulo.ItemId\x12H\n\x14NuevoItemSaleRequest\x12\x1c.articulo.NewItemSaleRequest\x1a\x10.articulo.ItemId(\x01\x12N\n\x12UploadProductImage\x12\x13.articulo.DataChunk\x1a\x1f.articulo.UploadProductResponse\"\x00(\x01\x12/\n\x07GetItem\x12\x10.articulo.ItemId\x1a\x12.articulo.ItemSale\x12\x36\n\x08GetItems\x12\x19.articulo.getItemsRequest\x1a\x0f.articulo.Items\x12\x46\n\x17GetUltimoArticuloCreado\x12\x19.articulo.getItemsRequest\x1a\x10.articulo.ItemId\x12?\n\x10GetItemsFiltered\x12\x1a.articulo.getItemsFiltered\x1a\x0f.articulo.Items\x12\x38\n\x0b\x43omprarItem\x12\x18.articulo.buyItemRequest\x1a\x0f.articulo.Empty\x12P\n\x0eItemsComprados\x12\x1a.articulo.ItemsCompraVenta\x1a\".articulo.ItemsCompraVentaResponse\x12N\n\x0cItemsEnVenta\x12\x1a.articulo.ItemsCompraVenta\x1a\".articulo.ItemsCompraVentaResponse\x12V\n\x14\x44ownloadProductImage\x12%.articulo.DownloadProductImageRequest\x1a\x13.articulo.DataChunk\"\x00\x30\x01\x42\x33\n\x1aio.grpc.RetroShop.articuloB\rarticuloProtoP\x01\xa2\x02\x03\x41RPb\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_timestamp__pb2.DESCRIPTOR,])
 
@@ -70,8 +70,8 @@ _ITEMCATEGORY = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1484,
-  serialized_end=1595,
+  serialized_start=1522,
+  serialized_end=1633,
 )
 _sym_db.RegisterEnumDescriptor(_ITEMCATEGORY)
 
@@ -105,8 +105,8 @@ _UPLOADPRODUCTRESPONSE_RESULTSTATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=1443,
-  serialized_end=1482,
+  serialized_start=1481,
+  serialized_end=1520,
 )
 _sym_db.RegisterEnumDescriptor(_UPLOADPRODUCTRESPONSE_RESULTSTATUS)
 
@@ -599,6 +599,13 @@ _GETITEMSFILTERED = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='sesion_id', full_name='articulo.getItemsFiltered.sesion_id', index=7,
+      number=8, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -612,7 +619,7 @@ _GETITEMSFILTERED = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=838,
-  serialized_end=1067,
+  serialized_end=1086,
 )
 
 
@@ -657,8 +664,8 @@ _BUYITEMREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1069,
-  serialized_end=1137,
+  serialized_start=1088,
+  serialized_end=1156,
 )
 
 
@@ -696,8 +703,8 @@ _GETITEMSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1139,
-  serialized_end=1192,
+  serialized_start=1158,
+  serialized_end=1211,
 )
 
 
@@ -716,6 +723,13 @@ _ITEMSCOMPRAVENTA = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='sesion_id', full_name='articulo.ItemsCompraVenta.sesion_id', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -728,8 +742,8 @@ _ITEMSCOMPRAVENTA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1194,
-  serialized_end=1229,
+  serialized_start=1213,
+  serialized_end=1267,
 )
 
 
@@ -760,8 +774,8 @@ _ITEMSCOMPRAVENTARESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1231,
-  serialized_end=1292,
+  serialized_start=1269,
+  serialized_end=1330,
 )
 
 
@@ -792,8 +806,8 @@ _DOWNLOADPRODUCTIMAGEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1294,
-  serialized_end=1346,
+  serialized_start=1332,
+  serialized_end=1384,
 )
 
 
@@ -825,8 +839,8 @@ _UPLOADPRODUCTRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1349,
-  serialized_end=1482,
+  serialized_start=1387,
+  serialized_end=1520,
 )
 
 _ITEM.fields_by_name['fecha_fabricacion'].message_type = google_dot_protobuf_dot_timestamp__pb2._TIMESTAMP
@@ -995,8 +1009,8 @@ _ITEMSERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=1598,
-  serialized_end=2418,
+  serialized_start=1636,
+  serialized_end=2456,
   methods=[
   _descriptor.MethodDescriptor(
     name='NuevoItem',
